@@ -1,3 +1,4 @@
 .DS_Store
 venv_thesis/
 app_password.txt
+01_data/parlspeech_dataset.csv
