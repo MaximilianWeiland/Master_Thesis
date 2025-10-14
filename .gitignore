@@ -1,4 +1,5 @@
 .DS_Store
 venv_thesis/
 01_data/parlspeech_dataset.csv
-08_literature/
+01_data/parliamentary_questions_df.csv
+09_literature/
