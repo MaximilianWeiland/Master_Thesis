@@ -36,24 +36,24 @@ def labels_to_wordlevel_tags(predicted_tag_ids, id_to_tag, word_ids):
 
     return final_tags, unique_ids
 
-def extract_spans(word_tags, word_ids):
+def extract_spans(word_tags):
     
     # empty lists to collect all spans and the current span
     spans = []
     current_span = []
 
     # loop through all word ids
-    for wid, tag in zip(word_ids, word_tags):
+    for idx, tag in enumerate(word_tags):
         # if the word's tag is B this is the beginning of a new span
-        if tag == "B":
+        if tag in ("B-sg","B"):
             # if there exists already a span append it
             if current_span:
                 spans.append(current_span)
             # start the new span
-            current_span = [wid]
+            current_span = [idx]
         # if tag is I this is the continuation of a span so append
-        elif tag == "I":
-            current_span.append(wid)
+        elif tag in ("I-sg"):
+            current_span.append(idx)
         # if tag is O append the last span and start an empty one
         else:
             if current_span:
