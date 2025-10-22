@@ -124,3 +124,52 @@ def augmentation_entity(task):
     new_sentence += suffix
 
     return {"sentence": new_sentence, "annotations": span_indices}
+
+def find_entity_span(task, augmented_sentence):
+   
+    # extract all annotations
+    entities = task["annotations"]
+
+    # if there are no annotations return empty list
+    if not entities:
+        new_task = {
+            "sentence": augmented_sentence,
+            "annotations": []
+        }
+        return new_task
+
+    # instantiate empty list to store all entities
+    new_entities = []
+    search_start = 0
+
+    # loop through entities and extract text and label
+    for ent in entities:
+        ent_text = ent["text"]
+        label = ent["label"]
+
+        # find the first match
+        match = re.search(re.escape(ent_text), augmented_sentence[search_start:], re.IGNORECASE)
+
+        # if there is a match find the start and end of the span and append to list
+        if match:
+            start = search_start + match.start()
+            end = search_start + match.end()
+            new_entities.append({
+                "start": start,
+                "end": end,
+                "text": augmented_sentence[start:end],
+                "label": label
+            })
+            search_start = end
+
+        # only proceed if all entities could have been found
+        else:
+            return None
+    
+    # return in the correct format
+    new_task = {
+        "sentence": augmented_sentence,
+        "annotations": new_entities
+    }
+
+    return new_task
