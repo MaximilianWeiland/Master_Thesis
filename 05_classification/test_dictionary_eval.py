@@ -15,7 +15,6 @@ from utils.custom_evaluation import (extract_spans, mention_level_evaluation, se
 # import the annotations
 with open("01_data/annotations_reduced.json", "r") as f:
     data = json.load(f)
-print("File loaded")
 
 # import the dictionary
 group_dictionary_df = pd.read_csv("01_data/groups_dictionary.csv")
