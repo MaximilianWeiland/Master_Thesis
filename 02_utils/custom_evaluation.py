@@ -65,7 +65,7 @@ def extract_spans(word_tags):
 
     return spans
 
-def mention_level_evaluation(all_predicted_spans, all_true_spans):
+def mention_level_evaluation(all_true_spans, all_predicted_spans):
 
     # empty list to store all mention-level metrics
     span_metrics = []
@@ -124,4 +124,30 @@ def mention_level_evaluation(all_predicted_spans, all_true_spans):
         "precision": avg_precision,
         "recall": avg_recall,
         "f1": avg_f1
+    }
+
+# evaluate on the sentence level
+def sentence_level_evaluation(all_true_spans, all_predicted_spans):
+
+    tp = fp = fn = 0
+
+    for gt_tags, pred_tags in zip(all_true_spans, all_predicted_spans):
+        has_true = any(tag.startswith(("B-", "I-")) for tag in gt_tags)
+        has_pred = any(tag.startswith(("B-", "I-")) for tag in pred_tags)
+
+        if has_true and has_pred:
+            tp += 1
+        elif has_pred and not has_true:
+            fp += 1
+        elif has_true and not has_pred:
+            fn += 1
+
+    precision = tp / (tp + fp) if (tp * fp) > 0 else 0.00
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.00
+    f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
+
+    return {
+        "precision": precision,
+        "recall": recall,
+        "f1": f1
     }
