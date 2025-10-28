@@ -4,8 +4,8 @@ import os
 
 # set input and output path explicitly
 script_dir = os.path.dirname(os.path.abspath(__file__))
-input_path = os.path.join(script_dir, "../01_data/test_annotations_complete.json")
-output_path = os.path.join(script_dir, "../01_data/test_annotations_reduced.json")
+input_path = os.path.join(script_dir, "../01_data/annotations_complete.json")
+output_path = os.path.join(script_dir, "../01_data/annotations_reduced.json")
 
 # load the data
 with open(input_path, "r") as f:
