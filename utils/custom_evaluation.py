@@ -1,3 +1,86 @@
+import torch
+from seqeval.metrics import classification_report as seqeval_classification_report
+
+# ----------------------------------------------------------------------
+# Strict Seqeval Metric
+# ----------------------------------------------------------------------
+
+def evaluate_seqeval(model, test_dataloader, id2tag, device):
+    model.eval()
+
+    all_true_tags = []
+    all_pred_tags = []
+
+    with torch.no_grad():
+        for batch in test_dataloader:
+            input_ids = batch["input_ids"].to(device)
+            attention_masks = batch["attention_mask"].to(device)
+            tag_ids = batch["tag_ids"].to(device)
+
+            outputs = model(input_ids=input_ids, attention_mask=attention_masks)
+            logits = outputs.logits
+            predictions = torch.argmax(logits, dim=2)
+
+            for i in range(len(tag_ids)):
+                true_seq = tag_ids[i].cpu().numpy()
+                pred_seq = predictions[i].cpu().numpy()
+
+                true_tags = []
+                pred_tags = []
+
+                for t, p in zip(true_seq, pred_seq):
+                    if t != -100:
+                        true_tags.append(id2tag[t])
+                        pred_tags.append(id2tag[p])
+
+                all_true_tags.append(true_tags)
+                all_pred_tags.append(pred_tags)
+        
+        classification_report = seqeval_classification_report(all_true_tags, all_pred_tags, output_dict=True)
+        precision = classification_report["sg"]["precision"]
+        recall = classification_report["sg"]["recall"]
+        f1_score = classification_report["sg"]["f1-score"]
+
+        return {
+        "precision": precision,
+        "recall": recall,
+        "f1": f1_score
+        }
+
+
+# ----------------------------------------------------------------------
+# Custom Cross-Span Metric
+# ----------------------------------------------------------------------
+    
+def extract_spans(word_tags):
+    
+    # empty lists to collect all spans and the current span
+    spans = []
+    current_span = []
+
+    # loop through all word ids
+    for idx, tag in enumerate(word_tags):
+        # if the word's tag is B this is the beginning of a new span
+        if tag in ("B-sg","B"):
+            # if there exists already a span append it
+            if current_span:
+                spans.append(current_span)
+            # start the new span
+            current_span = [idx]
+        # if tag is I this is the continuation of a span so append
+        elif tag in ("I-sg"):
+            current_span.append(idx)
+        # if tag is O append the last span and start an empty one
+        else:
+            if current_span:
+                spans.append(current_span)
+                current_span = []
+    # if there is an existing span at the end, append it  
+    if current_span:
+        spans.append(current_span)
+
+    return spans
+
 def labels_to_wordlevel_tags(predicted_tag_ids, id_to_tag, word_ids):
 
     # intialize dictionary to store all tags assigned to individual words
@@ -36,36 +119,43 @@ def labels_to_wordlevel_tags(predicted_tag_ids, id_to_tag, word_ids):
 
     return final_tags, unique_ids
 
-def extract_spans(word_tags):
-    
-    # empty lists to collect all spans and the current span
-    spans = []
-    current_span = []
+def mention_level_evaluation(test_dataloader, model, device, id2tag):
 
-    # loop through all word ids
-    for idx, tag in enumerate(word_tags):
-        # if the word's tag is B this is the beginning of a new span
-        if tag in ("B-sg","B"):
-            # if there exists already a span append it
-            if current_span:
-                spans.append(current_span)
-            # start the new span
-            current_span = [idx]
-        # if tag is I this is the continuation of a span so append
-        elif tag in ("I-sg"):
-            current_span.append(idx)
-        # if tag is O append the last span and start an empty one
-        else:
-            if current_span:
-                spans.append(current_span)
-                current_span = []
-    # if there is an existing span at the end, append it  
-    if current_span:
-        spans.append(current_span)
+    all_true_spans = []
+    all_predicted_spans = []
 
-    return spans
+    # set the model to evaluation mode (no loss calculation)
+    model.eval()
 
-def mention_level_evaluation(all_true_spans, all_predicted_spans):
+    # proceed without calculating gradients
+    with torch.no_grad():
+
+        # loop through all batches in the test dataloader
+        for batch in test_dataloader:
+
+            input_ids = batch["input_ids"].to(device)
+            attention_masks = batch["attention_mask"].to(device)
+            tag_ids = batch["tag_ids"].to(device)
+            batch_word_ids = batch["word_ids"]
+
+            # get model outputs, get logits and get the class labels for the max logit
+            outputs = model(input_ids=input_ids, attention_mask=attention_masks)
+            logits = outputs.logits
+            predictions = torch.argmax(logits, dim=2)
+
+            # loop through all labels for all sentences in the batch
+            for i in range(len(tag_ids)):
+                
+                # get the true and the predicted label as well as the word ids
+                true_seq = tag_ids[i].cpu().numpy()
+                pred_seq = predictions[i].cpu().numpy()
+                word_ids = batch_word_ids[i]
+
+                word_level_tags, unique_ids = labels_to_wordlevel_tags(pred_seq, id2tag, word_ids)
+                all_predicted_spans.append(extract_spans(word_level_tags))
+
+                word_level_tags, unique_ids = labels_to_wordlevel_tags(true_seq, id2tag, word_ids)
+                all_true_spans.append(extract_spans(word_level_tags))
 
     # empty list to store all mention-level metrics
     span_metrics = []
@@ -126,14 +216,54 @@ def mention_level_evaluation(all_true_spans, all_predicted_spans):
         "f1": avg_f1
     }
 
+# ----------------------------------------------------------------------
+# Sentence-Level Metric
+# ----------------------------------------------------------------------
+
 # evaluate on the sentence level
-def sentence_level_evaluation(all_true_spans, all_predicted_spans):
+def sentence_level_evaluation(test_dataloader, model, device, id2tag):
+
+    all_true_tags = []
+    all_predicted_tags = []
+
+    # set the model to evaluation mode (no loss calculation)
+    model.eval()
+
+    # proceed without calculating gradients
+    with torch.no_grad():
+
+        # loop through all batches in the test dataloader
+        for batch in test_dataloader:
+
+            input_ids = batch["input_ids"].to(device)
+            attention_masks = batch["attention_mask"].to(device)
+            tag_ids = batch["tag_ids"].to(device)
+            batch_word_ids = batch["word_ids"]
+
+            # get model outputs, get logits and get the class labels for the max logit
+            outputs = model(input_ids=input_ids, attention_mask=attention_masks)
+            logits = outputs.logits
+            predictions = torch.argmax(logits, dim=2)
+
+            # loop through all labels for all sentences in the batch
+            for i in range(len(tag_ids)):
+                
+                # get the true and the predicted label as well as the word ids
+                true_seq = tag_ids[i].cpu().numpy()
+                pred_seq = predictions[i].cpu().numpy()
+                word_ids = batch_word_ids[i]
+
+                pred_word_tags, _ = labels_to_wordlevel_tags(pred_seq, id2tag, word_ids)
+                all_predicted_tags.append(pred_word_tags)
+
+                true_word_tags, _ = labels_to_wordlevel_tags(true_seq, id2tag, word_ids)
+                all_true_tags.append(true_word_tags)
 
     tp = fp = fn = 0
 
-    for gt_tags, pred_tags in zip(all_true_spans, all_predicted_spans):
-        has_true = any(tag.startswith(("B-", "I-")) for tag in gt_tags)
-        has_pred = any(tag.startswith(("B-", "I-")) for tag in pred_tags)
+    for gt_tags, pred_tags in zip(all_true_tags, all_predicted_tags):
+        has_true = any(tag.startswith(("B", "I")) for tag in gt_tags)
+        has_pred = any(tag.startswith(("B", "I")) for tag in pred_tags)
 
         if has_true and has_pred:
             tp += 1
@@ -142,7 +272,7 @@ def sentence_level_evaluation(all_true_spans, all_predicted_spans):
         elif has_true and not has_pred:
             fn += 1
 
-    precision = tp / (tp + fp) if (tp * fp) > 0 else 0.00
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.00
     recall = tp / (tp + fn) if (tp + fn) > 0 else 0.00
     f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
 
