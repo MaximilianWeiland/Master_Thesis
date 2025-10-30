@@ -216,3 +216,66 @@ def tune_bert_ner(num_trials, search_space, train_dataset, val_dataset, collate_
     print(f"Best F1: {best_f1:.4f} with params: {best_params}")
 
     return best_f1, best_params
+
+def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag2id, id2tag, device, params):
+
+
+    best_f1 = 0
+    patience_counter = 0
+    patience = 3
+    print(f"\nTrial with params: {params}")
+
+    lr = params["lr"]
+    weight_decay = params["weight_decay"]
+    batch_size = params["batch_size"]
+    epochs = params["epochs"]
+
+    model = AutoModelForTokenClassification.from_pretrained(
+        model_name,
+        num_labels=len(tag2id),
+        id2label=id2tag,
+        label2id=tag2id
+        ).to(device)
+
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn)
+    val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn)
+
+    model.train()
+    for epoch in range(epochs):
+        print(f"Epoch {epoch + 1}/{epochs}")
+        total_loss = 0
+        progress_bar = tqdm(train_dataloader, desc="Training")
+        for batch in progress_bar:
+            input_ids = batch["input_ids"].to(device)
+            attention_masks = batch["attention_mask"].to(device)
+            tag_ids = batch["tag_ids"].to(device)
+            optimizer.zero_grad()
+
+            with torch.autocast(device_type="mps", dtype=torch.float16):
+                outputs = model(input_ids=input_ids, attention_mask=attention_masks, labels=tag_ids)
+                loss = outputs.loss
+                total_loss += loss.item()
+
+            loss.backward()
+            clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            progress_bar.set_postfix(loss=loss.item())
+
+        avg_loss = total_loss / len(train_dataloader)
+        print(f"Average training loss: {avg_loss:.4f}")
+
+        metrics = evaluate_seqeval(model, val_dataloader, id2tag, device)
+        val_f1 = metrics["f1"]
+
+        if val_f1 > best_f1:
+            best_f1 = val_f1
+            patience_counter = 0
+        else:
+            patience_counter += 1
+            if patience_counter >= patience:
+                print(f"Early stopping at epoch {epoch}")
+                break
+
+    return best_f1
