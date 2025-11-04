@@ -1,7 +1,1 @@
-{
-    "dictionary_baseline": {
-        "negative": 0.1625615763546798,
-        "neutral": 0.45482110369921164,
-        "positive": 0.5195557701593433
-    }
-}
+{"dictionary_baseline":{"negative":[0.1494],"neutral":[0.4061],"positive":[0.5655]}}
