@@ -2,5 +2,6 @@
 venv_thesis/
 01_data/parlspeech_dataset.csv
 01_data/parliamentary_questions_df.csv
+04_classification_evaluation/group_mention_detection/model_saves/
 utils/__pycache__/
 08_literature/

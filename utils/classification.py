@@ -7,7 +7,7 @@ from torch.nn.utils import clip_grad_norm_
 from torch.utils.data import Dataset
 from tqdm import tqdm
 import random
-from utils.evaluation import evaluate_seqeval
+from utils.evaluation import evaluate_seqeval, run_testset_ner
 
 # ----------------------------------------------------------------------
 # Dictionary Baseline
@@ -127,18 +127,52 @@ def train_bert(train_dataloader, model, optimizer, epochs, device, which_task):
 
 def sample_hyperparams(search_space):
     return {k: random.choice(v) for k, v in search_space.items()}
+
+class EarlyStopping:
+    def __init__(self, patience, min_delta=0.0001, path='checkpoint.pt', printoption=False):
+        self.patience = patience
+        self.min_delta = min_delta
+        self.counter = 0
+        self.best_f1 = None
+        self.best_epoch = None
+        self.early_stop = False
+        self.path = path
+        self.printoption = printoption
+
+    def __call__(self, current_f1, model, epoch):
+        if self.best_f1 is None:
+            self.best_f1 = current_f1
+            self.best_epoch = epoch+1
+            self.save_checkpoint(current_f1, model)
+        elif current_f1 < self.best_f1 - self.min_delta:
+            self.counter += 1
+            if self.counter >= self.patience:
+                self.early_stop = True
+        else:
+            if current_f1 > self.best_f1:
+                self.save_checkpoint(current_f1, model)
+                self.best_f1 = current_f1
+                self.best_epoch = epoch+1
+                self.counter = 0
+
+    def save_checkpoint(self, current_f1, model):
+        torch.save(model.state_dict(), self.path)
+        if self.printoption:
+            print(f'Validation F1 increased ({self.best_f1:.6f} --> {current_f1:.6f}).  Saving model ...')
+
+def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag2id, id2tag, device, early_stopper, params):
     
-def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag2id, id2tag, device, params):
-    
-    best_f1 = 0
-    patience_counter = 0
-    patience = 3
     print(f"\nTrial with params: {params}")
 
     lr = params["lr"]
     weight_decay = params["weight_decay"]
     batch_size = params["batch_size"]
     epochs = params["epochs"]
+
+    train_losses = []
+    val_losses = []
+    f1_scores_train = []
+    f1_scores_val = []
 
     model = AutoModelForTokenClassification.from_pretrained(
         model_name,
@@ -176,16 +210,25 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
         avg_loss = total_loss / len(train_dataloader)
         print(f"Average training loss: {avg_loss:.4f}")
 
-        metrics = evaluate_seqeval(model, val_dataloader, id2tag, device)
+        all_true, all_pred, train_loss = run_testset_ner(
+            model=model, test_dataloader=train_dataloader, id2tag=id2tag, device=device, for_metric="seqeval"
+            )
+        train_losses.append(train_loss)
+        metrics = evaluate_seqeval(all_true, all_pred)
+        train_f1 = metrics["f1"]
+        f1_scores_train.append(train_f1)
+
+        all_true, all_pred, val_loss = run_testset_ner(
+            model=model, test_dataloader=val_dataloader, id2tag=id2tag, device=device, for_metric="seqeval"
+            )
+        val_losses.append(val_loss)
+        metrics = evaluate_seqeval(all_true, all_pred)
         val_f1 = metrics["f1"]
+        f1_scores_val.append(val_f1)
 
-        if val_f1 > best_f1:
-            best_f1 = val_f1
-            patience_counter = 0
-        else:
-            patience_counter += 1
-            if patience_counter >= patience:
-                print(f"Early stopping at epoch {epoch}")
-                break
+        early_stopper(val_f1, model, epoch)
+        if early_stopper.early_stop:
+            print("Early stopping triggered.")
+            break
 
-    return best_f1
+    return early_stopper.best_f1, early_stopper.best_epoch, train_losses, val_losses, f1_scores_train, f1_scores_val

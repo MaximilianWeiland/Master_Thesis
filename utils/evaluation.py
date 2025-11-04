@@ -11,6 +11,8 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
 
     all_true_tags, all_pred_tags = [], []
     all_true_spans, all_pred_spans = [], []
+    total_loss = 0.0
+    num_batches = 0
 
     with torch.no_grad():
         for batch in test_dataloader:
@@ -19,8 +21,11 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
             tag_ids = batch["tag_ids"].to(device)
             batch_word_ids = batch["word_ids"]
 
-            outputs = model(input_ids=input_ids, attention_mask=attention_masks)
+            outputs = model(input_ids=input_ids, attention_mask=attention_masks, labels=tag_ids)
             logits = outputs.logits
+            loss = outputs.loss
+            total_loss += loss.item()
+            num_batches += 1
             predictions = torch.argmax(logits, dim=2)
 
             if for_metric == "seqeval":
@@ -62,12 +67,14 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
                     all_true_tags.append(true_word_tags)
                     all_pred_tags.append(pred_word_tags)
 
+    avg_loss = total_loss / num_batches
+
     if for_metric == "seqeval":
-        return all_true_tags, all_pred_tags
+        return all_true_tags, all_pred_tags, avg_loss
     elif for_metric == "cross_span":
-        return all_true_spans, all_pred_spans
+        return all_true_spans, all_pred_spans, avg_loss
     elif for_metric == "sentence_level":
-        return all_true_tags, all_pred_tags
+        return all_true_tags, all_pred_tags, avg_loss
     
 def run_testset_sentiment(model, test_dataloader, device):
     model.eval()
