@@ -7,6 +7,7 @@ from seqeval.metrics import classification_report as seqeval_classification_repo
 # ----------------------------------------------------------------------
 
 def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
+    
     model.eval()
 
     all_true_tags, all_pred_tags = [], []
@@ -76,9 +77,11 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
     elif for_metric == "sentence_level":
         return all_true_tags, all_pred_tags, avg_loss
     
-def run_testset_sentiment(model, test_dataloader, device):
+def run_testset_stance(model, test_dataloader, device):
     model.eval()
     true_labels, pred_labels = [], []
+    total_loss = 0.0
+    num_batches = 0
 
     with torch.no_grad():
         for batch in test_dataloader:
@@ -88,10 +91,16 @@ def run_testset_sentiment(model, test_dataloader, device):
 
             outputs = model(input_ids=input_ids, attention_mask=attention_mask)
             preds = torch.argmax(outputs.logits, dim=1)
+            loss = outputs.loss
+            total_loss += loss.item()
+            num_batches += 1
 
             true_labels.extend(labels.cpu().tolist())
             pred_labels.extend(preds.cpu().tolist())
-    return true_labels, pred_labels
+    
+    avg_loss = total_loss / num_batches
+    
+    return true_labels, pred_labels, avg_loss
 
 # ----------------------------------------------------------------------
 # Strict Seqeval Metric

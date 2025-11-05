@@ -1,13 +1,13 @@
 import re
-from transformers import AutoTokenizer, AutoModelForTokenClassification
+from transformers import AutoModelForTokenClassification, AutoModelForSequenceClassification
+from sklearn.metrics import classification_report
 import torch
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
 from torch.nn.utils import clip_grad_norm_
-from torch.utils.data import Dataset
 from tqdm import tqdm
-import random
-from utils.evaluation import evaluate_seqeval, run_testset_ner
+import gc
+from utils.evaluation import evaluate_seqeval, run_testset_ner, run_testset_stance
 
 # ----------------------------------------------------------------------
 # Dictionary Baseline
@@ -76,6 +76,13 @@ def find_dictionary_matches(sentence, dictionary_regex):
 # BERT-Based Models
 # ----------------------------------------------------------------------
 
+def __clear_cache_models(model, optimizer, device):
+    del model
+    del optimizer
+    gc.collect()
+    if device.type == "mps":
+        torch.mps.empty_cache()
+
 # define functions needed for training and hyperparameter tuning
 def train_bert(train_dataloader, model, optimizer, epochs, device, which_task):
     
@@ -125,9 +132,6 @@ def train_bert(train_dataloader, model, optimizer, epochs, device, which_task):
         avg_loss = total_loss / len(train_dataloader)
         print(f"Average training loss: {avg_loss:.4f}")
 
-def sample_hyperparams(search_space):
-    return {k: random.choice(v) for k, v in search_space.items()}
-
 class EarlyStopping:
     def __init__(self, patience, min_delta=0.0001, path='checkpoint.pt', printoption=False):
         self.patience = patience
@@ -164,30 +168,34 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
     
     print(f"\nTrial with params: {params}")
 
+    # extract the parameters with which to run this trial
     lr = params["lr"]
     weight_decay = params["weight_decay"]
     batch_size = params["batch_size"]
     epochs = params["epochs"]
 
+    # instantiate empty lists to save the development of losses and F1 score
     train_losses = []
     val_losses = []
     f1_scores_train = []
     f1_scores_val = []
 
+    # set up a new model instance and optimizer
     model = AutoModelForTokenClassification.from_pretrained(
         model_name,
         num_labels=len(tag2id),
         id2label=id2tag,
         label2id=tag2id
         ).to(device)
-
     optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
+    # create new data loaders for this trial
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn)
 
-    model.train()
+    # set model to training mode and run the training loop
     for epoch in range(epochs):
+        model.train()
         print(f"Epoch {epoch + 1}/{epochs}")
         total_loss = 0
         progress_bar = tqdm(train_dataloader, desc="Training")
@@ -210,6 +218,7 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
         avg_loss = total_loss / len(train_dataloader)
         print(f"Average training loss: {avg_loss:.4f}")
 
+        # run model in inference mode to get loss and seqeval f1-score for the training dataset
         all_true, all_pred, train_loss = run_testset_ner(
             model=model, test_dataloader=train_dataloader, id2tag=id2tag, device=device, for_metric="seqeval"
             )
@@ -218,6 +227,7 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
         train_f1 = metrics["f1"]
         f1_scores_train.append(train_f1)
 
+        # do the same to get loss and seqeval f1-score for the validation set
         all_true, all_pred, val_loss = run_testset_ner(
             model=model, test_dataloader=val_dataloader, id2tag=id2tag, device=device, for_metric="seqeval"
             )
@@ -226,9 +236,101 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
         val_f1 = metrics["f1"]
         f1_scores_val.append(val_f1)
 
+        # feed validation loss into early stopping object to save and stop model training if necessary
         early_stopper(val_f1, model, epoch)
         if early_stopper.early_stop:
             print("Early stopping triggered.")
             break
+    
+    # delete all objects and empty the cache to free up space
+    __clear_cache_models(model=model, optimizer=optimizer, device=device)
+
+    return early_stopper.best_f1, early_stopper.best_epoch, train_losses, val_losses, f1_scores_train, f1_scores_val
+
+def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id2label, device, early_stopper, params):
+    
+    print(f"\nTrial with params: {params}")
+
+    num_labels = len(label2id)
+
+    # extract the parameters with which to run this trial
+    lr = params["lr"]
+    weight_decay = params["weight_decay"]
+    batch_size = params["batch_size"]
+    epochs = params["epochs"]
+
+    # instantiate empty lists to save the development of losses and F1 score
+    train_losses = []
+    val_losses = []
+    f1_scores_train = []
+    f1_scores_val = []
+
+    # set up a new model instance and optimizer
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels).to(device)
+    optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+    # create new data loaders for this trial
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+
+    # set model to training mode and run the training loop
+    for epoch in range(epochs):
+        model.train()
+        print(f"Epoch {epoch + 1}/{epochs}")
+        total_loss = 0
+        progress_bar = tqdm(train_dataloader, desc="Training")
+        for batch in progress_bar:
+            input_ids = batch["input_ids"].to(device)
+            attention_masks = batch["attention_mask"].to(device)
+            labels = batch["label"].to(device)
+            optimizer.zero_grad()
+
+            with torch.autocast(device_type="mps", dtype=torch.float16):
+                outputs = model(input_ids=input_ids, attention_mask=attention_masks, labels=labels)
+                loss = outputs.loss
+                total_loss += loss.item()
+
+            loss.backward()
+            clip_grad_norm_(model.parameters(), 1.0)
+            optimizer.step()
+            progress_bar.set_postfix(loss=loss.item())
+
+        avg_loss = total_loss / len(train_dataloader)
+        print(f"Average training loss: {avg_loss:.4f}")
+
+        # run model in inference mode to get loss and seqeval f1-score for the training dataset
+        true_labels, pred_labels, train_loss = run_testset_stance(
+            model=model, test_dataloader=train_dataloader, device=device
+            )
+        train_losses.append(train_loss)
+        metrics = classification_report(
+            [id2label[i] for i in true_labels],
+            [id2label[i] for i in pred_labels],
+            output_dict=True
+            )
+        train_f1 = metrics["macro"]["f1"]
+        f1_scores_train.append(train_f1)
+
+        # do the same to get loss and seqeval f1-score for the validation set
+        true_labels, pred_labels, val_loss = run_testset_stance(
+            model=model, test_dataloader=val_dataloader, device=device
+            )
+        val_losses.append(val_loss)
+        metrics = classification_report(
+            [id2label[i] for i in true_labels],
+            [id2label[i] for i in pred_labels],
+            output_dict=True
+            )
+        val_f1 = metrics["macro"]["f1"]
+        f1_scores_val.append(val_f1)
+
+        # feed validation loss into early stopping object to save and stop model training if necessary
+        early_stopper(val_f1, model, epoch)
+        if early_stopper.early_stop:
+            print("Early stopping triggered.")
+            break
+    
+    # delete all objects and empty the cache to free up space
+    __clear_cache_models(model=model, optimizer=optimizer, device=device)
 
     return early_stopper.best_f1, early_stopper.best_epoch, train_losses, val_losses, f1_scores_train, f1_scores_val
