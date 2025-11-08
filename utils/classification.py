@@ -1,6 +1,6 @@
 import re
 from transformers import AutoModelForTokenClassification, AutoModelForSequenceClassification
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report as sklearn_classification_report
 import torch
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
@@ -107,7 +107,7 @@ def train_bert(train_dataloader, model, optimizer, epochs, device, which_task):
             attention_masks = batch["attention_mask"].to(device)
             if which_task == "ner":
                 labels = batch["tag_ids"].to(device)
-            elif which_task == "sentiment":
+            elif which_task == "stance":
                 labels = batch["label"].to(device)
 
             # clear the old gradient
@@ -133,7 +133,7 @@ def train_bert(train_dataloader, model, optimizer, epochs, device, which_task):
         print(f"Average training loss: {avg_loss:.4f}")
 
 class EarlyStopping:
-    def __init__(self, patience, min_delta=0.0001, path='checkpoint.pt', printoption=False):
+    def __init__(self, patience, min_delta=0.0001, save_model=True, path='checkpoint.pt', printoption=False):
         self.patience = patience
         self.min_delta = min_delta
         self.counter = 0
@@ -142,6 +142,7 @@ class EarlyStopping:
         self.early_stop = False
         self.path = path
         self.printoption = printoption
+        self.save_model = save_model
 
     def __call__(self, current_f1, model, epoch):
         if self.best_f1 is None:
@@ -160,7 +161,8 @@ class EarlyStopping:
                 self.counter = 0
 
     def save_checkpoint(self, current_f1, model):
-        torch.save(model.state_dict(), self.path)
+        if self.save_model:
+            torch.save(model.state_dict(), self.path)
         if self.printoption:
             print(f'Validation F1 increased ({self.best_f1:.6f} --> {current_f1:.6f}).  Saving model ...')
 
@@ -303,12 +305,12 @@ def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id
             model=model, test_dataloader=train_dataloader, device=device
             )
         train_losses.append(train_loss)
-        metrics = classification_report(
+        metrics = sklearn_classification_report(
             [id2label[i] for i in true_labels],
             [id2label[i] for i in pred_labels],
             output_dict=True
             )
-        train_f1 = metrics["macro"]["f1"]
+        train_f1 = metrics["macro avg"]["f1-score"]
         f1_scores_train.append(train_f1)
 
         # do the same to get loss and seqeval f1-score for the validation set
@@ -316,12 +318,12 @@ def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id
             model=model, test_dataloader=val_dataloader, device=device
             )
         val_losses.append(val_loss)
-        metrics = classification_report(
+        metrics = sklearn_classification_report(
             [id2label[i] for i in true_labels],
             [id2label[i] for i in pred_labels],
             output_dict=True
             )
-        val_f1 = metrics["macro"]["f1"]
+        val_f1 = metrics["macro avg"]["f1-score"]
         f1_scores_val.append(val_f1)
 
         # feed validation loss into early stopping object to save and stop model training if necessary

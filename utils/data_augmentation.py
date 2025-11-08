@@ -1,5 +1,6 @@
+# import libraries and dictionary
 import nlpaug.augmenter.word as naw
-
+import re
 aug = naw.SynonymAug(aug_src='wordnet', aug_p = 0.5)
 
 def augmentation_non_entity(task):
@@ -28,7 +29,7 @@ def augmentation_non_entity(task):
         # get start, end, text and label of the span
         start, end = ent["start"], ent["end"]
         ent_text = ent["text"]
-        ent_label = ent["label"]
+        ent_label = ent["tag"]
 
         # extract prefix and count number of leading and trailing whitespaces
         prefix = text[prev_end:start]
@@ -50,7 +51,7 @@ def augmentation_non_entity(task):
             "start": new_start,
             "end": new_end,
             "text": ent_text,
-            "label": ent_label
+            "tag": ent_label
         })
 
         # update the new sentence and index variable
@@ -95,7 +96,7 @@ def augmentation_entity(task):
         # get start, end, text and label of the span
         start, end = ent["start"], ent["end"]
         ent_text = ent["text"]
-        ent_label = ent["label"]
+        ent_tag = ent["tag"]
 
         # extract prefix
         prefix = text[prev_end:start]
@@ -112,7 +113,7 @@ def augmentation_entity(task):
             "start": new_start,
             "end": new_end,
             "text": augmented_entity,
-            "label": ent_label
+            "tag": ent_tag
         })
 
         # update the new sentence and index variable
@@ -145,7 +146,7 @@ def find_entity_span(task, augmented_sentence):
     # loop through entities and extract text and label
     for ent in entities:
         ent_text = ent["text"]
-        label = ent["label"]
+        tag = ent["tag"]
 
         # find the first match
         match = re.search(re.escape(ent_text), augmented_sentence[search_start:], re.IGNORECASE)
@@ -158,7 +159,7 @@ def find_entity_span(task, augmented_sentence):
                 "start": start,
                 "end": end,
                 "text": augmented_sentence[start:end],
-                "label": label
+                "tag": tag
             })
             search_start = end
 

@@ -1,5 +1,12 @@
+import numpy as np
 import torch
+from torch.utils.data import DataLoader
+from torch.optim import AdamW
+from transformers import AutoTokenizer, AutoModelForTokenClassification, AutoModelForSequenceClassification
 from seqeval.metrics import classification_report as seqeval_classification_report
+from sklearn.metrics import classification_report as sklearn_classification_report
+from sklearn.model_selection import KFold
+import gc
 
 
 # ----------------------------------------------------------------------
@@ -50,10 +57,10 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
                     pred_seq = predictions[i].cpu().numpy()
                     word_ids = batch_word_ids[i]
 
-                    word_level_tags, _ = labels_to_wordlevel_tags(true_seq, id2tag, word_ids)
+                    word_level_tags, _ = __labels_to_wordlevel_tags(true_seq, id2tag, word_ids)
                     all_true_spans.append(extract_spans(word_level_tags))
 
-                    word_level_tags, _ = labels_to_wordlevel_tags(pred_seq, id2tag, word_ids)
+                    word_level_tags, _ = __labels_to_wordlevel_tags(pred_seq, id2tag, word_ids)
                     all_pred_spans.append(extract_spans(word_level_tags))
 
             elif for_metric == "sentence_level":
@@ -62,8 +69,8 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
                     pred_seq = predictions[i].cpu().numpy()
                     word_ids = batch_word_ids[i]
 
-                    true_word_tags, _ = labels_to_wordlevel_tags(true_seq, id2tag, word_ids)
-                    pred_word_tags, _ = labels_to_wordlevel_tags(pred_seq, id2tag, word_ids)
+                    true_word_tags, _ = __labels_to_wordlevel_tags(true_seq, id2tag, word_ids)
+                    pred_word_tags, _ = __labels_to_wordlevel_tags(pred_seq, id2tag, word_ids)
 
                     all_true_tags.append(true_word_tags)
                     all_pred_tags.append(pred_word_tags)
@@ -89,7 +96,7 @@ def run_testset_stance(model, test_dataloader, device):
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["label"].to(device)
 
-            outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+            outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
             preds = torch.argmax(outputs.logits, dim=1)
             loss = outputs.loss
             total_loss += loss.item()
@@ -101,6 +108,179 @@ def run_testset_stance(model, test_dataloader, device):
     avg_loss = total_loss / num_batches
     
     return true_labels, pred_labels, avg_loss
+
+# ----------------------------------------------------------------------
+# Cross-Validation Loop
+# ----------------------------------------------------------------------
+def cross_validation(model_names, training_data, dataset_class, label2id, id2label,
+                     num_folds, optimal_configurations, classification_task, custom_collate_fn=None):
+    
+    from utils.classification import train_bert
+
+    # empty dictionary to store the final average metrics
+    average_metrics = {}
+
+    # loop over all individual models
+    for model_name in model_names:
+
+        print(f"\nCross-validation for model {model_name} starts")
+        print("-"*200)
+
+        # dictionary to save the individual fold evaluation metrics
+        if classification_task == "ner":
+            fold_metrics = {
+                "seqeval": [],
+                "cross_span": [],
+                "sentence_level": []
+            }
+        elif classification_task == "stance":
+            fold_metrics = {
+                "negative_f1": [],
+                "neutral_f1": [],
+                "positive_f1": [],
+                "macro_f1": []
+            }
+
+        # get the optimal hyperparameters for this model
+        epochs = optimal_configurations[model_name]["best_epoch"]
+        lr = optimal_configurations[model_name]["best_params"]["lr"]
+        batch_size = optimal_configurations[model_name]["best_params"]["batch_size"]
+        weight_decay = optimal_configurations[model_name]["best_params"]["weight_decay"]
+
+        # define the tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+        # create cross-validation object for 5 folds
+        k = num_folds
+        kf = KFold(n_splits=k, shuffle=True, random_state=42)
+
+        # randomly split the training data into 5 folds and loop over them
+        for fold, (train_idx, val_idx) in enumerate(kf.split(training_data)):
+
+            print(f"\nFold number: {fold + 1}")
+
+            # create the training and validation fold based on the provided indices
+            train_fold_data = [training_data[i] for i in train_idx]
+            val_fold_data = [training_data[i] for i in val_idx]
+
+            # create tensor dataset and respective data loaders
+            train_dataset = dataset_class(train_fold_data, tokenizer, label2id, max_len=128)
+            val_dataset = dataset_class(val_fold_data, tokenizer, label2id, max_len=128)
+            train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=custom_collate_fn)
+            val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=custom_collate_fn)
+
+            # set the device explicitly
+            device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+
+            # create the model and optimizer
+            if classification_task == "ner":
+                model = AutoModelForTokenClassification.from_pretrained(
+                    model_name,
+                    num_labels=len(label2id),
+                    id2label=id2label,
+                    label2id=label2id
+                    ).to(device)
+            elif classification_task == "stance":
+                model = AutoModelForSequenceClassification.from_pretrained(
+                    model_name,
+                    num_labels=len(label2id),
+                    id2label = id2label,
+                    label2id=label2id
+                    ).to(device)
+            optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+            # train the model with the optimal configuration
+            train_bert(train_dataloader, model, optimizer, epochs, device, which_task=classification_task)
+
+            # create dictionary to save the inputs for each evaluation metric
+            if classification_task == "ner":
+                evaluation_inputs = {
+                "seqeval": {},
+                "cross_span": {},
+                "sentence_level": {}
+                }
+                
+                # loop over all metrics and get the ground truth as well as predicted labels for the validation set
+                for metric in evaluation_inputs.keys():
+                    all_true, all_pred, _ = run_testset_ner(
+                        model=model, test_dataloader=val_dataloader, id2tag=id2label, device=device, for_metric=metric
+                        )
+                    evaluation_inputs[metric] = {
+                        "all_true": all_true,
+                        "all_pred":all_pred
+                        }
+                    
+                # apply all evaluation functions and save in the dictionary
+                metrics_seqeval = evaluate_seqeval(
+                evaluation_inputs["seqeval"]["all_true"],
+                evaluation_inputs["seqeval"]["all_pred"]
+                )
+                metrics_cross_span = mention_level_evaluation(
+                    evaluation_inputs["cross_span"]["all_true"],
+                    evaluation_inputs["cross_span"]["all_pred"]
+                )
+                metrics_sentence_level = sentence_level_evaluation(
+                    evaluation_inputs["sentence_level"]["all_true"],
+                    evaluation_inputs["sentence_level"]["all_pred"]
+                )
+
+                # append all metrics to the dictionary
+                fold_metrics["seqeval"].append(metrics_seqeval)
+                fold_metrics["cross_span"].append(metrics_cross_span)
+                fold_metrics["sentence_level"].append(metrics_sentence_level)
+
+            elif classification_task == "stance":
+                true_labels, pred_labels, _ = run_testset_stance(model=model, test_dataloader=val_dataloader, device=device)
+                metrics = sklearn_classification_report(
+                    [id2label[i] for i in true_labels],
+                    [id2label[i] for i in pred_labels],
+                    output_dict=True
+                    )
+                fold_metrics["negative_f1"].append(metrics["negative"]["f1-score"])
+                fold_metrics["neutral_f1"].append(metrics["neutral"]["f1-score"])
+                fold_metrics["positive_f1"].append(metrics["positive"]["f1-score"])
+                fold_metrics["macro_f1"].append(metrics["macro avg"]["f1-score"])
+
+            del model, optimizer
+            gc.collect()
+            if device.type == "mps":
+                torch.mps.empty_cache()
+
+        if classification_task == "ner":
+            seqeval_scores = [m["f1"] for m in fold_metrics["seqeval"]]
+            mean_seqeval = np.mean(seqeval_scores)
+            std_seqeval = np.std(seqeval_scores)
+
+            cross_span_scores = [m["f1"] for m in fold_metrics["cross_span"]]
+            mean_cross_span = np.mean(cross_span_scores)
+            std_cross_span = np.std(cross_span_scores)
+
+            sentence_level_scores = [m["f1"] for m in fold_metrics["sentence_level"]]
+            mean_sentence_level = np.mean(sentence_level_scores)
+            std_sentence_level = np.std(sentence_level_scores)
+
+            average_metrics[model_name] = {
+                "seqeval": (mean_seqeval, std_seqeval),
+                "cross_span": (mean_cross_span, std_cross_span),
+                "sentence_level": (mean_sentence_level, std_sentence_level)
+            }
+
+        elif classification_task == "stance":
+            avg_neg = np.mean(fold_metrics["negative_f1"])
+            avg_neu = np.mean(fold_metrics["neutral_f1"])
+            avg_pos = np.mean(fold_metrics["positive_f1"])
+            avg_macro = np.mean(fold_metrics["macro_f1"])
+
+            average_metrics[model_name] = {
+                "negative_f1": avg_neg,
+                "neutral_f1": avg_neu,
+                "positive_f1": avg_pos,
+                "macro_f1": avg_macro
+            }
+            
+        print("-"*200)
+    
+    return average_metrics
 
 # ----------------------------------------------------------------------
 # Strict Seqeval Metric
@@ -122,7 +302,7 @@ def evaluate_seqeval(all_true_tags, all_pred_tags):
 # Custom Cross-Span Metric
 # ----------------------------------------------------------------------
     
-def labels_to_wordlevel_tags(predicted_tag_ids, id_to_tag, word_ids):
+def __labels_to_wordlevel_tags(predicted_tag_ids, id_to_tag, word_ids):
 
     # intialize dictionary to store all tags assigned to individual words
     word_tags = {}

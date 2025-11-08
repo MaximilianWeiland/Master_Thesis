@@ -1,8 +1,10 @@
 .DS_Store
+.Rhistory
 venv_thesis/
-01_data/parlspeech_dataset.csv
-01_data/parliamentary_questions_df.csv
-04_classification_evaluation/group_mention_detection/model_saves/
-04_classification_evaluation/stance_classification/model_saves/
+01_data/main_dataset/parlspeech_dataset.csv
+01_data/main_dataset/parliamentary_questions_df.csv
+04_classification_evaluation/evaluation_dataset_sizes/model_checkpoints/
+04_classification_evaluation/group_mention_detection/bert_models/model_checkpoints/
+04_classification_evaluation/stance_classification/bert_models/model_checkpoints/
 utils/__pycache__/
 08_literature/
