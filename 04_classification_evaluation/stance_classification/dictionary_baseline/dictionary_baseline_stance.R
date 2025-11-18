@@ -6,11 +6,8 @@ library(rjson)
 library(stringr)
 library(caret)
 
-# set the working directory to the project root
-project_root <- here()
-
 # import JSON data from file
-file_path <- here("01_data", "annotations_reduced.json")
+file_path <- here("01_data", "annotations", "annotations_no_augmentations.json")
 data <- fromJSON(file=file_path)
 
 # keep only the sentences with annotations
@@ -185,6 +182,7 @@ test_metrics <- list(
   )
 )
 json_string <- toJSON(test_metrics)
-output_path = "04_classification_evaluation/sentiment_classification/evaluation_metrics_dictionary.json"
+output_path <- here("04_classification_evaluation", "stance_classification",
+                    "eval_results", "evaluation_metrics_dictionary.json")
 write(json_string, file = output_path)
 

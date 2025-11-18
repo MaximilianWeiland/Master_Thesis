@@ -439,6 +439,37 @@ def sentence_level_evaluation(all_true_tags, all_pred_tags):
     tp = fp = fn = 0
 
     for gt_tags, pred_tags in zip(all_true_tags, all_pred_tags):
+        has_true = any(t.startswith(("B", "I")) for t in gt_tags)
+        has_pred = any(t.startswith(("B", "I")) for t in pred_tags)
+
+        # at least one token-level correct prediction for the group
+        has_correct = any(
+            (gt.startswith(("B", "I")) and pred.startswith(("B", "I")))
+            for gt, pred in zip(gt_tags, pred_tags)
+        )
+
+        if has_correct:
+            tp += 1
+        elif has_pred and not has_true:
+            fp += 1
+        elif has_true and not has_pred:
+            fn += 1
+        elif has_true and has_pred and not has_correct:
+            fn += 1
+        else:
+            pass  # no entity in gold or prediction → ignore sentence
+
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.00
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.00
+    f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
+
+    return {"precision": precision, "recall": recall, "f1": f1}
+
+
+#def sentence_level_evaluation(all_true_tags, all_pred_tags):
+    tp = fp = fn = 0
+
+    for gt_tags, pred_tags in zip(all_true_tags, all_pred_tags):
         has_true = any(tag.startswith(("B", "I")) for tag in gt_tags)
         has_pred = any(tag.startswith(("B", "I")) for tag in pred_tags)
 
