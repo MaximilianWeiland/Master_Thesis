@@ -1,44 +1,28 @@
-Employees and Workers,Employers and Business Owners,Self-employed,Unemployed,Sociocultural professionals,Manual labourers,Educational professionals,Military personnel,Lower class,Middle class,Upper class,Practical trainees,Pupils,Students,Black people,Irish people,BAME,Diverse ethnic groups,Families,Marital status,Children,Parents,Young people,Adults,Elderly people,Men,Women,LGBTIQ,People with disabilities,Migrants,Refugees,Christians,Jewish people,Non-believers,Hindus,Muslims,Homeowners and landowners,Homeless pepole,Rural communities,Urban residents,Criminals,Crime victims,Miscalleneous
-employee*,employer*,self-employed,unemployed,scientists,farmers, teachers,soldiers,* on low income,middle income earners,the rich,apprentices,pupil*,student*,black british,irish speakers,BME,pakistani,families,married couples,children*,* parent*,* year old*,middle-aged people,old people,men,women,gay*,persons with disabilities,*migrant*,asylum seeker*,catholics,jewish people,non-believers,hindus,muslims,homeowners,homeless pepole,country dwellers,city dwellers,offender*,crime victims,addicts
-worker*,bosses,,those without a job,physicians, primary producers, nurses,policemen,poor people,middle class,high earners,trainees,,undergraduates,africans,welsh language audiences,BAME,bangledeshi,families with children,widows,kids,mothers,young people,,older people,,,trans,handicapped,non-citizens,refugee*,protestants,jews,,,muslim people,property owners,the homeless,rural residents,ubranites,criminals,victims of crime*,bike commuters
-,business owners,,the jobless,GP, carpenters, aircrew*,Garda*,the poor*,average earners,aristocrats,interns,,poorer students,carribeans,irish citizens,,bengali,family,singles,child,fathers,youths,,pensioners,,,lesbian*,chronically ill,illegal aliens,refugee children,anglicans,,,,,houseowners,people living on the street*,those who live in rural areas,urban residents,yob*,victims of violence,consumers
-,business people,,jobseekers,GPs, plumbers, carers,constables,those on the poverty line,* on modest income*,the 1%,,,,,Irish Language Community,,indian,low-income families,single people,children at risk,parents,adolescent*,,senior citizens,,,queer,disabled people,foreigners,,evangelicals,,,,,home owners,unhoused people,rural population,city residents,prisoner*,victims of abuse,patients
-,,,people without employment,GP's, blacksmiths, clinical staff,veterans,benefit recipients,,high income earners,,,,,Irish Citizens who live abroad,,chinese,one-parent families,childless couples,pre school children,lone parents,young adults,,elderly,,,intersex,mentally ill,*migrant workers,,,,,,,houseowners,,rural inhabitans,,drug traffickers and barons,victims of rape,drug misusers
-,,,long-term unemployed,managers, toolmakers, tellers,bobbies,the lowest paid,,the wealthy,,,,,Irish people,,traveller community,,spouses,children of working families,,*year-old*,,retired people,,,asexual,disabled persons,foreign born,,,,,,,home buyers,,residents of rural areas,,foreign criminals,victims of violent crime*,gamblers
-,,,unemployed person,civil servants, welders, travel attendants,military personnel,chavs,,upper class,,,,,Welsh children,,travellers,,unmarried persons,,,* year-old*,,retirees,,,transexual*,chronically sick,people under resettlement,,,,,,,home purchasers,,people living and working in rural areas,,foreign national offenders,victims,politicians
-,,,,psychologists, smelters, conductors,members of the armed forces,working class,,milionaires,,,,,,,,,,,,under-*,,people nearing retirement age,,,transgender,people with disabilities,irish emigrant,,,,,,,landlords,,rural communities,,people smugglers,,prisoners
-,,,,psychiatrists, painters, pilots,law enforcement officials,lower class,,bilionaires,,,,,,,,,,,,over-*,,,,,transvestite*,invalids,settles migrants,,,,,,,landowners,,commuters,,sex offenders,,those from the most disadvantaged backgrounds
-,,,,doctors, electricians, maids,police officers,low income earners,,super-rich,,,,,,,,,,,,,,,,,bisexual,spastic*,,,,,,,,tenants,,rural and coastal communities,,terrorist offenders,,
-,,,,engineers, hunters, cleaners,armed forces,low income class,,the wealthiest,,,,,,,,,,,,,,,,,gender fluid,haemophiliacs,,,,,,,,first-time buyers,,,,,,
-,,,,actuaries, fishermen, hairdressers,special constables,* on welfare,,investors,,,,,,,,,,,,,,,,,LGBT*,physically or mentally disabled,,,,,,,,house purchasers,,,,,,
-,,,,accountants, truck drivers, waiters,defence force personnel,* on social security,,tax avoiders,,,,,,,,,,,,,,,,,homosexual people,people with mental illness,,,,,,,,those buying their own home,,,,,,
-,,,,architects, lorry drivers, waiteresses,equality officers,* on lower incomes,,,,,,,,,,,,,,,,,,,*sexual,physically disabled persons,,,,,,,,,,,,,,
-,,,,surveyors, train drivers, barbers,regular and reserve forces,* on benefits,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,graphic designers, miners, beauticians,,* on low wages,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,professors, technicians, cooks,,* on poverty wages,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,lecturers,manual labourers, personal trainers,,* on the dole,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,salesmen,shipyard workers, chefs,,welfare recipients,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,saleswomen,, midwives,,social welfare recipients,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,salespeple,, secretaries,,* on low incomes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,businessmen,,instructors,,those who now find themselves on or near the poverty line,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,businesswomen,,educators,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,business people,,therapists,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,journalists,,caregivers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,lawyers,,care staff,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,barristers,,care workers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,solicitors,,principals,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,judges,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,veteranarians,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,pastors,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,priests,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,artists,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,musicians,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,brokers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,chief executives,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,CEOs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,entrepreneurs,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,public servants,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,academics,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,scholars,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,health professionals,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,medical professionals,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Adults,Caregivers,Children,Civil servants,Consumers,Crime victims,Criminals,Education professionals,Elderly people,Employers and business owners,Employees and workers,Ethnic and national communities,Families,Farmers,Health professionals,Homeless people,Homeowners and landowners,Irish and Welsh people,Landlords,Law-enforcement personnel,LGBTQI,Lower class,Manual and service workers,Marital status,Men,Middle class,Migrants and refugees,Military personnel,Patients,People with disabilities,Politicians,Religious communities,Road users,Rural communities,Self-employed,Sociocultural professionals,Students and practical learners,Taxpayers,Tenants,Unemployed,Upper class,Urban residents,White collar workers,Women,Young people
+adults,therapists,children*,civil servants,consumers,crime victims,offender*,teachers,old people,employer*,employee*,black british,families,farmers, nurses,homeless pepole,homeowners,irish speakers,landlords,policemen,gay*,* on low income, carpenters,married couples,men,middle income earners,*migrant*,soldiers,patients,persons with disabilities,politicians,catholics,bike commuters,country dwellers,self-employed,scientists,student*,taxpayers,tenants,unemployed,the rich,city dwellers,managers,Women,* year old*
+middle-aged people,caregivers,kids,public servants,customers,victims of crime*,criminals,educators,older people,bosses,worker*,africans,families with children,farming community, carers,the homeless,property owners,welsh language audiences,lessors,Garda*,trans,poor people, plumbers,widows,boys,middle class,non-citizens,veterans,addicts,handicapped,,protestants,commuters,rural residents,,engineers,undergraduates,,lessees,those without a job,high earners,ubranites,actuaries,girls,young people
+,care staff,child,public employees,,victims of violence,yob*,child-minders,pensioners,business owners,,carribeans,family,primary producers, clinical staff,people living on the street*,houseowners,irish citizens,,constables,lesbian*,the poor*, blacksmiths,singles,,average earners,illegal aliens,bobbies,drug misusers,chronically ill,,anglicans,car drivers,those who live in rural areas,,architects,poorer students,,renters,the jobless,aristocrats,urban residents,accountants,,youths
+,care workers,children at risk,,,victims of abuse,prisoner*,headteachers,senior citizens,business people,,BME,low-income families,,GP,unhoused people,home owners,Irish Language Community,,law enforcement officials,queer,those on the poverty line, toolmakers,single people,,* on modest income*,foreigners,military personnel,sick people,disabled people,,evangelicals,drivers,rural population,,professors,pupils,,lodgers,jobseekers,the 1%,city residents,salesmen,,adolescent*
+,,pre school children,,,victims of rape,drug traffickers and barons,education-professionals,elderly,,,BAME,one-parent families,,GPs,,houseowners,Irish Citizens who live abroad,,police officers,intersex,benefit recipients, welders,childless couples,,,*migrant workers,members of the armed forces,ill people,disabled persons,,jewish people,cyclists,rural inhabitans,,lecturers,learners,,leaseholders,people without employment,high income earners,,saleswomen,,young adults
+,,children of working families,,,victims of violent crime*,foreign criminals,principals,retired people,,,pakistani,* parent*,,GP's,,home buyers,Irish people,,,asexual,the lowest paid, smelters,spouses,,,foreign born,special constables,care-recipients,chronically sick,,jews,bicyclists,residents of rural areas,,artists,apprentices,,,long-term unemployed,the wealthy,,salespeple,,*year-old*
+,,,,,victims,foreign national offenders,,retirees,,,bangledeshi,mothers,,physicians,,home purchasers,Welsh children,,,transexual*,chavs, painters,unmarried persons,,,people under resettlement,defence force personnel,people with mental illness,people with disabilities,,hindus,bikers,people living and working in rural areas,,musicians,trainees,,,unemployed person,upper class,,businessmen,,* year-old*
+,,,,,,people smugglers,,people nearing retirement age,,,bengali,fathers,,psychologists,,landowners,,,,transgender,working class, electricians,,,,irish emigrant,equality officers,mentally ill,invalids,,muslims,public transport users,rural communities,,academics,interns,,,,milionaires,,businesswomen,,under-*
+,,,,,,sex offenders,,,,,indian,parents,,psychiatrists,,,,,,transvestite*,lower class, hunters,,,,settles migrants,regular and reserve forces,,spastic*,,muslim people,pedestrians,rural and coastal communities,,scholars,,,,,bilionaires,,business people,,over-*
+,,,,,,terrorist offenders,,,,,chinese,lone parents,,doctors,,,,,,bisexual,low income earners, fishermen,,,,asylum seeker*,,,haemophiliacs,,non-believers,walkers,,,journalists,,,,,super-rich,,lawyers,,
+,,,,,,tax avoiders,,,,,traveller community,,, midwives,,,,,,gender fluid,low income class, truck drivers,,,,refugee*,,,physically or mentally disabled,,,passengers,,,,,,,,the wealthiest,,barristers,,
+,,,,,,tax evaders,,,,,travellers,,,,,,,,,LGBT*,* on welfare, lorry drivers,,,,refugee children,,,physically disabled persons,,,,,,,,,,,investors,,solicitors,,
+,,,,,,,,,,,,,,,,,,,,homosexual people,* on social security, train drivers,,,,,,,,,,,,,,,,,,,,judges,,
+,,,,,,,,,,,,,,,,,,,,*sexual,* on lower incomes, miners,,,,,,,,,,,,,,,,,,,,brokers,,
+,,,,,,,,,,,,,,,,,,,,,* on benefits, technicians,,,,,,,,,,,,,,,,,,,,chief executives,,
+,,,,,,,,,,,,,,,,,,,,,* on low wages,manual labourers,,,,,,,,,,,,,,,,,,,,CEOs,,
+,,,,,,,,,,,,,,,,,,,,,* on poverty wages,shipyard workers,,,,,,,,,,,,,,,,,,,,entrepreneurs,,
+,,,,,,,,,,,,,,,,,,,,,* on the dole, maids,,,,,,,,,,,,,,,,,,,,surveyors,,
+,,,,,,,,,,,,,,,,,,,,,welfare recipients, cleaners,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,social welfare recipients, hairdressers,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,* on low incomes, waiters,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,those who now find themselves on or near the poverty line, waiteresses,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,, barbers,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,, beauticians,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,, cooks,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,, personal trainers,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,, chefs,,,,,,,,,,,,,,,,,,,,,,

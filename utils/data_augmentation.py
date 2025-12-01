@@ -8,7 +8,7 @@ import nltk
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 
-def __find_most_similar(word, model, top_n=3):
+def __find_most_similar(word, model, top_n=5):
     word_lower = word.lower()
     if word_lower not in model:
         return word
@@ -147,7 +147,8 @@ def find_entity_span(task, augmented_sentence):
     # Find all matching spans
     spans = []
     for ent_text, ent_tag in unique_entities:
-        for match in re.finditer(re.escape(ent_text), augmented_sentence, re.IGNORECASE):
+        pattern = r"(?<!\w){}(?:s)?(?:'s|')?(?:-)?(?!\w)".format(re.escape(ent_text))
+        for match in re.finditer(pattern, augmented_sentence, re.IGNORECASE):
             start, end = match.span()
             spans.append({
                 "start": start,

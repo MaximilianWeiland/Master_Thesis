@@ -1,11 +1,12 @@
 import numpy as np
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import ConcatDataset, DataLoader
 from torch.optim import AdamW
 from transformers import AutoTokenizer, AutoModelForTokenClassification, AutoModelForSequenceClassification
 from seqeval.metrics import classification_report as seqeval_classification_report
 from sklearn.metrics import classification_report as sklearn_classification_report
-from sklearn.model_selection import KFold
+from sklearn.utils import resample
+from sklearn.model_selection import KFold, StratifiedKFold
 import gc
 
 
@@ -109,11 +110,50 @@ def run_testset_stance(model, test_dataloader, device):
     
     return true_labels, pred_labels, avg_loss
 
+def evaluate_nli_stance(model, data, tokenizer, device):
+    model.eval()
+    all_preds = []
+    all_labels = []
+
+    for item in data:
+        sentence = item["sentence"]
+        target = item["group"]
+        gold_stance = item["stance"]
+        
+        hypotheses = {
+            "pos": f"The text is positive towards {target}.",
+            "neg": f"The text is negative towards {target}.",
+            "neutral": f"The text is neutral, or contains no stance, towards {target}."
+            }
+
+        # Tokenize all 3 hypotheses as a batch
+        inputs = tokenizer(
+            [sentence]*3,
+            list(hypotheses.values()),
+            return_tensors="pt",
+            padding=True,
+            truncation=True
+            )
+        inputs = {k: v.to(device) for k, v in inputs.items()}
+
+        with torch.no_grad():
+            outputs = model(**inputs)
+            probs = torch.softmax(outputs.logits, dim=-1)
+            entail_probs = probs[:, 0].tolist() # 0 is the entailment index
+
+        # choose hypothesis with highest entailment probability
+        predicted_stance = list(hypotheses.keys())[entail_probs.index(max(entail_probs))]
+
+        all_labels.append(gold_stance)
+        all_preds.append(predicted_stance)
+
+    return all_labels, all_preds
+
 # ----------------------------------------------------------------------
-# Cross-Validation Loop
+# Cross-Validation Loops
 # ----------------------------------------------------------------------
-def cross_validation(model_names, training_data, dataset_class, label2id, id2label,
-                     num_folds, optimal_configurations, classification_task, custom_collate_fn=None):
+
+def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_folds, optimal_configurations, custom_collate_fn, seed=3):
     
     from utils.classification import train_bert
 
@@ -124,23 +164,15 @@ def cross_validation(model_names, training_data, dataset_class, label2id, id2lab
     for model_name in model_names:
 
         print(f"\nCross-validation for model {model_name} starts")
-        print("-"*200)
+        print("-"*100)
 
         # dictionary to save the individual fold evaluation metrics
-        if classification_task == "ner":
-            fold_metrics = {
-                "seqeval": [],
-                "cross_span": [],
-                "sentence_level": []
+        fold_metrics = {
+            "seqeval": [],
+            "cross_span": [],
+            "sentence_level": []
             }
-        elif classification_task == "stance":
-            fold_metrics = {
-                "negative_f1": [],
-                "neutral_f1": [],
-                "positive_f1": [],
-                "macro_f1": []
-            }
-
+       
         # get the optimal hyperparameters for this model
         epochs = optimal_configurations[model_name]["best_epoch"]
         lr = optimal_configurations[model_name]["best_params"]["lr"]
@@ -152,7 +184,7 @@ def cross_validation(model_names, training_data, dataset_class, label2id, id2lab
 
         # create cross-validation object for 5 folds
         k = num_folds
-        kf = KFold(n_splits=k, shuffle=True, random_state=42)
+        kf = KFold(n_splits=k, shuffle=True, random_state=seed)
 
         # randomly split the training data into 5 folds and loop over them
         for fold, (train_idx, val_idx) in enumerate(kf.split(training_data)):
@@ -173,114 +205,382 @@ def cross_validation(model_names, training_data, dataset_class, label2id, id2lab
             device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
             # create the model and optimizer
-            if classification_task == "ner":
-                model = AutoModelForTokenClassification.from_pretrained(
-                    model_name,
-                    num_labels=len(label2id),
-                    id2label=id2label,
-                    label2id=label2id
-                    ).to(device)
-            elif classification_task == "stance":
-                model = AutoModelForSequenceClassification.from_pretrained(
-                    model_name,
-                    num_labels=len(label2id),
-                    id2label = id2label,
-                    label2id=label2id
-                    ).to(device)
+            model = AutoModelForTokenClassification.from_pretrained(
+                model_name,
+                num_labels=len(label2id),
+                id2label=id2label,
+                label2id=label2id
+                ).to(device)
             optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
             # train the model with the optimal configuration
-            train_bert(train_dataloader, model, optimizer, epochs, device, which_task=classification_task)
+            train_bert(train_dataloader, model, optimizer, epochs, device, which_task="ner")
 
             # create dictionary to save the inputs for each evaluation metric
-            if classification_task == "ner":
-                evaluation_inputs = {
+            evaluation_inputs = {
                 "seqeval": {},
                 "cross_span": {},
                 "sentence_level": {}
                 }
                 
-                # loop over all metrics and get the ground truth as well as predicted labels for the validation set
-                for metric in evaluation_inputs.keys():
-                    all_true, all_pred, _ = run_testset_ner(
-                        model=model, test_dataloader=val_dataloader, id2tag=id2label, device=device, for_metric=metric
-                        )
-                    evaluation_inputs[metric] = {
-                        "all_true": all_true,
-                        "all_pred":all_pred
-                        }
-                    
-                # apply all evaluation functions and save in the dictionary
-                metrics_seqeval = evaluate_seqeval(
-                evaluation_inputs["seqeval"]["all_true"],
-                evaluation_inputs["seqeval"]["all_pred"]
-                )
-                metrics_cross_span = mention_level_evaluation(
-                    evaluation_inputs["cross_span"]["all_true"],
-                    evaluation_inputs["cross_span"]["all_pred"]
-                )
-                metrics_sentence_level = sentence_level_evaluation(
-                    evaluation_inputs["sentence_level"]["all_true"],
-                    evaluation_inputs["sentence_level"]["all_pred"]
-                )
-
-                # append all metrics to the dictionary
-                fold_metrics["seqeval"].append(metrics_seqeval)
-                fold_metrics["cross_span"].append(metrics_cross_span)
-                fold_metrics["sentence_level"].append(metrics_sentence_level)
-
-            elif classification_task == "stance":
-                true_labels, pred_labels, _ = run_testset_stance(model=model, test_dataloader=val_dataloader, device=device)
-                metrics = sklearn_classification_report(
-                    [id2label[i] for i in true_labels],
-                    [id2label[i] for i in pred_labels],
-                    output_dict=True
+            # loop over all metrics and get the ground truth as well as predicted labels for the validation set
+            for metric in evaluation_inputs.keys():
+                all_true, all_pred, _ = run_testset_ner(
+                    model=model, test_dataloader=val_dataloader, id2tag=id2label, device=device, for_metric=metric
                     )
-                fold_metrics["negative_f1"].append(metrics["negative"]["f1-score"])
-                fold_metrics["neutral_f1"].append(metrics["neutral"]["f1-score"])
-                fold_metrics["positive_f1"].append(metrics["positive"]["f1-score"])
-                fold_metrics["macro_f1"].append(metrics["macro avg"]["f1-score"])
+                evaluation_inputs[metric] = {
+                    "all_true": all_true,
+                    "all_pred":all_pred
+                    }
+                    
+            # apply all evaluation functions and save in the dictionary
+            metrics_seqeval = evaluate_seqeval(
+            evaluation_inputs["seqeval"]["all_true"],
+            evaluation_inputs["seqeval"]["all_pred"]
+            )
+            metrics_cross_span = mention_level_evaluation(
+                evaluation_inputs["cross_span"]["all_true"],
+                evaluation_inputs["cross_span"]["all_pred"]
+            )
+            metrics_sentence_level = sentence_level_evaluation(
+                evaluation_inputs["sentence_level"]["all_true"],
+                evaluation_inputs["sentence_level"]["all_pred"]
+            )
+
+            # append all metrics to the dictionary
+            fold_metrics["seqeval"].append(metrics_seqeval)
+            fold_metrics["cross_span"].append(metrics_cross_span)
+            fold_metrics["sentence_level"].append(metrics_sentence_level)
 
             del model, optimizer
             gc.collect()
             if device.type == "mps":
                 torch.mps.empty_cache()
 
-        if classification_task == "ner":
-            seqeval_scores = [m["f1"] for m in fold_metrics["seqeval"]]
-            mean_seqeval = np.mean(seqeval_scores)
-            std_seqeval = np.std(seqeval_scores)
 
-            cross_span_scores = [m["f1"] for m in fold_metrics["cross_span"]]
-            mean_cross_span = np.mean(cross_span_scores)
-            std_cross_span = np.std(cross_span_scores)
-
-            sentence_level_scores = [m["f1"] for m in fold_metrics["sentence_level"]]
-            mean_sentence_level = np.mean(sentence_level_scores)
-            std_sentence_level = np.std(sentence_level_scores)
-
-            average_metrics[model_name] = {
-                "seqeval": (mean_seqeval, std_seqeval),
-                "cross_span": (mean_cross_span, std_cross_span),
-                "sentence_level": (mean_sentence_level, std_sentence_level)
-            }
-
-        elif classification_task == "stance":
-            avg_neg = np.mean(fold_metrics["negative_f1"])
-            avg_neu = np.mean(fold_metrics["neutral_f1"])
-            avg_pos = np.mean(fold_metrics["positive_f1"])
-            avg_macro = np.mean(fold_metrics["macro_f1"])
-
-            average_metrics[model_name] = {
-                "negative_f1": avg_neg,
-                "neutral_f1": avg_neu,
-                "positive_f1": avg_pos,
-                "macro_f1": avg_macro
+        # helper function to calculate summary statistics
+        def summarize(values):
+            mean = np.mean(values)
+            sd = np.std(values)
+            ci = 1.96 * (sd/np.sqrt(5))
+            return {
+                "mean": mean,
+                "sd": sd,
+                "lower": mean - ci,
+                "upper": mean + ci
             }
             
-        print("-"*200)
+        seqeval_metrics = {
+            key: summarize([m[key] for m in fold_metrics["seqeval"]])
+            for key in ["precision", "recall", "f1"]
+        }
+        cross_span_metrics = {
+            key: summarize([m[key] for m in fold_metrics["cross_span"]])
+            for key in ["precision", "recall", "f1"]
+        }
+        sentence_level_metrics = {
+            key: summarize([m[key] for m in fold_metrics["sentence_level"]])
+            for key in ["precision", "recall", "f1"]
+        }
+
+        average_metrics[model_name] = {
+            "seqeval": seqeval_metrics,
+            "cross_span": cross_span_metrics,
+            "sentence_level": sentence_level_metrics
+        }
+  
+        print("-"*100)
     
     return average_metrics
+
+def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num_folds, optimal_configurations, seed=3):
+    
+    from utils.classification import train_bert
+
+    # empty dictionary to store the final average metrics
+    average_metrics = {}
+
+    # loop over all individual models
+    for model_name in model_names:
+
+        print(f"\nCross-validation for model {model_name} starts")
+        print("-"*100)
+
+        # dictionary to save the individual fold evaluation metrics
+        fold_metrics = {
+            "negative": [],
+            "neutral": [],
+            "positive": []
+            }
+       
+        # get the optimal hyperparameters for this model
+        epochs = optimal_configurations[model_name]["best_epoch"]
+        lr = optimal_configurations[model_name]["best_params"]["lr"]
+        batch_size = optimal_configurations[model_name]["best_params"]["batch_size"]
+        weight_decay = optimal_configurations[model_name]["best_params"]["weight_decay"]
+
+        # define the tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+        # create cross-validation object for 5 folds
+        k = num_folds
+        kf = StratifiedKFold(n_splits=k, shuffle=True, random_state=seed)
+        all_labels = [item[0]["stance"] for item in training_data]
+
+        # randomly split the training data into 5 folds and loop over them
+        for fold, (train_idx, val_idx) in enumerate(kf.split(training_data, all_labels)):
+
+            print(f"\nFold number: {fold + 1}")
+
+            # create the training and validation fold based on the provided indices
+            train_fold_data = [training_data[i] for i in train_idx]
+            val_fold_data = [training_data[i] for i in val_idx]
+
+            # unpack validation data (augmentations are not needed)
+            val_data = [task[0] for task in val_fold_data]
+
+            # get the original training data
+            train_data_original = [task[0] for task in train_fold_data]
+            train_dataset = dataset_class(train_data_original, tokenizer, max_len=128, label2id=label2id)
+            
+            # oversample all classes to a certain proportion and creare datasets
+            neu_ann = [r for r in train_fold_data if r[0]["stance"] == "neutral"]
+            neg_ann = [r for r in train_fold_data if r[0]["stance"] == "neg"]
+            neu_extra = resample(neu_ann, replace=False, n_samples=int(len(neu_ann)*0.25), random_state=0)
+            neg_extra = resample(neg_ann, replace=False, n_samples=int(len(neg_ann)*0.5), random_state=0)
+            train_data_neu_aug = [task[2] for task in neu_extra]
+            train_data_neg_aug = [task[2] for task in neg_extra]
+            train_dataset_neu_aug = dataset_class(train_data_neu_aug, tokenizer, max_len=128, label2id=label2id)
+            train_dataset_neg_aug = dataset_class(train_data_neg_aug, tokenizer, max_len=128, label2id=label2id)
+            train_dataset_balanced = ConcatDataset([train_dataset, train_dataset_neu_aug, train_dataset_neg_aug])
+
+            # create the data loaders
+            train_dataloader = DataLoader(train_dataset_balanced, batch_size=32, shuffle=True)
+            val_dataloader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
+
+            # set the device explicitly
+            device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+
+            model = AutoModelForSequenceClassification.from_pretrained(
+                model_name,
+                num_labels=len(label2id),
+                id2label = id2label,
+                label2id=label2id
+                ).to(device)
+            optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+
+            # train the model with the optimal configuration
+            train_bert(train_dataloader, model, optimizer, epochs, device, which_task="stance")
+
+            
+            true_labels, pred_labels, _ = run_testset_stance(model=model, test_dataloader=val_dataloader, device=device)
+            metrics = sklearn_classification_report(
+                [id2label[i] for i in true_labels],
+                [id2label[i] for i in pred_labels],
+                output_dict=True
+                )
+                
+            # helper function to append to fold metrics
+            def extract_fold_metrics(cr, eval_class):
+                precision = cr[eval_class]["precision"]
+                recall = cr[eval_class]["recall"]
+                f1 = cr[eval_class]["f1-score"]
+
+                return {"precision": precision,
+                        "recall": recall,
+                        "f1": f1}
+
+            # update the fold metrics
+            fold_metrics["negative"].append(extract_fold_metrics(metrics, "negative"))
+            fold_metrics["neutral"].append(extract_fold_metrics(metrics, "neutral"))
+            fold_metrics["positive"].append(extract_fold_metrics(metrics, "positive"))
+            fold_metrics["macro"].append(extract_fold_metrics(metrics, "macro avg"))
+
+            del model, optimizer
+            gc.collect()
+            if device.type == "mps":
+                torch.mps.empty_cache()
+
+
+        # helper function to calculate summary statistics
+        def summarize(values):
+            mean = np.mean(values)
+            sd = np.std(values)
+            ci = 1.96 * (sd/np.sqrt(5))
+            return {
+                "mean": mean,
+                "sd": sd,
+                "lower": mean - ci,
+                "upper": mean + ci
+            }
+
+        negative_metrics = {
+            key: summarize([m[key] for m in fold_metrics["negative"]])
+            for key in ["precision", "recall", "f1"]
+        }
+        neutral_metrics = {
+            key: summarize([m[key] for m in fold_metrics["neutral"]])
+            for key in ["precision", "recall", "f1"]
+        }
+        positive_metrics = {
+            key: summarize([m[key] for m in fold_metrics["positive"]])
+            for key in ["precision", "recall", "f1"]
+        }
+        macro_metrics = {
+            key: summarize([m[key] for m in fold_metrics["macro"]])
+            for key in ["precision", "recall", "f1"]
+        }
+
+        average_metrics[model_name] = {
+            "negative": negative_metrics,
+            "neutral": neutral_metrics,
+            "positive": positive_metrics,
+            "macro": macro_metrics
+        }
+            
+        print("-"*100)
+    
+    return average_metrics
+
+
+def cv_stance_nli(model_name, training_data, dataset_class, num_folds, optimal_configurations, seed=3):
+    
+    from utils.classification import train_bert
+
+    # empty dictionary to store the final average metrics
+    average_metrics = {}
+
+    print(f"\nCross-validation for model {model_name} starts")
+    print("-"*100)
+
+    # dictionary to save the individual fold evaluation metrics
+    fold_metrics = {
+        "negative": [],
+        "neutral": [],
+        "positive": []
+        }
+       
+    # get the optimal hyperparameters for this model
+    epochs = optimal_configurations[model_name]["best_epoch"]
+    lr = optimal_configurations[model_name]["best_params"]["lr"]
+    batch_size = optimal_configurations[model_name]["best_params"]["batch_size"]
+    weight_decay = optimal_configurations[model_name]["best_params"]["weight_decay"]
+
+    # define the tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+    # create cross-validation object for 5 folds
+    k = num_folds
+    kf = StratifiedKFold(n_splits=k, shuffle=True, random_state=seed)
+    all_labels = [item[0]["stance"] for item in training_data]
+
+    # randomly split the training data into 5 folds and loop over them
+    for fold, (train_idx, val_idx) in enumerate(kf.split(training_data, all_labels)):
+
+        print(f"\nFold number: {fold + 1}")
+
+        # create the model
+        model = AutoModelForSequenceClassification.from_pretrained(model_name).to(device)
+        optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+        label_to_id = model.config.label2id
+
+        # create the training and validation fold based on the provided indices
+        train_fold_data = [training_data[i] for i in train_idx]
+        val_fold_data = [training_data[i] for i in val_idx]
+
+        # unpack validation data (augmentations are not needed)
+        val_data = [task[0] for task in val_fold_data]
+
+        # get the original training data
+        train_data_original = [task[0] for task in train_fold_data]
+        train_dataset = dataset_class(train_data_original, tokenizer, max_len=128, label2id=label_to_id)
+            
+        # oversample minority classes to a certain proportion and creare datasets
+        neu_ann = [r for r in train_fold_data if r[0]["stance"] == "neutral"]
+        neg_ann = [r for r in train_fold_data if r[0]["stance"] == "neg"]
+        neu_extra = resample(neu_ann, replace=False, n_samples=int(len(neu_ann)*0.25), random_state=0)
+        neg_extra = resample(neg_ann, replace=False, n_samples=int(len(neg_ann)*0.5), random_state=0)
+        train_data_neu_aug = [task[2] for task in neu_extra]
+        train_data_neg_aug = [task[2] for task in neg_extra]
+        train_dataset_neu_aug = dataset_class(train_data_neu_aug, tokenizer, max_len=128, label2id=label_to_id)
+        train_dataset_neg_aug = dataset_class(train_data_neg_aug, tokenizer, max_len=128, label2id=label_to_id)
+        train_dataset_balanced = ConcatDataset([train_dataset, train_dataset_neu_aug, train_dataset_neg_aug])
+
+        # create the data loader
+        train_dataloader = DataLoader(train_dataset_balanced, batch_size=batch_size, shuffle=True)
+    
+        # set the device explicitly
+        device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+
+        # train the model with the optimal configuration
+        train_bert(train_dataloader, model, optimizer, epochs, device, which_task="stance")
+
+        # run evaluation
+        true_labels, pred_labels = evaluate_nli_stance(
+            model=model, data=val_data, tokenizer=tokenizer, device=device
+            )
+        metrics = sklearn_classification_report(true_labels, pred_labels, output_dict=True)
+                
+        # helper function to append to fold metrics
+        def extract_fold_metrics(cr, eval_class):
+            precision = cr[eval_class]["precision"]
+            recall = cr[eval_class]["recall"]
+            f1 = cr[eval_class]["f1-score"]
+
+            return {"precision": precision,
+                    "recall": recall,
+                    "f1": f1}
+
+        # update the fold metrics
+        fold_metrics["negative"].append(extract_fold_metrics(metrics, "negative"))
+        fold_metrics["neutral"].append(extract_fold_metrics(metrics, "neutral"))
+        fold_metrics["positive"].append(extract_fold_metrics(metrics, "positive"))
+        fold_metrics["macro"].append(extract_fold_metrics(metrics, "macro avg"))
+
+        del model, optimizer
+        gc.collect()
+        if device.type == "mps":
+            torch.mps.empty_cache()
+
+
+    # helper function to calculate summary statistics
+    def summarize(values):
+        mean = np.mean(values)
+        sd = np.std(values)
+        ci = 1.96 * (sd/np.sqrt(5))
+        return {
+            "mean": mean,
+            "sd": sd,
+            "lower": mean - ci,
+            "upper": mean + ci
+        }
+
+    negative_metrics = {
+        key: summarize([m[key] for m in fold_metrics["negative"]])
+        for key in ["precision", "recall", "f1"]
+    }
+    neutral_metrics = {
+        key: summarize([m[key] for m in fold_metrics["neutral"]])
+        for key in ["precision", "recall", "f1"]
+    }
+    positive_metrics = {
+        key: summarize([m[key] for m in fold_metrics["positive"]])
+        for key in ["precision", "recall", "f1"]
+    }
+    macro_metrics = {
+        key: summarize([m[key] for m in fold_metrics["macro"]])
+        for key in ["precision", "recall", "f1"]
+    }
+
+    average_metrics[model_name] = {
+        "negative": negative_metrics,
+        "neutral": neutral_metrics,
+        "positive": positive_metrics,
+        "macro": macro_metrics
+    }
+    
+    return average_metrics
+
 
 # ----------------------------------------------------------------------
 # Strict Seqeval Metric
@@ -375,10 +675,11 @@ def mention_level_evaluation(all_true_spans, all_pred_spans):
     span_metrics = []
     
     # loop through all sentences
-    for sentence_preds, sentence_true in zip(all_true_spans, all_pred_spans):
+    for sentence_true, sentence_preds in zip(all_true_spans, all_pred_spans):
+        
         # get all unique word ids for each span as a set
-        pred_sets = [set(p) for p in sentence_preds]
         true_sets = [set(gt) for gt in sentence_true]
+        pred_sets = [set(p) for p in sentence_preds]
         # empty set that stores all visited true word ids
         matched_true_idx = set()
 
@@ -464,28 +765,3 @@ def sentence_level_evaluation(all_true_tags, all_pred_tags):
     f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
 
     return {"precision": precision, "recall": recall, "f1": f1}
-
-
-#def sentence_level_evaluation(all_true_tags, all_pred_tags):
-    tp = fp = fn = 0
-
-    for gt_tags, pred_tags in zip(all_true_tags, all_pred_tags):
-        has_true = any(tag.startswith(("B", "I")) for tag in gt_tags)
-        has_pred = any(tag.startswith(("B", "I")) for tag in pred_tags)
-
-        if has_true and has_pred:
-            tp += 1
-        elif has_pred and not has_true:
-            fp += 1
-        elif has_true and not has_pred:
-            fn += 1
-
-    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.00
-    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.00
-    f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
-
-    return {
-        "precision": precision,
-        "recall": recall,
-        "f1": f1
-    }
