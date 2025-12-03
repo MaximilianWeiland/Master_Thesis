@@ -52,7 +52,7 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
                     all_true_tags.append(true_tags)
                     all_pred_tags.append(pred_tags)
 
-            elif for_metric == "cross_span":
+            elif (for_metric == "cross_span") or (for_metric == "mention_detection"):
                 for i in range(len(tag_ids)):
                     true_seq = tag_ids[i].cpu().numpy()
                     pred_seq = predictions[i].cpu().numpy()
@@ -220,6 +220,7 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
             evaluation_inputs = {
                 "seqeval": {},
                 "cross_span": {},
+                "mention_detection": {},
                 "sentence_level": {}
                 }
                 
@@ -235,21 +236,26 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
                     
             # apply all evaluation functions and save in the dictionary
             metrics_seqeval = evaluate_seqeval(
-            evaluation_inputs["seqeval"]["all_true"],
-            evaluation_inputs["seqeval"]["all_pred"]
-            )
-            metrics_cross_span = mention_level_evaluation(
+                evaluation_inputs["seqeval"]["all_true"],
+                evaluation_inputs["seqeval"]["all_pred"]
+                )
+            metrics_cross_span = cross_span_evaluation(
                 evaluation_inputs["cross_span"]["all_true"],
                 evaluation_inputs["cross_span"]["all_pred"]
+                )
+            metrics_mention_detection = mention_detection_evaluation(
+                evaluation_inputs["mention_detection"]["all_true"],
+                evaluation_inputs["mention_detection"]["all_pred"]
             )
             metrics_sentence_level = sentence_level_evaluation(
                 evaluation_inputs["sentence_level"]["all_true"],
                 evaluation_inputs["sentence_level"]["all_pred"]
-            )
+                )
 
             # append all metrics to the dictionary
             fold_metrics["seqeval"].append(metrics_seqeval)
             fold_metrics["cross_span"].append(metrics_cross_span)
+            fold_metrics["mention_detection"].append(metrics_mention_detection)
             fold_metrics["sentence_level"].append(metrics_sentence_level)
 
             del model, optimizer
@@ -278,6 +284,10 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
             key: summarize([m[key] for m in fold_metrics["cross_span"]])
             for key in ["precision", "recall", "f1"]
         }
+        mention_detection_metrics = {
+            key: summarize([m[key] for m in fold_metrics["mention_detection"]])
+            for key in ["precision", "recall", "f1"]
+        }
         sentence_level_metrics = {
             key: summarize([m[key] for m in fold_metrics["sentence_level"]])
             for key in ["precision", "recall", "f1"]
@@ -286,6 +296,7 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
         average_metrics[model_name] = {
             "seqeval": seqeval_metrics,
             "cross_span": cross_span_metrics,
+            "mention_detection": mention_detection_metrics,
             "sentence_level": sentence_level_metrics
         }
   
@@ -669,7 +680,7 @@ def extract_spans(word_tags):
 
     return spans
 
-def mention_level_evaluation(all_true_spans, all_pred_spans):
+def cross_span_evaluation(all_true_spans, all_pred_spans):
 
     # empty list to store all mention-level metrics
     span_metrics = []
@@ -729,6 +740,61 @@ def mention_level_evaluation(all_true_spans, all_pred_spans):
         "precision": avg_precision,
         "recall": avg_recall,
         "f1": avg_f1
+    }
+
+def mention_detection_evaluation(all_true_spans, all_pred_spans):
+
+    # store true positives, false positives and false negatives
+    tp = 0
+    fp = 0
+    fn = 0
+    
+    # loop through all sentences
+    for sentence_true, sentence_preds in zip(all_true_spans, all_pred_spans):
+        
+        # get all unique word ids for each span as a set
+        true_sets = [set(gt) for gt in sentence_true]
+        pred_sets = [set(p) for p in sentence_preds]
+        # empty set that stores all visited true word ids
+        matched_true_idx = set()
+
+        # loop through all predicted spans
+        for p_set in pred_sets:
+            # variables that store with which span was the largest overlap
+            best_overlap = 0
+            best_idx = None
+            # loop through true spans
+            for i, t_set in enumerate(true_sets):
+                # check overlap and store if it is a new best
+                overlap = len(p_set & t_set)
+                if overlap > best_overlap:
+                    best_overlap = overlap
+                    best_idx = i
+            
+            # if there was a match, calculate metrics for this predicted span
+            if best_overlap > 0 and best_idx not in matched_true_idx:
+                tp += 1
+                # mark the true span as visited
+                matched_true_idx.add(best_idx)
+            
+            # if no match, assign 0 to all metrics
+            else:
+                fp += 1
+
+        # loop through all true spans 
+        for i, t_set in enumerate(true_sets):
+            # if not already visited, assign 0 for all metrics
+            if i not in matched_true_idx:
+               fn += 1
+    
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.00
+    recall = tp / (tp + fn) if (tp + fn) > 0 else 0.00
+    f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
+
+    return {
+        "precision": precision,
+        "recall": recall,
+        "f1": f1
     }
 
 # ----------------------------------------------------------------------

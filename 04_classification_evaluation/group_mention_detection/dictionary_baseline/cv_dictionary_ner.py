@@ -3,20 +3,23 @@ import pandas as pd
 import json
 import numpy as np
 import sys
+from pathlib import Path
+
+project_root = Path(__file__).resolve().parents[3]
+sys.path.append(str(project_root))
 
 # import custom helper functions
-sys.path.append("../../../")
 from utils.preprocessing import create_regex_pattern
 from utils.classification import text_to_bio, find_dictionary_matches
-from utils.evaluation import extract_spans, evaluate_seqeval, mention_level_evaluation, sentence_level_evaluation
+from utils.evaluation import extract_spans, evaluate_seqeval, cross_span_evaluation, mention_detection_evaluation, sentence_level_evaluation
 from sklearn.model_selection import KFold
 
 # import the annotations
-with open("../../../01_data/training_validation_sets/ner/training_set.json", "r") as f:
+with open("01_data/training_validation_sets/ner/training_set.json", "r") as f:
     data = json.load(f)
 
 # import the dictionary
-group_dictionary_df = pd.read_csv("../../../01_data/dictionary/groups_dictionary.csv")
+group_dictionary_df = pd.read_csv("01_data/dictionary/groups_dictionary.csv")
 
 # add bio tags to the dataset
 for task in data:
@@ -33,6 +36,7 @@ average_metrics = {}
 fold_metrics = {
     "seqeval": [],
     "cross_span": [],
+    "mention_detection":[],
     "sentence_level": []
     }
 
@@ -71,7 +75,10 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(data)):
         all_predicted_spans.append(extract_spans(pred_bio[idx]))
  
     # apply cross-span evaluation
-    metrics_cross_span = mention_level_evaluation(all_true_spans, all_predicted_spans)
+    metrics_cross_span = cross_span_evaluation(all_true_spans, all_predicted_spans)
+
+    # apply mention detection evaluation
+    metrics_mention_detection = mention_detection_evaluation(all_true_spans, all_predicted_spans)
 
     # evaluate at the sentence level
     metrics_sentence_level = sentence_level_evaluation(gt_bio, pred_bio)
@@ -79,8 +86,8 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(data)):
     # append all metrics to the dictionary
     fold_metrics["seqeval"].append(metrics_seqeval)
     fold_metrics["cross_span"].append(metrics_cross_span)
+    fold_metrics["mention_detection"].append(metrics_mention_detection)
     fold_metrics["sentence_level"].append(metrics_sentence_level)
-
 
 # helper function to calculate summary statistics
 def summarize(values):
@@ -101,6 +108,10 @@ cross_span_metrics = {
      key: summarize([m[key] for m in fold_metrics["cross_span"]])
      for key in ["precision", "recall", "f1"]
     }
+mention_detection_metrics = {
+     key: summarize([m[key] for m in fold_metrics["mention_detection"]])
+     for key in ["precision", "recall", "f1"]
+    }
 sentence_level_metrics = {
      key: summarize([m[key] for m in fold_metrics["sentence_level"]])
      for key in ["precision", "recall", "f1"]
@@ -109,8 +120,9 @@ sentence_level_metrics = {
 average_metrics["dictionary"] = {
     "seqeval": seqeval_metrics,
     "cross_span": cross_span_metrics,
+    "mention_detection": mention_detection_metrics,
     "sentence_level": sentence_level_metrics
     }
 
-with open("../cross_val_results/evaluation_metrics_dictionary.json", "w") as f:
+with open("04_classification_evaluation/group_mention_detection/cross_val_results/evaluation_metrics_dictionary.json", "w") as f:
     json.dump(average_metrics, f, indent=4)
