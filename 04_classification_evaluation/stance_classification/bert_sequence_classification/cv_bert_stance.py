@@ -3,46 +3,15 @@ import json
 import sys
 from pathlib import Path
 
-# libraries for model building and training
-import torch
-from torch.utils.data import Dataset
-
-# set path to project root and import custom classes and functions
+# set path to project root
 project_root = Path(__file__).resolve().parents[3]
 sys.path.append(str(project_root))
+
+# import custom classes and functions
+from utils.classification import StanceDataset
 from utils.evaluation import cv_stance
 
-# create the dataset class
-class StanceDataset(Dataset):
-    def __init__(self, data, tokenizer, label2id, max_len=128):
-        self.dataset = []
-        for item in data:
-            sentence = item["sentence"]
-            target = item["group"]
-            stance = item["stance"]
-            label = label2id[stance]
-            
-            encoded = tokenizer(
-                sentence,
-                target,
-                truncation=True,
-                padding="max_length",
-                max_length=max_len,
-                return_tensors="pt"
-                )
-            self.dataset.append({
-                "input_ids": encoded["input_ids"].squeeze(0),
-                "attention_mask": encoded["attention_mask"].squeeze(0),
-                "label": torch.tensor(label, dtype=torch.long)
-                })
-    
-    def __len__(self):
-        return len(self.dataset)
-    
-    def __getitem__(self, idx):
-        return self.dataset[idx]
-    
-    # load training and validation data
+# load training and validation data
 with open("01_data/training_validation_sets/stance/training_set.json", "r") as f:
     data = json.load(f)
 

@@ -3,56 +3,11 @@ import json
 import sys
 from pathlib import Path
 
-# libraries for model building and training
-import torch
-from torch.utils.data import Dataset
-
 # set path to project root and import custom classes and functions
 project_root = Path(__file__).resolve().parents[3]
 sys.path.append(str(project_root))
+from utils.classification import StanceNLIDataset
 from utils.evaluation import cv_stance_nli
-
-# create the dataset class
-class StanceNLIDataset(Dataset):
-    def __init__(self, raw_data, tokenizer, max_len, label2id):
-        self.dataset = []
-
-        for item in raw_data:
-            sentence = item["sentence"]
-            target = item["group"]
-            gold_stance = item["stance"]
-            
-            hypotheses = {
-                "pos": f"The text is positive towards {target}.",
-                "neg": f"The text is negative towards {target}.",
-                "neutral": f"The text is neutral, or contains no stance, towards {target}."
-            }
-
-            for stance, hypothesis in hypotheses.items():
-                label_text = "entailment" if stance == gold_stance else "not_entailment"
-
-                encoding = tokenizer(
-                    sentence,
-                    hypothesis,
-                    truncation=True,
-                    padding="max_length",
-                    max_length=max_len,
-                    return_tensors="pt"
-                    )
-                self.dataset.append({
-                    "gold_stance": gold_stance,
-                    "input_ids": encoding["input_ids"].squeeze(0),
-                    "attention_mask": encoding["attention_mask"].squeeze(0),
-                    "label": label2id[label_text]
-                    })
-                
-
-    def __len__(self):
-        return len(self.dataset)
-
-    def __getitem__(self, idx):
-        return self.dataset[idx]
-
 
 # load training and validation data
 with open("01_data/training_validation_sets/stance/training_set.json", "r") as f:

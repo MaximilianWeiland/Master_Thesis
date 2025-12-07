@@ -831,3 +831,42 @@ def sentence_level_evaluation(all_true_tags, all_pred_tags):
     f1 = (2*precision*recall) / (precision + recall) if (precision + recall) > 0 else 0.00
 
     return {"precision": precision, "recall": recall, "f1": f1}
+
+def evaluate_nli_stance(model, data, tokenizer, device):
+    model.eval()
+    all_preds = []
+    all_labels = []
+
+    for item in data:
+        sentence = item["sentence"]
+        target = item["group"]
+        gold_stance = item["stance"]
+        
+        hypotheses = {
+            "pos": f"The text is positive towards {target}.",
+            "neg": f"The text is negative towards {target}.",
+            "neutral": f"The text is neutral, or contains no stance, towards {target}."
+            }
+
+        # Tokenize all 3 hypotheses as a batch
+        inputs = tokenizer(
+            [sentence]*3,
+            list(hypotheses.values()),
+            return_tensors="pt",
+            padding=True,
+            truncation=True
+            )
+        inputs = {k: v.to(device) for k, v in inputs.items()}
+
+        with torch.no_grad():
+            outputs = model(**inputs)
+            probs = torch.softmax(outputs.logits, dim=-1)
+            entail_probs = probs[:, 0].tolist() # 0 is the entailment index
+
+        # choose hypothesis with highest entailment probability
+        predicted_stance = list(hypotheses.keys())[entail_probs.index(max(entail_probs))]
+
+        all_labels.append(gold_stance)
+        all_preds.append(predicted_stance)
+
+    return all_labels, all_preds
