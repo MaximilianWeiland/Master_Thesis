@@ -76,7 +76,7 @@ def find_dictionary_matches(sentence, dictionary_regex):
 # BERT-Based Models for NER
 # ----------------------------------------------------------------------
 
-def __tokenization_labelling(text, entities, tokenizer, tag2id, max_len):
+def tokenization_labelling(text, entities, tokenizer, tag2id, max_len):
 
     # get the encoding of the sentence
     encoding = tokenizer(text, return_offsets_mapping=True, truncation=True,
@@ -134,7 +134,7 @@ class TokenDataset(Dataset):
             spans = task["annotations"]
 
             # tokenize and get all ids
-            input_ids, attention_mask, tag_ids, word_ids = __tokenization_labelling(text, spans, tokenizer, tag2id, self.max_len)
+            input_ids, attention_mask, tag_ids, word_ids = tokenization_labelling(text, spans, tokenizer, tag2id, self.max_len)
 
             # add everything to the dataset list
             self.dataset.append({
@@ -263,7 +263,9 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
     lr = params["lr"]
     weight_decay = params["weight_decay"]
     batch_size = params["batch_size"]
-    epochs = params["epochs"]
+
+    # run always for 10 epochs
+    epochs = 10
 
     # instantiate empty lists to save the development of losses and F1 score
     train_losses = []
@@ -296,7 +298,7 @@ def tune_bert_ner_optuna(train_dataset, val_dataset, collate_fn, model_name, tag
             tag_ids = batch["tag_ids"].to(device)
             optimizer.zero_grad()
 
-            with torch.autocast(device_type="mps", dtype=torch.float16):
+            with torch.autocast(device_type=device.type, dtype=torch.float16):
                 outputs = model(input_ids=input_ids, attention_mask=attention_masks, labels=tag_ids)
                 loss = outputs.loss
                 total_loss += loss.item()
@@ -421,7 +423,9 @@ def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id
     lr = params["lr"]
     weight_decay = params["weight_decay"]
     batch_size = params["batch_size"]
-    epochs = params["epochs"]
+
+    # set epochs to 10 for all trials
+    epochs = 10
 
     # instantiate empty lists to save the development of losses and F1 score
     train_losses = []
@@ -449,7 +453,7 @@ def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id
             labels = batch["label"].to(device)
             optimizer.zero_grad()
 
-            with torch.autocast(device_type="mps", dtype=torch.float16):
+            with torch.autocast(device_type=device.type, dtype=torch.float16):
                 outputs = model(input_ids=input_ids, attention_mask=attention_masks, labels=labels)
                 loss = outputs.loss
                 total_loss += loss.item()
@@ -479,7 +483,6 @@ def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id
         true_labels, pred_labels, val_loss = run_testset_stance(
             model=model, test_dataloader=val_dataloader, device=device
             )
-        val_losses.append(val_loss)
         metrics = sklearn_classification_report(
             [id2label[i] for i in true_labels],
             [id2label[i] for i in pred_labels],
@@ -545,7 +548,7 @@ def tune_bert_nli_stance_optuna(train_data_original, train_data_neu_aug, train_d
             labels = batch["label"].to(device)
             optimizer.zero_grad()
 
-            with torch.autocast(device_type="cuda", dtype=torch.float16):
+            with torch.autocast(device_type=device.type, dtype=torch.float16):
                 outputs = model(input_ids=input_ids, attention_mask=attention_masks, labels=labels)
                 loss = outputs.loss
                 total_loss += loss.item()

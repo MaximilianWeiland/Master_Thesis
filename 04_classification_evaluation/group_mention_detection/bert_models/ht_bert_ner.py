@@ -32,6 +32,7 @@ with open("01_data/training_validation_sets/ner/training_set.json", "r") as f:
 with open("01_data/training_validation_sets/ner/validation_set.json", "r") as f:
     val_data = json.load(f)
 
+
 # initialize tag dictionary
 tag_dict = {"O"}
 

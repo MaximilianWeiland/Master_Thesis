@@ -18,7 +18,7 @@ from sklearn.utils import resample
 project_root = Path(__file__).resolve().parents[3]
 sys.path.append(str(project_root))
 from utils.classification import (
-    StanceDataset, EarlyStopping, run_testset_stance, tune_bert_stance_optuna
+    StanceDataset, EarlyStopping, tune_bert_stance_optuna
 )
 
 # global settings to suppress unproblematic warning messages
