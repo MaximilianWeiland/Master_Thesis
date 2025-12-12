@@ -7,6 +7,7 @@ venv_thesis/
 04_classification_evaluation/evaluation_dataset_sizes/model_checkpoints/
 04_classification_evaluation/group_mention_detection/bert_models/model_checkpoints/
 04_classification_evaluation/stance_classification/bert_models/model_checkpoints/
+05_clustering/model_checkpoint/checkpoint.pt
 utils/__pycache__
 07_reports_presentations/feedback.docx
 08_literature/
