@@ -2,7 +2,6 @@
 import pandas as pd
 import gdown
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
-import random
 import re
 
 # specify if dataset should be downloaded locally or from Google Drive
