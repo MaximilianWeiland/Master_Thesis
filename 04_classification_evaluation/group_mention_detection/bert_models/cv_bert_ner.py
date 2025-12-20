@@ -1,5 +1,7 @@
 # libraries for data loading and system/path settings
 import json
+import torch
+import os
 import sys
 from pathlib import Path
 
@@ -9,8 +11,15 @@ sys.path.append(str(project_root))
 from utils.classification import TokenDataset, collate_bert_ner
 from utils.evaluation import cv_ner
 
-# load the training data
-with open("01_data/training_validation_sets/ner/training_set.json", "r") as f:
+# choose to only use one GPU and set the device
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+
+# load training and validation data
+data_root = Path("/dataHDD1/max_weiland")
+
+with open(data_root / "data/training_validation_sets/ner/training_set.json", "r") as f:
     data = json.load(f)
 
 # initialize tag dictionary
@@ -32,7 +41,7 @@ tag_to_id = {tag: i for i, tag in enumerate(tag_list)}
 id_to_tag = {id: label for label, id in tag_to_id.items()}
 
 # load the results from hyperparameter tuning
-with open("04_classification_evaluation/group_mention_detection/bert_models/hyperparameter_tuning_results/ht_bert_ner.json", "r") as f:
+with open(data_root / "ht_results/ht_bert_ner.json", "r") as f:
     hyperparameter_tuning_results = json.load(f)
 
 # set all model names
@@ -41,8 +50,8 @@ model_names = ["roberta-base", "bert-base-cased", "distilbert-base-cased", "micr
 # apply cross validation to all models with their best hyperparameters
 average_metrics = cv_ner(model_names=model_names, training_data=data, dataset_class=TokenDataset,
                          label2id=tag_to_id, id2label=id_to_tag, num_folds=5, optimal_configurations=hyperparameter_tuning_results,
-                         classification_task="ner", custom_collate_fn=collate_bert_ner, seed=3)
+                         custom_collate_fn=collate_bert_ner, device=device, seed=0)
 
 # export the cross-validation metrics
-with open("04_classification_evaluation/group_mention_detection/cross_val_results/evaluation_metrics_bert.json", "w") as f:
+with open(data_root / "cv_results/cv_metrics_bert_ner.json", "w") as f:
     json.dump(average_metrics, f, indent=4)

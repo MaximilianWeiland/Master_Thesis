@@ -1,5 +1,6 @@
 # libraries for data loading, manipulation and system/path settings
 import json
+import random
 import gc
 import warnings
 import os
@@ -24,12 +25,17 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 logging.set_verbosity_error()
 warnings.filterwarnings("ignore", message="The sentencepiece tokenizer")
 
+# choose to only use one GPU and set the device
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 
-# load the data
 # load training and validation data
-with open("01_data/training_validation_sets/ner/training_set.json", "r") as f:
+data_root = Path("/dataHDD1/max_weiland")
+
+with open(data_root / "data/training_validation_sets/ner/training_set.json", "r") as f:
     train_data = json.load(f)
-with open("01_data/training_validation_sets/ner/validation_set.json", "r") as f:
+with open(data_root / "data/training_validation_sets/ner/validation_set.json", "r") as f:
     val_data = json.load(f)
 
 
@@ -67,7 +73,7 @@ def objective(trial, model_name, train_dataset, val_dataset, collate_fn, tag2id,
     early_stopper = EarlyStopping(
         patience=3,
         save_model=False,
-        path="checkpoint.pt",
+        path=None,
         printoption=False
     )
 
@@ -99,7 +105,6 @@ optimal_configs = {}
 
 # number of trials, the device on which models should operate and the specific models to test
 num_trials = 20
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model_names = ["roberta-base", "bert-base-cased", "distilbert-base-cased", "microsoft/deberta-v3-base"]
 
 # loop over the models
@@ -111,7 +116,22 @@ for model_name in model_names:
     # create a new optuna study, tokenizer fitting to the model as well as train and validation set
     study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler())
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    train_dataset = TokenDataset(data=train_data, tokenizer=tokenizer, tag2id=tag_to_id, max_len=128)
+
+    # create datasets with augmentations added
+    augmented_train_data_generative = []
+    num_augmentations_to_add = int(len(train_data) * 0.25)
+    candidates_for_augmentation = random.sample(
+        train_data, k=min(num_augmentations_to_add, len(train_data)))
+    for original_item in candidates_for_augmentation:
+        if "augmentations" in original_item and len(original_item["augmentations"]) > 0:
+            aug_gen = original_item["augmentations"][-1]
+            augmented_train_data_generative.append({
+                "id": f"{original_item['id']}_aug_{aug_gen['method']}",
+                "sentence": aug_gen["sentence"],
+                "annotations": aug_gen["annotations"]
+            })
+    train_data_gen_augmentations = train_data + augmented_train_data_generative
+    train_dataset = TokenDataset(data=train_data_gen_augmentations, tokenizer=tokenizer, tag2id=tag_to_id, max_len=128)
     val_dataset = TokenDataset(data=val_data, tokenizer=tokenizer, tag2id=tag_to_id, max_len=128)
 
     # run the optimization loop
@@ -144,8 +164,8 @@ for model_name in model_names:
     gc.collect()
     torch.cuda.empty_cache()
 
-    print("-"*200)
+    # write results to output directory
+    with open(data_root / f"ht_results/ht_bert_ner.json", "w") as f:
+        json.dump(optimal_configs, f)
 
-# write results to output directory
-with open("04_classification_evaluation/group_mention_detection/bert_models/hyperparameter_tuning_results/ht_bert_ner.json", "w") as f:
-    json.dump(optimal_configs, f)
+    print("-"*50)

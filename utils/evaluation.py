@@ -8,6 +8,7 @@ from sklearn.metrics import classification_report as sklearn_classification_repo
 from sklearn.utils import resample
 from sklearn.model_selection import KFold, StratifiedKFold
 import gc
+import random
 
 
 # ----------------------------------------------------------------------
@@ -82,6 +83,8 @@ def run_testset_ner(model, test_dataloader, id2tag, device, for_metric):
         return all_true_tags, all_pred_tags, avg_loss
     elif for_metric == "cross_span":
         return all_true_spans, all_pred_spans, avg_loss
+    elif for_metric == "mention_detection":
+        return all_true_spans, all_pred_spans, avg_loss
     elif for_metric == "sentence_level":
         return all_true_tags, all_pred_tags, avg_loss
     
@@ -153,7 +156,7 @@ def evaluate_nli_stance(model, data, tokenizer, device):
 # Cross-Validation Loops
 # ----------------------------------------------------------------------
 
-def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_folds, optimal_configurations, custom_collate_fn, seed=3):
+def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_folds, optimal_configurations, custom_collate_fn, device, seed=3):
     
     from utils.classification import train_bert
 
@@ -170,6 +173,7 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
         fold_metrics = {
             "seqeval": [],
             "cross_span": [],
+            "mention_detection": [],
             "sentence_level": []
             }
        
@@ -196,13 +200,25 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
             val_fold_data = [training_data[i] for i in val_idx]
 
             # create tensor dataset and respective data loaders
-            train_dataset = dataset_class(train_fold_data, tokenizer, label2id, max_len=128)
+            augmented_train_data_generative = []
+            num_augmentations_to_add = int(len(train_fold_data) * 0.25)
+            candidates_for_augmentation = random.sample(
+                train_fold_data, k=min(num_augmentations_to_add, len(train_fold_data))
+                )
+            for original_item in candidates_for_augmentation:
+                if "augmentations" in original_item and len(original_item["augmentations"]) > 0:
+                    aug_gen = original_item["augmentations"][-1]
+                    augmented_train_data_generative.append({
+                        "id": f"{original_item['id']}_aug_{aug_gen['method']}",
+                        "sentence": aug_gen["sentence"],
+                        "annotations": aug_gen["annotations"]
+                    })
+            train_fold_data_gen_augmentations = train_fold_data + augmented_train_data_generative
+
+            train_dataset = dataset_class(train_fold_data_gen_augmentations, tokenizer, label2id, max_len=128)
             val_dataset = dataset_class(val_fold_data, tokenizer, label2id, max_len=128)
             train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=custom_collate_fn)
             val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, collate_fn=custom_collate_fn)
-
-            # set the device explicitly
-            device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
             # create the model and optimizer
             model = AutoModelForTokenClassification.from_pretrained(
@@ -304,7 +320,7 @@ def cv_ner(model_names, training_data, dataset_class, label2id, id2label, num_fo
     
     return average_metrics
 
-def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num_folds, optimal_configurations, seed=3):
+def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num_folds, optimal_configurations, device, seed=3):
     
     from utils.classification import train_bert
 
@@ -321,7 +337,8 @@ def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num
         fold_metrics = {
             "negative": [],
             "neutral": [],
-            "positive": []
+            "positive": [],
+            "macro": []
             }
        
         # get the optimal hyperparameters for this model
@@ -349,28 +366,22 @@ def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num
 
             # unpack validation data (augmentations are not needed)
             val_data = [task[0] for task in val_fold_data]
+            val_dataset = dataset_class(val_data, tokenizer, max_len=128, label2id=label2id)
 
             # get the original training data
             train_data_original = [task[0] for task in train_fold_data]
             train_dataset = dataset_class(train_data_original, tokenizer, max_len=128, label2id=label2id)
             
             # oversample all classes to a certain proportion and creare datasets
-            neu_ann = [r for r in train_fold_data if r[0]["stance"] == "neutral"]
             neg_ann = [r for r in train_fold_data if r[0]["stance"] == "neg"]
-            neu_extra = resample(neu_ann, replace=False, n_samples=int(len(neu_ann)*0.25), random_state=0)
             neg_extra = resample(neg_ann, replace=False, n_samples=int(len(neg_ann)*0.5), random_state=0)
-            train_data_neu_aug = [task[2] for task in neu_extra]
             train_data_neg_aug = [task[2] for task in neg_extra]
-            train_dataset_neu_aug = dataset_class(train_data_neu_aug, tokenizer, max_len=128, label2id=label2id)
             train_dataset_neg_aug = dataset_class(train_data_neg_aug, tokenizer, max_len=128, label2id=label2id)
-            train_dataset_balanced = ConcatDataset([train_dataset, train_dataset_neu_aug, train_dataset_neg_aug])
+            train_dataset_balanced = ConcatDataset([train_dataset, train_dataset_neg_aug])
 
             # create the data loaders
-            train_dataloader = DataLoader(train_dataset_balanced, batch_size=32, shuffle=True)
-            val_dataloader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
-
-            # set the device explicitly
-            device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+            train_dataloader = DataLoader(train_dataset_balanced, batch_size=batch_size, shuffle=True)
+            val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
 
             model = AutoModelForSequenceClassification.from_pretrained(
                 model_name,
@@ -382,7 +393,6 @@ def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num
 
             # train the model with the optimal configuration
             train_bert(train_dataloader, model, optimizer, epochs, device, which_task="stance")
-
             
             true_labels, pred_labels, _ = run_testset_stance(model=model, test_dataloader=val_dataloader, device=device)
             metrics = sklearn_classification_report(
@@ -402,15 +412,15 @@ def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num
                         "f1": f1}
 
             # update the fold metrics
-            fold_metrics["negative"].append(extract_fold_metrics(metrics, "negative"))
+            fold_metrics["negative"].append(extract_fold_metrics(metrics, "neg"))
             fold_metrics["neutral"].append(extract_fold_metrics(metrics, "neutral"))
-            fold_metrics["positive"].append(extract_fold_metrics(metrics, "positive"))
+            fold_metrics["positive"].append(extract_fold_metrics(metrics, "pos"))
             fold_metrics["macro"].append(extract_fold_metrics(metrics, "macro avg"))
 
             del model, optimizer
             gc.collect()
-            if device.type == "mps":
-                torch.mps.empty_cache()
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
 
 
         # helper function to calculate summary statistics
@@ -454,7 +464,7 @@ def cv_stance(model_names, training_data, dataset_class, label2id, id2label, num
     return average_metrics
 
 
-def cv_stance_nli(model_name, training_data, dataset_class, num_folds, optimal_configurations, seed=3):
+def cv_stance_nli(model_name, training_data, dataset_class, num_folds, optimal_configurations, device, seed=3):
     
     from utils.classification import train_bert
 
@@ -468,7 +478,8 @@ def cv_stance_nli(model_name, training_data, dataset_class, num_folds, optimal_c
     fold_metrics = {
         "negative": [],
         "neutral": [],
-        "positive": []
+        "positive": [],
+        "macro": []
         }
        
     # get the optimal hyperparameters for this model
@@ -507,21 +518,14 @@ def cv_stance_nli(model_name, training_data, dataset_class, num_folds, optimal_c
         train_dataset = dataset_class(train_data_original, tokenizer, max_len=128, label2id=label_to_id)
             
         # oversample minority classes to a certain proportion and creare datasets
-        neu_ann = [r for r in train_fold_data if r[0]["stance"] == "neutral"]
         neg_ann = [r for r in train_fold_data if r[0]["stance"] == "neg"]
-        neu_extra = resample(neu_ann, replace=False, n_samples=int(len(neu_ann)*0.25), random_state=0)
         neg_extra = resample(neg_ann, replace=False, n_samples=int(len(neg_ann)*0.5), random_state=0)
-        train_data_neu_aug = [task[2] for task in neu_extra]
         train_data_neg_aug = [task[2] for task in neg_extra]
-        train_dataset_neu_aug = dataset_class(train_data_neu_aug, tokenizer, max_len=128, label2id=label_to_id)
         train_dataset_neg_aug = dataset_class(train_data_neg_aug, tokenizer, max_len=128, label2id=label_to_id)
-        train_dataset_balanced = ConcatDataset([train_dataset, train_dataset_neu_aug, train_dataset_neg_aug])
+        train_dataset_balanced = ConcatDataset([train_dataset, train_dataset_neg_aug])
 
         # create the data loader
         train_dataloader = DataLoader(train_dataset_balanced, batch_size=batch_size, shuffle=True)
-    
-        # set the device explicitly
-        device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
         # train the model with the optimal configuration
         train_bert(train_dataloader, model, optimizer, epochs, device, which_task="stance")
@@ -541,17 +545,20 @@ def cv_stance_nli(model_name, training_data, dataset_class, num_folds, optimal_c
             return {"precision": precision,
                     "recall": recall,
                     "f1": f1}
+        
+
+        print(f"Current macro f1-score: {extract_fold_metrics(metrics, "macro avg")}")
 
         # update the fold metrics
-        fold_metrics["negative"].append(extract_fold_metrics(metrics, "negative"))
+        fold_metrics["negative"].append(extract_fold_metrics(metrics, "neg"))
         fold_metrics["neutral"].append(extract_fold_metrics(metrics, "neutral"))
-        fold_metrics["positive"].append(extract_fold_metrics(metrics, "positive"))
+        fold_metrics["positive"].append(extract_fold_metrics(metrics, "pos"))
         fold_metrics["macro"].append(extract_fold_metrics(metrics, "macro avg"))
 
         del model, optimizer
         gc.collect()
-        if device.type == "mps":
-            torch.mps.empty_cache()
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
 
 
     # helper function to calculate summary statistics

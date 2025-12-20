@@ -23,11 +23,16 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 logging.set_verbosity_error()
 warnings.filterwarnings("ignore", message="The sentencepiece tokenizer")
 
+# choose to only use one GPU and set the device
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 
 # load training and validation data
-with open("01_data/training_validation_sets/stance/training_set.json", "r") as f:
+data_root = Path("/dataHDD1/max_weiland")
+with open(data_root / "data/training_validation_sets/stance/training_set.json", "r") as f:
     train_data = json.load(f)
-with open("01_data/training_validation_sets/stance/validation_set.json", "r") as f:
+with open(data_root / "data/training_validation_sets/stance/validation_set.json", "r") as f:
     val_data = json.load(f)
 
 # oversample the minority classes
@@ -45,17 +50,15 @@ neg_ann = [r for r in train_data if r[0]["stance"] == "neg"]
 max_size = len(pos_ann)
 
 # resample indices for the minority classes
-neu_extra = resample(neu_ann, replace=False, n_samples=int(len(neu_ann)*0.25), random_state=0)
 neg_extra = resample(neg_ann, replace=False, n_samples=int(len(neg_ann)*0.5), random_state=0)
 
 # compile augmentation datasets
-train_data_neu_aug = [task[2] for task in neu_extra]
 train_data_neg_aug = [task[2] for task in neg_extra]
 
 # hyperparameter tuning with TPE implemented via Optuna
 
 # define the objective function whose output optuna tries to maximize
-def objective(trial, model_name, train_data_original, train_data_neu_aug, train_data_neg_aug, val_dataset, device):
+def objective(trial, model_name, train_data_original, train_data_neg_aug, val_dataset, device):
 
     # hyperparameter space in which optuna can search
     params = {
@@ -65,12 +68,11 @@ def objective(trial, model_name, train_data_original, train_data_neu_aug, train_
     }
 
     # define a fresh early stopper
-    early_stopper=EarlyStopping(patience=3, save_model=False, path="checkpoint.pt", printoption=False)
+    early_stopper=EarlyStopping(patience=3, save_model=False, path=None, printoption=False)
 
     # train the model with these hyperparameters
     best_f1, best_epoch, f1_scores_train, f1_scores_val = tune_bert_nli_stance_optuna(
         train_data_original=train_data_original,
-        train_data_neu_aug=train_data_neu_aug,
         train_data_neg_aug=train_data_neg_aug,
         val_dataset=val_dataset,
         model_name=model_name,
@@ -107,7 +109,6 @@ study.optimize(
     partial(objective,
             model_name=model_name,
             train_data_original=train_data_original,
-            train_data_neu_aug=train_data_neu_aug,
             train_data_neg_aug=train_data_neg_aug,
             val_dataset=val_data,
             device=device),
@@ -124,7 +125,6 @@ optimal_configs[model_name] = {
     "f1_scores_val": best_trial.user_attrs["f1_scores_val"]
 }
 
-# export the results
-with open("04_classification_evaluation/stance_classification/bert_nli/hyperparameter_tuning_results/ht_bert_nli_stance.json", "w") as f:
+# write results to output directory
+with open(data_root / f"ht_results/ht_bert_nli_stance.json", "w") as f:
     json.dump(optimal_configs, f)
-

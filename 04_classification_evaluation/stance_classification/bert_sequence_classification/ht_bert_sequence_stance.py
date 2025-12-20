@@ -26,10 +26,17 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 logging.set_verbosity_error()
 warnings.filterwarnings("ignore", message="The sentencepiece tokenizer")
 
+# choose to only use one GPU and set the device
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+
 # load training and validation data
-with open("01_data/training_validation_sets/stance/training_set.json", "r") as f:
+data_root = Path("/dataHDD1/max_weiland")
+
+with open(data_root / "data/training_validation_sets/stance/training_set.json", "r") as f:
     train_data = json.load(f)
-with open("01_data/training_validation_sets/stance/validation_set.json", "r") as f:
+with open(data_root / "data/training_validation_sets/stance/validation_set.json", "r") as f:
     val_data = json.load(f)
 
 # initialize dictionary for the sentiment classes
@@ -61,12 +68,10 @@ neg_ann = [r for r in train_data if r[0]["stance"] == "neg"]
 # get the number of positive stances (which is the maximum size)
 max_size = len(pos_ann)
 
-# resample indices for the minority classes
-neu_extra = resample(neu_ann, replace=False, n_samples=int(len(neu_ann)*0.25), random_state=0)
+# resample indices for the negative class
 neg_extra = resample(neg_ann, replace=False, n_samples=int(len(neg_ann)*0.5), random_state=0)
 
 # compile augmentation datasets
-train_data_neu_aug = [task[2] for task in neu_extra]
 train_data_neg_aug = [task[2] for task in neg_extra]
 
 # hyperparameter tuning with TPE implemented via Optuna
@@ -82,7 +87,7 @@ def objective(trial, model_name, train_dataset, val_dataset, label2id, id2label,
     }
 
     # define a fresh early stopper
-    early_stopper=EarlyStopping(patience=3, save_model=False, path="checkpoint.pt", printoption=False)
+    early_stopper=EarlyStopping(patience=3, save_model=False, path=None, printoption=False)
 
     # train the model with these hyperparameters
     best_f1, best_epoch, train_losses, val_losses, f1_scores_train, f1_scores_val = tune_bert_stance_optuna(
@@ -126,9 +131,8 @@ for model_name in model_names:
 
     # create datasets with oversampled data
     train_dataset = StanceDataset(train_data_original, tokenizer, label_to_id, max_len=128)
-    train_dataset_neu_aug = StanceDataset(train_data_neu_aug, tokenizer, label2id=label_to_id, max_len=128)
     train_dataset_neg_aug = StanceDataset(train_data_neg_aug, tokenizer, label2id=label_to_id, max_len=128)
-    train_dataset = ConcatDataset([train_dataset, train_dataset_neu_aug, train_dataset_neg_aug])
+    train_dataset = ConcatDataset([train_dataset, train_dataset_neg_aug])
     val_dataset = StanceDataset(data=val_data, tokenizer=tokenizer, label2id=label_to_id, max_len=128)
 
     # run the optimization loop
@@ -160,8 +164,8 @@ for model_name in model_names:
     gc.collect()
     torch.cuda.empty_cache()
 
-    print("-"*50)
+    # write results to output directory
+    with open(data_root / f"ht_results/ht_bert_sequence_stance.json", "w") as f:
+        json.dump(optimal_configs, f)
 
-# export the results
-with open("04_classification_evaluation/stance_classification/bert_sequence/hyperparameter_tuning_results/ht_bert_sequence_stance.json", "w") as f:
-    json.dump(optimal_configs, f)
+    print("-"*50)

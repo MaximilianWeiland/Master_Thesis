@@ -503,7 +503,7 @@ def tune_bert_stance_optuna(train_dataset, val_dataset, model_name, label2id, id
     return early_stopper.best_f1, early_stopper.best_epoch, train_losses, val_losses, f1_scores_train, f1_scores_val
 
 
-def tune_bert_nli_stance_optuna(train_data_original, train_data_neu_aug, train_data_neg_aug, val_dataset, model_name, device, early_stopper, params):
+def tune_bert_nli_stance_optuna(train_data_original, train_data_neg_aug, val_dataset, model_name, device, early_stopper, params):
     
     print(f"\nTrial with params: {params}")
 
@@ -529,9 +529,8 @@ def tune_bert_nli_stance_optuna(train_data_original, train_data_neu_aug, train_d
 
     # create datasets with oversampled data
     train_dataset = StanceNLIDataset(train_data_original, tokenizer, max_len=128, label2id=label_to_id)
-    train_dataset_neu_aug = StanceNLIDataset(train_data_neu_aug, tokenizer, max_len=128, label2id=label_to_id)
     train_dataset_neg_aug = StanceNLIDataset(train_data_neg_aug, tokenizer, max_len=128, label2id=label_to_id)
-    train_dataset = ConcatDataset([train_dataset, train_dataset_neu_aug, train_dataset_neg_aug])
+    train_dataset = ConcatDataset([train_dataset, train_dataset_neg_aug])
     
     # create new data loader for this trial
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
