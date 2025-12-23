@@ -99,7 +99,7 @@ def add_special_characters(original_sentence, llm_list):
 # initialize empty dataset list
 training_data = []
 
-with open("01_data/training_validation_sets/ner/training_set.json", "r") as f:
+with open("01_data/classification/training_validation_sets/ner/training_set.json", "r") as f:
     raw_training_data = json.load(f)
 
 # loop through all sentences in the data

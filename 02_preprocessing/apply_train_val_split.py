@@ -3,17 +3,17 @@ import json
 from sklearn.model_selection import train_test_split
 
 # load the data
-with open("01_data/annotations/annotations_augmentations.json", "r") as f:
+with open("01_data/classification/annotations/annotations_augmentations.json", "r") as f:
     data = json.load(f)
 
 # split the data into a training and a validation set for ner
 train_data, val_data = train_test_split(data, test_size=0.2, shuffle=True, random_state=7)
 
 # export both the training and the validation set to respective data folder
-with open("01_data/training_validation_sets/ner/training_set.json", "w") as f:
+with open("01_data/classification/training_validation_sets/ner/training_set.json", "w") as f:
     json.dump(train_data, f)
 
-with open("01_data/training_validation_sets/ner/validation_set.json", "w") as f:
+with open("01_data/classification/training_validation_sets/ner/validation_set.json", "w") as f:
     json.dump(val_data, f)
 
 
@@ -64,10 +64,10 @@ train_bound, val_bound = train_test_split(
 )
 
 # export both training and validation set to respective folder
-with open("01_data/training_validation_sets/stance/training_set.json", "w") as f:
+with open("01_data/classification/training_validation_sets/stance/training_set.json", "w") as f:
     json.dump(train_bound, f)
 
-with open("01_data/training_validation_sets/stance/validation_set.json", "w") as f:
+with open("01_data/classification/training_validation_sets/stance/validation_set.json", "w") as f:
     json.dump(val_bound, f)
 
 

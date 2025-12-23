@@ -15,11 +15,11 @@ from utils.evaluation import extract_spans, evaluate_seqeval, cross_span_evaluat
 from sklearn.model_selection import KFold
 
 # import the annotations
-with open("01_data/training_validation_sets/ner/training_set.json", "r") as f:
+with open("01_data/classification/training_validation_sets/ner/training_set.json", "r") as f:
     data = json.load(f)
 
 # import the dictionary
-group_dictionary_df = pd.read_csv("01_data/dictionary/groups_dictionary.csv")
+group_dictionary_df = pd.read_csv("01_data/classification/dictionary/groups_dictionary.csv")
 
 # add bio tags to the dataset
 for task in data:

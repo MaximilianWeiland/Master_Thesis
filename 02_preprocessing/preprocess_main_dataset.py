@@ -133,12 +133,12 @@ if download_location == "drive":
     url = f"https://drive.google.com/uc?id={file_id}&export=download"
     output = "../01_data/parlspeech_dataset.csv"
     gdown.download(url, output, quiet=False)
-    parlspeech_df = pd.read_csv("../01_data/main_dataset/parlspeech_dataset.csv")
+    parlspeech_df = pd.read_csv("../01_data/raw_datasets/parlspeech_dataset.csv")
 elif download_location == "local":
-    parlspeech_df = pd.read_csv("../01_data/main_dataset/parlspeech_dataset.csv")
+    parlspeech_df = pd.read_csv("../01_data/raw_datasets/parlspeech_dataset.csv")
 
 # load the dictionary from local folder
-group_dictionary_df = pd.read_csv("../01_data/dictionary/groups_dictionary.csv")
+group_dictionary_df = pd.read_csv("../01_data/classification/dictionary/groups_dictionary.csv")
 
 
 
@@ -173,7 +173,7 @@ parliamentary_questions_df['clean_text'] = parliamentary_questions_df['text'].ap
 parliamentary_questions_df['sentences'] = parliamentary_questions_df['clean_text'].apply(split_sentences)
 
 # export the df as a csv
-parliamentary_questions_df.to_csv("../01_data/parliamentary_questions_df.csv", index=False)
+parliamentary_questions_df.to_csv("../01_data/raw_datasets/parliamentary_questions_df.csv", index=False)
 
 # get all individual sentences
 sentences_df = parliamentary_questions_df.explode('sentences').reset_index(drop=True)
@@ -202,5 +202,5 @@ sample_annotations = pd.concat([sample_matched, sample_unmatched]).sample(frac=1
 print(f"Total number of sampled sentences: {len(sample_annotations)}")
 
 # export as a csv file
-sample_annotations["sentence"].to_csv("../01_data/sample_annotations.csv", index=False)
+sample_annotations["sentence"].to_csv("../01_data/classification/sample_annotations.csv", index=False)
 

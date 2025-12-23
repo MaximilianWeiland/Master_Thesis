@@ -18,7 +18,7 @@ sys.path.append(str(project_root))
 # initialize empty dataset list
 training_data = []
 
-with open("01_data/training_validation_sets/stance/training_set.json", "r") as f:
+with open("01_data/classification/training_validation_sets/stance/training_set.json", "r") as f:
     raw_training_data = json.load(f)
 
 # extract only the original sentence without any augmentations

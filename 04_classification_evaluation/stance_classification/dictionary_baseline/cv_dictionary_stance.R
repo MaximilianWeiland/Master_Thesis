@@ -7,7 +7,7 @@ library(stringr)
 library(caret)
 
 # import training dataset
-file_path <- here("01_data", "training_validation_sets", "stance", "training_set.json")
+file_path <- here("01_data", "classification", "training_validation_sets", "stance", "training_set.json")
 data <- fromJSON(file=file_path)
 
 # import optimal configs

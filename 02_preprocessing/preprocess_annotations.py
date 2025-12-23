@@ -4,8 +4,8 @@ import os
 
 # set input and output path explicitly
 script_dir = os.path.dirname(os.path.abspath(__file__))
-input_path = os.path.join(script_dir, "../01_data/annotations/annotations_labelstudio_export.json")
-output_path = os.path.join(script_dir, "../01_data/annotations/annotations_no_augmentations.json")
+input_path = os.path.join(script_dir, "../01_data/classification/annotations/annotations_labelstudio_export.json")
+output_path = os.path.join(script_dir, "../01_data/classification/annotations/annotations_no_augmentations.json")
 
 # load the data
 with open(input_path, "r") as f:

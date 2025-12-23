@@ -7,7 +7,7 @@ library(stringr)
 library(caret)
 
 # import validation dataset
-file_path <- here("01_data", "training_validation_sets", "stance", "validation_set.json")
+file_path <- here("01_data", "classification", "training_validation_sets", "stance", "validation_set.json")
 data <- fromJSON(file=file_path)
 
 # turn the data into a df
