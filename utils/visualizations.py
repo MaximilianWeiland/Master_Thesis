@@ -1,10 +1,9 @@
-# import all necessary libraries
 import matplotlib.pyplot as plt
 
 # function to plot losses and f1 scores of training and validation phase
 def plot_losses_f1(model_names, optimal_configurations):
     # as many rows as models and 2 columns for loss and f1
-    fig, axes = plt.subplots(len(model_names), 2, figsize=(12, 4 * len(model_names)))
+    _, axes = plt.subplots(len(model_names), 2, figsize=(12, 4 * len(model_names)))
 
     # loop over the models
     for i, model_name in enumerate(model_names):

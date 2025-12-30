@@ -21,7 +21,6 @@ data_root = Path("/dataHDD1/max_weiland")
 with open(data_root / "data/training_validation_sets/stance/training_set.json", "r") as f:
     data = json.load(f)
 
-
 # load the results from hyperparameter tuning
 with open(data_root / "ht_results/ht_bert_nli_stance.json", "r") as f:
     hyperparameter_tuning_results = json.load(f)

@@ -53,7 +53,6 @@ label_list = sorted(sent_dict)
 label_to_id = {tag: i for i, tag in enumerate(label_list)}
 id_to_label = {id: label for label, id in label_to_id.items()}
 
-
 # oversample the minority class
 
 # unpack original training and validation data

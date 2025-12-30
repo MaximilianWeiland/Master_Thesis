@@ -3,6 +3,14 @@ import pandas as pd
 import requests
 import wikipediaapi
 from dateutil.relativedelta import relativedelta
+from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
+from pathlib import Path
+import sys
+
+project_root = Path(__file__).resolve().parents[1]
+sys.path.append(str(project_root))
+
+from utils.preprocessing import clean_text, split_sentences
 
 # load the main parlspeech dataset
 parlspeech_df = pd.read_csv("../01_data/raw_datasets/parlspeech_dataset.csv")
@@ -28,6 +36,13 @@ research_period_df = research_period_df[research_period_df["chair"] != True]
 
 # remove all speeches where speaker is not assigned a party
 research_period_df.dropna(subset=["party"], inplace=True)
+
+# clean the text column
+punkt_param = PunktParameters()
+abbreviations = ['hon', 'mr', 'mrs', 'dr', 'ms', 'sir', 'prof']
+punkt_param.abbrev_types = set(abbreviations)
+tokenizer = PunktSentenceTokenizer(punkt_param)
+research_period_df['text'] = research_period_df['text'].apply(clean_text)
 
 # cut the df into sub dfs for each distinct period
 first_period = research_period_df[research_period_df["date"] < election_dates[1]]
@@ -364,11 +379,27 @@ first_period_merged = first_period_merged.loc[:, cols_to_keep]
 second_period_merged = second_period_merged.loc[:, cols_to_keep]
 third_period_merged = third_period_merged.loc[:, cols_to_keep]
 
-# export the dataframes
+# concatenate all sub dataframes
 final_df = pd.concat(
     [first_period_merged, second_period_merged, third_period_merged],
     axis=0,
     ignore_index=True
 )
 
-final_df.to_csv("../01_data/empirical_analysis/main_datasets/parlspeech_research_period.csv", index=False)
+# create an id variable
+final_df["speech_id"] = final_df.index
+
+# export the df
+final_df.to_csv("../01_data/empirical_analysis/main_speech_datasets/researchperiod_speechlevel.csv", index=False)
+
+# split into individual sentences and export this version as well
+final_df['sentences'] = final_df['text'].apply(lambda x: split_sentences(x, tokenizer))
+sentences_df = final_df.explode('sentences').reset_index(drop=True)
+sentences_df = sentences_df.rename(columns={'sentences': 'sentence'})
+
+# correct column order
+col_order = ["date", "agenda", "text", "sentence", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
+sentences_df = sentences_df.loc[:, col_order]
+
+# export the sentences df
+sentences_df.to_csv("../01_data/empirical_analysis/main_speech_datasets/researchperiod_sentencelevel.csv", index=False)
