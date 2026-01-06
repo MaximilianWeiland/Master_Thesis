@@ -2,10 +2,10 @@
 .Rhistory
 .env
 venv_thesis/
-01_data/raw_speech_data/parlspeech_dataset.csv
+01_data/raw_speech_data/
 01_data/empirical_analysis/main_speech_datasets/
 04_classification_evaluation/final_model_application/final_models/
-05_clustering/model_checkpoint/checkpoint.pt
-utils/__pycache__
+05_clustering/model_checkpoint/
 07_reports_presentations/feedback.docx
 08_literature/
+utils/__pycache__

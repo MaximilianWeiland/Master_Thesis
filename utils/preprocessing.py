@@ -2,7 +2,7 @@ import pandas as pd
 import re
 from typing import List, Tuple, Any
 
-def create_regex_pattern(dictionary_df: pd.DataFrame) -> str:
+def create_regex_pattern(dictionary_df: pd.DataFrame) -> re.Pattern:
     """
     Creates a combined regular expression pattern from a dictionary DataFrame.
 
@@ -19,7 +19,7 @@ def create_regex_pattern(dictionary_df: pd.DataFrame) -> str:
         dictionary_df (pd.DataFrame): DataFrame containing dictionary patterns.
 
     Returns:
-        str: A combined regular expression pattern matching all dictionary entries.
+        re.Pattern: A combined regular expression pattern matching all dictionary entries.
     """
     # get all patterns in the dictionary to look for
     patterns: List[str] = [word for col in dictionary_df.columns for word in dictionary_df[col] if pd.notna(word)]

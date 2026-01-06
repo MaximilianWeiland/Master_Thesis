@@ -46,6 +46,9 @@ class DatasetMaskHN(Dataset):
         """
         anchor_text, positive_text, category = self.data[idx]
 
+        anchor_text = f"Social group of {anchor_text} is: {self.tokenizer.mask_token}."
+        positive_text = f"Social group of {positive_text} is: {self.tokenizer.mask_token}."
+
         anchor_enc = self.tokenizer(
             anchor_text,
             padding='max_length',
@@ -88,8 +91,8 @@ class ModelMask(nn.Module):
     def __init__(
             self,
             tokenizer: Any,
-            pretrained_model_name: str='bert-base-uncased',
-            proj_dim: int=128
+            pretrained_model_name: str = 'bert-base-uncased',
+            proj_dim: int =  128
     ) -> None:
         """
         Initialization of the class object.
@@ -302,7 +305,7 @@ def train_triplet_mask_hard(
         _, pos_emb = model.encode(positive_input_ids, positive_attention_mask)
 
         # mine hard negatives within batch
-        neg_indices: List[int] = mine_batch_hard_negatives(anchor_emb, pos_emb, labels)
+        neg_indices: List[int] = mine_batch_hard_negatives(anchor_emb, labels)
 
         # select negative embeddings using mined indices
         neg_input_ids = anchor_input_ids[neg_indices]
@@ -318,3 +321,62 @@ def train_triplet_mask_hard(
         total_loss += loss.item()
 
     return total_loss / len(dataloader)
+
+def get_mask_embedding(
+        model: nn.Module,
+        mentions: List[str],
+        tokenizer: Any,
+        device: torch.device,
+        max_len: int = 32,
+        batch_size: int = 32
+) -> Tensor:
+    """
+    Forwards social group mentions through a BERT-based encoder model which got
+    finetuned via contrastive learning. Feeds the mentions as MASK prediction
+    tasks through the model. Then, extracts the MASK embeddings which got futher
+    encoded through a linear layer and returns them as a PyTorch Tensor object.
+
+    Args:
+        model (nn.Module): BERT encoder model.
+        mentions (List[str]): List of social group mentions.
+        tokenizer (Any): BERT-compatible tokenizer.
+        device (torch.device): Device (cuda/mps/cpu) the model should work on.
+        max_len (int): Maximum sequence length the model will process.
+        batch_size (int): Number of mentions that should be simultaneously processed.
+
+    Returns:
+        Tensor: All encoded mention embeddings as a PyTorch Tensor.
+    """
+    # set model to evaluation mode
+    model.eval()
+
+    # set empty list to store embeddings in and set the mask variable
+    all_embeddings = []
+    mask_token = tokenizer.mask_token
+
+    # without computing the gradient
+    with torch.no_grad():
+        # loop over batches
+        for start in range(0, len(mentions), batch_size):
+            # prepare social group mentions as MASK prediction task
+            batch_mentions = mentions[start:start+batch_size]
+            batch_texts = []
+            for m in batch_mentions:
+                text = f"Social group of {m} is: {mask_token}."
+                batch_texts.append(text)
+            # tokenize all inputs and move to device
+            enc = tokenizer(
+                batch_texts,
+                padding='max_length',
+                truncation=True,
+                max_length=max_len,
+                return_tensors='pt'
+            )
+            input_ids = enc['input_ids'].to(device)
+            attention_mask = enc['attention_mask'].to(device)
+            # feed through the model which automatically returns MASK embedding
+            h, z = model.encode(input_ids, attention_mask)
+            # append to list
+            all_embeddings.append(z.cpu())
+
+    return torch.cat(all_embeddings, dim=0)
