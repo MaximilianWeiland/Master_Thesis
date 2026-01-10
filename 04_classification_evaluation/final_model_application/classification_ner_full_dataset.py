@@ -24,11 +24,11 @@ print(device)
 data_root = Path("/dataHDD1/max_weiland")
 
 # load the cross-validated evaluation results
-with open(data_root / "../group_mention_detection/cross_val_results/evaluation_metrics_bert_ner.json", "r") as f:
+with open(data_root / "04_classification_evaluation/group_mention_detection/cross_val_results/evaluation_metrics_bert_ner.json", "r") as f:
     eval_bert = json.load(f)
-with open(data_root / "../group_mention_detection/cross_val_results/evaluation_metrics_dictionary_ner.json", "r") as f:
+with open(data_root / "04_classification_evaluation/group_mention_detection/cross_val_results/evaluation_metrics_dictionary_ner.json", "r") as f:
     eval_dictionary = json.load(f)
-with open(data_root / "../group_mention_detection/cross_val_results/evaluation_metrics_gen_llm_ner.json", "r") as f:
+with open(data_root / "04_classification_evaluation/group_mention_detection/cross_val_results/evaluation_metrics_gen_llm_ner.json", "r") as f:
     eval_gen_llm = json.load(f)
 
 # load training set
@@ -92,7 +92,7 @@ tag_to_id = {tag: i for i, tag in enumerate(tag_list)}
 id_to_tag = {id: label for label, id in tag_to_id.items()}
 
 # load hyperparameter tuning results for the best model
-with open(data_root / "../group_mention_detection/bert_models/hyperparameter_tuning_results/ht_bert_ner.json", "r") as f:
+with open(data_root / "04_classification_evaluation/group_mention_detection/bert_models/hyperparameter_tuning_results/ht_bert_ner.json", "r") as f:
     ht_results = json.load(f)
 
 # extract the optimal hyperparameter combination
@@ -215,13 +215,31 @@ with torch.no_grad():
         for preds, sent_word_ids, offsets in zip(predictions, word_ids, offset_mappings):
             pred_np_array = preds.cpu().numpy()
             word_tags, _ = labels_to_wordlevel_tags(pred_np_array, id_to_tag, sent_word_ids)
+            
             word_offsets = []
             prev_word_id = None
+            start_offset = None
+
             for off, wid in zip(offsets, sent_word_ids):
-                if wid is None or wid == prev_word_id:
+                if wid is None:
                     continue
-                word_offsets.append(off)
-                prev_word_id = wid
+
+                if wid != prev_word_id:
+                    # finalize previous word
+                    if start_offset is not None:
+                        word_offsets.append((start_offset, prev_end_offset))
+
+                    # start new word
+                    start_offset = off[0]
+                    prev_word_id = wid
+
+                # always update end offset
+                prev_end_offset = off[1]
+
+            # finalize last word
+            if start_offset is not None:
+                word_offsets.append((start_offset, prev_end_offset))
+
             spans = bio_tags_to_spans(word_tags, word_offsets)
             all_results.append(spans)
 
@@ -234,8 +252,8 @@ for spans, text in zip(all_results, sentence_level_df["sentence"]):
 sentence_level_df["sg_spans"] = all_text_spans
 
 # reorder the columns
-cols_order = ["date", "agenda", "text", "sentence", "sg_spans", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
+cols_order = ["date", "days_until_election", "agenda", "text", "sentence", "sg_spans", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
 sentence_level_df = sentence_level_df.loc[:, cols_order]
 
 # export the df
-sentence_level_df.to_csv(data_root / "data//main_speech_datasets/researchperiod_sentencelevel_socialgroups.csv", index=False)
+sentence_level_df.to_csv(data_root / "data/main_speech_datasets/researchperiod_sentencelevel_socialgroups.csv", index=False)

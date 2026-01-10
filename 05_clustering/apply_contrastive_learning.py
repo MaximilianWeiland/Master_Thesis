@@ -1,4 +1,3 @@
-# load required libraries
 import pandas as pd
 import sys
 from transformers import AutoTokenizer

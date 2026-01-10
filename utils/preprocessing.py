@@ -1,6 +1,6 @@
 import pandas as pd
 import re
-from typing import List, Tuple, Any
+from typing import List, Dict, Tuple, Any
 
 def create_regex_pattern(dictionary_df: pd.DataFrame) -> re.Pattern:
     """
@@ -27,7 +27,7 @@ def create_regex_pattern(dictionary_df: pd.DataFrame) -> re.Pattern:
     # initialize empty list to store the regex patterns
     regex_patterns: List[str] = []
 
-    # loop through all patterns
+    # loop over all patterns
     for pat in patterns:
 
         # split pattern into words by spaces
@@ -63,6 +63,126 @@ def create_regex_pattern(dictionary_df: pd.DataFrame) -> re.Pattern:
     combined_regex: str = "|".join(regex_patterns)
 
     return combined_regex
+
+def __normalize_group_name(name: str) -> str:
+    """
+    Helper function that normalizes the name a social group so that it can be stored
+    as a category within the regular expression pattern.
+
+    Args:
+        name (str): Name of the social group
+
+    Returns:
+        str: Normalized name of the social group by removing whitespaces and replacing with underscore
+    """
+    # get rid of leading and trailing whitespaces
+    name: str = name.strip()
+
+    # replace whitespaces with underscore
+    name: str = re.sub(r'\W+', '_', name)
+
+    # handle names consisting of digits
+    if name[0].isdigit():
+        name = f"cat_{name}"
+
+    return name
+
+def create_category_regex(dictionary_df: pd.DataFrame) -> re.Pattern:
+    """
+    Creates a combined regular expression pattern from a dictionary DataFrame.
+    Stores additionally the group name of each dictionary entry.
+
+    Each cell in the DataFrame is treated as a pattern. Patterns may contain
+    asterisks (*) to indicate wildcards:
+    - '*' as a standalone token matches any single word
+    - '*word' matches any prefix ending in 'word'
+    - 'word*' matches any suffix starting with 'word'
+
+    Tokens within a pattern are matched with flexible whitespace, and all
+    patterns are combined using a logical OR.
+
+    Args:
+        dictionary_df (pd.DataFrame): DataFrame containing dictionary patterns.
+
+    Returns:
+        re.Pattern: A combined regular expression pattern matching all dictionary entries.
+    """
+    # empty list to store all individual patterns in
+    category_patterns: List[str] = []
+
+    # dictionary to map safe group name to original category name
+    group_to_category: Dict[str, str] = {}
+
+    # loop over all dictionary categories
+    for category in dictionary_df.columns:
+
+        # normalize group name and append to dictionary
+        safe_name: str = __normalize_group_name(category)
+        group_to_category[safe_name] = category
+        # get all valid patterns
+        patterns = dictionary_df[category].dropna()
+        # empty list to store patterns for this category
+        regex_patterns = []
+
+        # loop over all patterns within the category
+        for pat in patterns:
+
+            # split into indvidual words/tokens
+            tokens: str = pat.split()
+            regex_parts: List[str] = []
+
+            # loop over all tokens and append regular expression to list
+            for token in tokens:
+                if token == '*':
+                    regex_parts.append(r'\w+')
+                elif token.startswith('*') and len(token) > 1:
+                    word = token[1:]
+                    regex_parts.append(rf'\w*{re.escape(word)}')
+                elif token.endswith('*') and len(token) > 1:
+                    word = token[:-1]
+                    regex_parts.append(rf'{re.escape(word)}\w*')
+                else:
+                    regex_parts.append(re.escape(token))
+
+            # combine all regex parts for the single pattern and append
+            regex_patterns.append(
+                r'\b' + r'\s+'.join(regex_parts) + r'\b'
+            )
+
+        # append all category patterns to the general list
+        if regex_patterns:
+            category_patterns.append(
+                f"(?P<{safe_name}>{'|'.join(regex_patterns)})"
+            )
+
+    # combine all patterns across categories to a single regex
+    combined: str = "|".join(category_patterns)
+
+    return re.compile(combined, flags=re.IGNORECASE), group_to_category
+
+def match_dictionary(
+        category_regex: str,
+        group_lookup: Dict[str, str],
+        text: str
+) -> Tuple[bool, str]:
+    """
+    Applies regular expression to a text string.
+    Returns if it found a match and if so the corresponding social group.
+
+    Args:
+        category_regex (str): Regular expression with social group search terms
+        group_lookup (Dict[str, str]): Dictionary mapping safe social group names to the original ones
+        text (str): The text string to search in
+
+    Returns:
+        Tuple[bool, str]:
+            - Boolean indicating if there is a match
+            - Actual social group name if there is a match, None otherwise
+    """
+    m = category_regex.search(text)
+    if not m:
+        return False, None
+    return True, group_lookup[m.lastgroup]
 
 def clean_text(text: str) -> str:
     """

@@ -389,6 +389,17 @@ final_df = pd.concat(
 # create an id variable
 final_df["speech_id"] = final_df.index
 
+# add days until election variable
+
+# for each speech search for the next election
+idx = election_dates.searchsorted(final_df["date"], side="right")
+
+# count days until this election and add as a variable
+final_df["days_until_election"] = [
+    (election_dates[i] - d).days if i < len(election_dates) else None
+    for d, i in zip(final_df["date"], idx)
+]
+
 # export the df
 final_df.to_csv("../01_data/empirical_analysis/main_speech_datasets/researchperiod_speechlevel.csv", index=False)
 
@@ -398,7 +409,7 @@ sentences_df = final_df.explode('sentences').reset_index(drop=True)
 sentences_df = sentences_df.rename(columns={'sentences': 'sentence'})
 
 # correct column order
-col_order = ["date", "agenda", "text", "sentence", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
+col_order = ["date", "days_until_election", "agenda", "text", "sentence", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
 sentences_df = sentences_df.loc[:, col_order]
 
 # export the sentences df

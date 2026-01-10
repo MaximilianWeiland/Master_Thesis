@@ -21,22 +21,24 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 
+data_root = Path("/dataHDD1/max_weiland")
+
 # load the cross-validated evaluation results
-with open("../stance_classification/cross_val_results/evaluation_metrics_bert_stance_nli.json", "r") as f:
+with open("04_classification_evaluation/stance_classification/cross_val_results/evaluation_metrics_bert_stance_nli.json", "r") as f:
     eval_bert_nli = json.load(f)
-with open("../stance_classification/cross_val_results/evaluation_metrics_bert_stance_sequence.json", "r") as f:
+with open("04_classification_evaluation/stance_classification/cross_val_results/evaluation_metrics_bert_stance_sequence.json", "r") as f:
     eval_bert_sequence = json.load(f)
-with open("../stance_classification/cross_val_results/evaluation_metrics_dictionary_stance.json", "r") as f:
+with open("04_classification_evaluation/stance_classification/cross_val_results/evaluation_metrics_dictionary_stance.json", "r") as f:
     eval_dictionary = json.load(f)
-with open("../stance_classification/cross_val_results/evaluation_metrics_gen_llm_stance.json", "r") as f:
+with open("04_classification_evaluation/stance_classification/cross_val_results/evaluation_metrics_gen_llm_stance.json", "r") as f:
     eval_gen_llm = json.load(f)
 
 # load training set
-with open("../../01_data/classification/training_validation_sets/stance/training_set.json", "r") as f:
+with open(data_root / "data/training_validation_sets/stance/training_set.json", "r") as f:
     training_set = json.load(f)
 
 # load sentence-level dataset with social groups already extracted
-sentence_level_df = pd.read_csv("../../01_data/empirical_analysis/main_speech_datasets/researchperiod_sentencelevel_socialgroups.csv")
+sentence_level_df = pd.read_csv(data_root / "data/speech_datasets/researchperiod_sentencelevel_socialgroups.csv")
 
 # convert string lists to actual lists
 sentence_level_df["sg_spans"] = sentence_level_df["sg_spans"].apply(ast.literal_eval)
@@ -70,9 +72,8 @@ for method in all_methods:
 print(f"Best method according to macro f1 score: {best_performing_method}")
 
 # load hyperparameter tuning results
-with open("../stance_classification/bert_nli/hyperparameter_tuning_results/ht_bert_nli_stance.json", "r") as f:
+with open(project_root / "04_classification_evaluation/stance_classification/bert_nli/hyperparameter_tuning_results/ht_bert_nli_stance.json", "r") as f:
     ht_results = json.load(f)
-
 
 # get the optimal hyperparameters for this model
 epochs = ht_results[best_performing_method]["best_epoch"]
@@ -107,7 +108,7 @@ train_dataloader = DataLoader(train_dataset_balanced, batch_size=batch_size, shu
 train_bert(train_dataloader, model, optimizer, epochs, device, which_task="stance")
 
 # save the model
-torch.save(model.state_dict(), "final_models/stance_classification_model.pt")
+torch.save(model.state_dict(), data_root / "final_models/stance_classification_model.pt")
 
 model.eval()
 all_preds = []
@@ -157,8 +158,8 @@ for idx, row in sentence_level_df.iterrows():
 sentence_level_df["stances"] = all_preds
 
 # reorder the columns
-cols_reorder = ["date", "agenda", "text", "sentence", "sg_spans", "stances", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
+cols_reorder = ["date", "days_until_election", "agenda", "text", "sentence", "sg_spans", "stances", "speech_id", "speechnumber", "speaker", "party", "chair", "age", "gender", "birth_date", "vulnerability", "backbencher", "constituency_name", "ons_id", "under_30", "over_65"]
 sentence_level_df = sentence_level_df.loc[:, cols_reorder]
 
 # export the df
-sentence_level_df.to_csv("../../01_data/empirical_analysis/main_speech_datasets/researchperiod_sentencelevel_socialgroups_stances.csv", index=False)
+sentence_level_df.to_csv(data_root / "data/speech_datasets/researchperiod_sentencelevel_socialgroups_stances.csv", index=False)
