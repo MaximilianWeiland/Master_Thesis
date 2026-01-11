@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoModel
 import torch
@@ -380,3 +381,29 @@ def get_mask_embedding(
             all_embeddings.append(z.cpu())
 
     return torch.cat(all_embeddings, dim=0)
+
+def find_opt_k(ks, silhouette_scores, nmi_scores, tolerance):
+    silhouette_scores_array = np.array(silhouette_scores)
+    silhouette_threshold = tolerance * silhouette_scores_array.max()
+    candidate_ks = [k for k, s in zip(ks, silhouette_scores_array) if s >= silhouette_threshold]
+    nmi_dict = dict(zip(ks, nmi_scores))
+    best_k = max(candidate_ks, key=lambda k: nmi_dict[k])
+    sil_dict = dict(zip(ks, silhouette_scores))
+    resp_silscore = sil_dict[best_k]
+    return best_k, resp_silscore
+
+def find_opt_k_alt(ks, silhouette_scores, nmi_scores, tolerance):
+    silhouette_scores_array = np.array(silhouette_scores)
+    silhouette_threshold = tolerance * silhouette_scores_array.max()
+    candidate_ks = [k for k, s in zip(ks, silhouette_scores_array) if s >= silhouette_threshold]
+    nmi_dict = dict(zip(ks, nmi_scores))
+    candidate_nmis = np.array([nmi_dict[k] for k in candidate_ks])
+    nmi_threshold = 0.95 * candidate_nmis.max()
+    candidate_ks = [
+        k for k in candidate_ks
+        if nmi_dict[k] >= nmi_threshold
+    ]
+    sil_dict = dict(zip(ks, silhouette_scores))
+    best_k = max(candidate_ks, key=lambda k: sil_dict[k])
+    resp_silscore = sil_dict[best_k]
+    return best_k, resp_silscore
