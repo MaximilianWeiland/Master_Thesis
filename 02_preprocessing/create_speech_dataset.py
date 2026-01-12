@@ -401,7 +401,7 @@ final_df["days_until_election"] = [
 ]
 
 # export the df
-final_df.to_csv("../01_data/empirical_analysis/main_speech_datasets/researchperiod_speechlevel.csv", index=False)
+final_df.to_csv("../01_data/empirical_analysis/speech_datasets/datasets_unclassified/researchperiod_speechlevel.csv", index=False)
 
 # split into individual sentences and export this version as well
 final_df['sentences'] = final_df['text'].apply(lambda x: split_sentences(x, tokenizer))
@@ -413,4 +413,4 @@ col_order = ["date", "days_until_election", "agenda", "text", "sentence", "speec
 sentences_df = sentences_df.loc[:, col_order]
 
 # export the sentences df
-sentences_df.to_csv("../01_data/empirical_analysis/main_speech_datasets/researchperiod_sentencelevel.csv", index=False)
+sentences_df.to_csv("../01_data/empirical_analysis/speech_datasets/datasets_unclassified/researchperiod_sentencelevel.csv", index=False)

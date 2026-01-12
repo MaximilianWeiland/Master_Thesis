@@ -3,7 +3,7 @@
 .env
 venv_thesis/
 01_data/raw_speech_data/
-01_data/empirical_analysis/main_speech_datasets/
+01_data/empirical_analysis/speech_datasets/
 04_classification_evaluation/final_model_application/final_models/
 05_clustering/model_checkpoint/
 07_reports_presentations/feedback.docx
