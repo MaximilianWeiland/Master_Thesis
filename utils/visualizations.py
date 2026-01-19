@@ -1,6 +1,7 @@
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-import numpy as np
 import math
 from typing import List
 
@@ -37,6 +38,355 @@ def plot_losses_f1(model_names, optimal_configurations):
 
     plt.tight_layout()
     plt.show()
+
+################################## Visualizations for Evaluations ###################################
+def convert_dict_to_df(eval_results, focus_metrics):
+
+    rows = []
+    for model, eval_dict in eval_results.items():
+        for focus_metric in focus_metrics:
+            for metric, scores in eval_dict[focus_metric].items():
+                rows.append(
+                    {"model": model,
+                     "main_metric": focus_metric,
+                     "sub_metric": metric,
+                     "mean": scores["mean"],
+                     "lower": scores["lower"],
+                     "upper": scores["upper"]}
+                )
+        df = pd.DataFrame(rows)
+    return df
+
+def within_metric_barplot(eval_results, focus_metrics, metric_title_remap, group_width=0.7, color_scheme=plt.cm.tab10.colors):
+
+    metrics_df = convert_dict_to_df(eval_results, focus_metrics)
+    sub_metrics = metrics_df["sub_metric"].unique()
+    models = metrics_df["model"].unique()
+
+    x = np.arange(len(sub_metrics))
+    width = group_width/len(models)
+    
+    _, ax = plt.subplots(figsize=(12, 8))
+    
+    for i, model in enumerate(models):
+        subset = metrics_df[metrics_df["model"]==model]
+        subset = subset.set_index('sub_metric').reindex(sub_metrics)
+        means = subset['mean'].values
+        yerr_lower = subset['mean'] - subset['lower']
+        yerr_upper = subset['upper'] - subset['mean']
+        yerr = np.array([yerr_lower, yerr_upper])
+
+        ax.bar(x+i*width, means, width, yerr=yerr, capsize=5, label=model, color=color_scheme[i%len(color_scheme)])
+    ax.set_xticks(x + width*(len(models)-1)/2)
+    ax.set_xticklabels([m.capitalize() for m in sub_metrics])
+    ax.set_ylabel('Score')
+    ax.set_ylim(0, 1)
+    ax.set_title(f'Model Performance Comparison on {metric_title_remap[focus_metrics[0]]}')
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.xaxis.grid(False)
+    if len(models) >= 2:
+        ax.legend(title="Model")
+    plt.tight_layout()
+    plt.show()
+
+def within_metric_dotplot(eval_results, focus_metrics, metric_title_remap, group_width=0.7, color_scheme=plt.cm.tab10.colors, marker="o"):
+
+    metrics_df = convert_dict_to_df(eval_results, focus_metrics)
+    sub_metrics = metrics_df["sub_metric"].unique()
+    models = metrics_df["model"].unique()
+
+    x = np.arange(len(sub_metrics))
+    width = group_width/len(models)
+    
+    _, ax = plt.subplots(figsize=(12, 8))
+
+    for i, model in enumerate(models):
+        subset = metrics_df[metrics_df["model"]==model]
+        subset = subset.set_index('sub_metric').reindex(sub_metrics)
+        means = subset['mean'].values
+        yerr_lower = subset['mean'] - subset['lower']
+        yerr_upper = subset['upper'] - subset['mean']
+        yerr = np.array([yerr_lower, yerr_upper])
+        ax.errorbar(x+i*width, means, yerr=yerr, fmt=marker, markersize=6, capsize=5, color=color_scheme[i%len(color_scheme)], label=model, linestyle="none")
+    ax.set_xticks(x + width*(len(models)-1)/2)
+    ax.set_xticklabels([m.capitalize() for m in sub_metrics])
+    ax.set_ylabel('Score')
+    ax.set_ylim(0.5, 1)
+    ax.set_title(f'Model Performance Comparison on {metric_title_remap[focus_metrics[0]]}')
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.xaxis.grid(False)
+    if len(models) >= 2:
+        ax.legend(title="Model")
+    plt.tight_layout()
+    plt.show()
+
+def multi_within_metric_barplot(eval_results, focus_metrics, metric_title_remap, group_width=0.7, color_scheme=plt.cm.tab10.colors):
+
+    metrics_df = convert_dict_to_df(eval_results, focus_metrics)
+    sub_metrics = metrics_df["sub_metric"].unique()
+    models = metrics_df["model"].unique()
+
+    n_metrics = len(focus_metrics)
+    ncols = 2
+    nrows = (n_metrics + ncols - 1) // ncols
+    
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(12*ncols, 8*nrows))
+    axes = axes.flatten()
+
+    x = np.arange(len(sub_metrics))
+    width = group_width / len(models)
+
+    for idx, focus_metric in enumerate(focus_metrics):
+        ax = axes[idx]
+    
+        for i, model in enumerate(models):
+            subset = metrics_df[(metrics_df["model"]==model) & (metrics_df["main_metric"]==focus_metric)]
+            subset = subset.set_index('sub_metric').reindex(sub_metrics)
+            means = subset['mean'].values
+            yerr_lower = subset['mean'] - subset['lower']
+            yerr_upper = subset['upper'] - subset['mean']
+            yerr = np.array([yerr_lower, yerr_upper])
+            
+            ax.bar(
+                x + i*width,
+                means,
+                width,
+                yerr=yerr,
+                capsize=5,
+                label=model,
+                color=color_scheme[i % len(color_scheme)]
+            )
+
+        ax.set_xticks(x + width*(len(models)-1)/2)
+        ax.set_xticklabels([m.capitalize() for m in sub_metrics])
+        ax.set_ylabel('Score')
+        ax.set_ylim(0, 1)
+        ax.set_title(f'{metric_title_remap[focus_metric]} Performance')
+        ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+        ax.xaxis.grid(False)
+
+    # remove empty subplots if any
+    for j in range(idx+1, len(axes)):
+        fig.delaxes(axes[j])
+
+    # add only one legend for all subplots
+    if len(models) >= 2:
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(handles, labels, title="Model", loc='upper center', ncol=len(models))
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
+
+def multi_within_metric_dotplot(eval_results, focus_metrics, metric_title_remap, group_width=0.7, color_scheme=plt.cm.tab10.colors, marker="o"):
+    
+    metrics_df = convert_dict_to_df(eval_results, focus_metrics)
+    sub_metrics = metrics_df["sub_metric"].unique()
+    models = metrics_df["model"].unique()
+
+    n_metrics = len(focus_metrics)
+    ncols = 2
+    nrows = (n_metrics + ncols - 1) // ncols
+    
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(12*ncols, 8*nrows))
+    axes = axes.flatten()
+
+    x = np.arange(len(sub_metrics))
+    width = group_width / len(models)
+
+    for idx, focus_metric in enumerate(focus_metrics):
+        ax = axes[idx]
+    
+        for i, model in enumerate(models):
+            subset = metrics_df[(metrics_df["model"]==model) & (metrics_df["main_metric"]==focus_metric)]
+            subset = subset.set_index('sub_metric').reindex(sub_metrics)
+            means = subset['mean'].values
+            yerr_lower = subset['mean'] - subset['lower']
+            yerr_upper = subset['upper'] - subset['mean']
+            yerr = np.array([yerr_lower, yerr_upper])
+            ax.errorbar(x+i*width, means, yerr=yerr, fmt=marker, markersize=6, capsize=5, color=color_scheme[i%len(color_scheme)], label=model, linestyle="none")
+
+        ax.set_xticks(x + width*(len(models)-1)/2)
+        ax.set_xticklabels([m.capitalize() for m in sub_metrics])
+        ax.set_ylabel('Score')
+        ax.set_ylim(0.5, 1)
+        ax.set_title(f'{metric_title_remap[focus_metric]} Performance')
+        ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+        ax.xaxis.grid(False)
+
+    # remove empty subplots if any
+    for j in range(idx+1, len(axes)):
+        fig.delaxes(axes[j])
+
+    # add only one legend for all subplots
+    if len(models) >= 2:
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(handles, labels, title="Model", loc='upper center', ncol=len(models))
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
+
+def across_metric_barplot(eval_results, focus_metrics, comparison_metric, main_metrics_remap, group_width=0.7, color_scheme=plt.cm.Set2.colors):
+
+    metrics_df = convert_dict_to_df(eval_results=eval_results, focus_metrics=focus_metrics)
+    metrics_df = metrics_df[metrics_df["sub_metric"]==comparison_metric]
+
+    
+    main_metrics = metrics_df["main_metric"].unique()
+    models = metrics_df["model"].unique()
+
+    x = np.arange(len(main_metrics))
+    width = group_width/len(models)
+    
+    _, ax = plt.subplots(figsize=(12, 8))
+
+    for i, model in enumerate(models):
+        subset = metrics_df[metrics_df["model"]==model]
+        subset = subset.set_index('main_metric').reindex(main_metrics)
+        means = subset['mean'].values
+        yerr_lower = subset['mean'] - subset['lower']
+        yerr_upper = subset['upper'] - subset['mean']
+        yerr = np.array([yerr_lower, yerr_upper])
+
+        ax.bar(x+i*width, means, width, yerr=yerr, capsize=5, label=model, color=color_scheme[i%len(color_scheme)])
+    ax.set_xticks(x + width*(len(models)-1)/2)
+    ax.set_xticklabels([main_metrics_remap[m] for m in main_metrics])
+    ax.set_ylabel('Score')
+    ax.set_ylim(0, 1)
+    ax.set_title(f'Model Performance Comparison')
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.xaxis.grid(False)
+    ax.legend(title="Model")
+    plt.tight_layout()
+    plt.show()
+
+def across_metric_dotplot(eval_results, focus_metrics, comparison_metric, main_metrics_remap, group_width=0.7, color_scheme=plt.cm.Set2.colors, marker="o"):
+
+    metrics_df = convert_dict_to_df(eval_results=eval_results, focus_metrics=focus_metrics)
+    metrics_df = metrics_df[metrics_df["sub_metric"]==comparison_metric]
+
+    
+    main_metrics = metrics_df["main_metric"].unique()
+    models = metrics_df["model"].unique()
+
+    x = np.arange(len(main_metrics))
+    width = group_width/len(models)
+    
+    _, ax = plt.subplots(figsize=(12, 8))
+
+    for i, model in enumerate(models):
+        subset = metrics_df[metrics_df["model"]==model]
+        subset = subset.set_index('main_metric').reindex(main_metrics)
+        means = subset['mean'].values
+        yerr_lower = subset['mean'] - subset['lower']
+        yerr_upper = subset['upper'] - subset['mean']
+        yerr = np.array([yerr_lower, yerr_upper])
+        ax.errorbar(x+i*width, means, yerr=yerr, fmt=marker, markersize=6, capsize=5, color=color_scheme[i%len(color_scheme)], label=model, linestyle="none")
+    ax.set_xticks(x + width*(len(models)-1)/2)
+    ax.set_xticklabels([main_metrics_remap[m] for m in main_metrics])
+    ax.set_ylabel('Score')
+    ax.set_ylim(0.5, 1)
+    ax.set_title(f'Model Performance Comparison')
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.xaxis.grid(False)
+    ax.legend(title="Model")
+    plt.tight_layout()
+    plt.show()
+
+def few_shot_dev(eval_results, focus_metrics, comparison_metric, main_metrics_remap, color_scheme=plt.cm.Set2.colors, marker="o"):
+    
+    few_shot_keys = sorted(
+        next(iter(eval_results.values())).keys(),
+        key=lambda x: int(x.split("_")[0])
+    )
+
+    list_metrics_df = []
+    for model, eval_dict in eval_results.items():
+        for fs_key in few_shot_keys:
+            sub_dict = {model: eval_dict[fs_key]}
+            sub_df = convert_dict_to_df(sub_dict, focus_metrics)
+            sub_df = sub_df[sub_df["sub_metric"] == comparison_metric]
+            sub_df["few_shot_examples"] = int(fs_key.split("_")[0])
+            list_metrics_df.append(sub_df)
+    metrics_df = pd.concat(list_metrics_df, ignore_index=True)
+
+    fs_examples = metrics_df["few_shot_examples"].unique()
+    models = metrics_df["model"].unique()
+
+    _, ax = plt.subplots(figsize=(12, 8))
+
+    for i, model in enumerate(models):
+        subset = metrics_df[metrics_df["model"] == model]
+        means = subset['mean'].values
+        yerr_lower = subset['mean'] - subset['lower']
+        yerr_upper = subset['upper'] - subset['mean']
+        yerr = np.array([yerr_lower, yerr_upper])
+        ax.errorbar(fs_examples, means, yerr=yerr, linestyle="-", fmt=marker, markersize=6, capsize=5, color=color_scheme[i%len(color_scheme)], label=model)
+        
+    ax.set_xticks(fs_examples)
+    ax.set_xlabel("Number of Few-Shot Examples")
+    ax.set_ylabel(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score")
+    ax.set_ylim(0.4, 1)
+    ax.set_title(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} vs. Number of Few-Shot Examples")
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.xaxis.grid(False)
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+
+def multi_few_shot_dev(eval_results, focus_metrics, comparison_metric, main_metrics_remap, color_scheme=plt.cm.Set2.colors, marker="o"):
+    few_shot_keys = sorted(
+        next(iter(eval_results.values())).keys(),
+        key=lambda x: int(x.split("_")[0])
+    )
+
+    list_metrics_df = []
+    for model, eval_dict in eval_results.items():
+        for fs_key in few_shot_keys:
+            sub_dict = {model: eval_dict[fs_key]}
+            sub_df = convert_dict_to_df(sub_dict, focus_metrics)
+            sub_df = sub_df[sub_df["sub_metric"] == comparison_metric]
+            sub_df["few_shot_examples"] = int(fs_key.split("_")[0])
+            list_metrics_df.append(sub_df)
+    metrics_df = pd.concat(list_metrics_df, ignore_index=True)
+
+    fs_examples = metrics_df["few_shot_examples"].unique()
+    models = metrics_df["model"].unique()
+
+    n_metrics = len(focus_metrics)
+    ncols = 2
+    nrows = (n_metrics + ncols - 1) // ncols
+    
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(12*ncols, 8*nrows))
+    axes = axes.flatten()
+    
+    for idx, focus_metric in enumerate(focus_metrics):
+        ax = axes[idx]
+
+        for i, model in enumerate(models):
+            subset = metrics_df[(metrics_df["model"]==model) & (metrics_df["main_metric"]==focus_metric)]
+            means = subset['mean'].values
+            yerr_lower = subset['mean'] - subset['lower']
+            yerr_upper = subset['upper'] - subset['mean']
+            yerr = np.array([yerr_lower, yerr_upper])
+            ax.errorbar(fs_examples, means, yerr=yerr, linestyle="-", fmt=marker, markersize=6, capsize=5, color=color_scheme[i%len(color_scheme)], label=model)
+        
+        ax.set_xticks(fs_examples)
+        ax.set_xlabel("Number of Few-Shot Examples")
+        ax.set_ylabel(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score")
+        ax.set_ylim(0.4, 1)
+        ax.set_title(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} vs. Number of Few-Shot Examples")
+        ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+        ax.xaxis.grid(False)
+       
+    # remove empty subplots if any
+    for j in range(idx+1, len(axes)):
+        fig.delaxes(axes[j])
+
+    # add only one legend for all subplots
+    if len(models) >= 2:
+        handles, labels = axes[0].get_legend_handles_labels()
+        fig.legend(handles, labels, title="Model", loc='upper center', ncol=len(models))
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
+
 
 ################################### Visualizations for Clustering ###################################
     

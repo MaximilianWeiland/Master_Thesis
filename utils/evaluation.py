@@ -776,8 +776,8 @@ def cv_stance_nli(
             """
             return {
                 "precision": cr[eval_class]["precision"],
-                    "recall": cr[eval_class]["recall"],
-                    "f1": cr[eval_class]["f1-score"]
+                "recall": cr[eval_class]["recall"],
+                "f1": cr[eval_class]["f1-score"]
                 }
 
         # update the fold metrics
