@@ -66,7 +66,8 @@ def within_metric_barplot(
         group_width=0.7,
         color_scheme=plt.cm.tab10.colors,
         ylim=[0, 1],
-        task="ner"
+        task="ner",
+        output_path=None
     ):
 
     metrics_df = convert_dict_to_df(eval_results, focus_metrics)
@@ -91,15 +92,18 @@ def within_metric_barplot(
     ax.set_xticklabels([m.capitalize() for m in sub_metrics])
     ax.set_ylabel('Score')
     ax.set_ylim(ylim[0], ylim[1])
-    if task == "ner":
-        ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
-    elif task == "stance":
-        ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
+    # if task == "ner":
+    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
+    # elif task == "stance":
+    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
     ax.yaxis.grid(True, linestyle='--', alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
     plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, bbox_inches="tight")
     plt.show()
 
 def within_metric_dotplot(
@@ -111,7 +115,8 @@ def within_metric_dotplot(
         color_scheme=plt.cm.tab10.colors,
         marker="o",
         ylim=[0, 1],
-        task="ner"
+        task="ner",
+        output_path=None
 ):
 
     metrics_df = convert_dict_to_df(eval_results, focus_metrics)
@@ -135,15 +140,19 @@ def within_metric_dotplot(
     ax.set_xticklabels([m.capitalize() for m in sub_metrics])
     ax.set_ylabel('Score')
     ax.set_ylim(ylim[0], ylim[1])
-    if task == "ner":
-        ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
-    elif task == "stance":
-        ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
+    # if task == "ner":
+    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
+    # elif task == "stance":
+    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
     ax.yaxis.grid(True, linestyle='--', alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
     plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def multi_within_metric_barplot(
@@ -154,7 +163,8 @@ def multi_within_metric_barplot(
         group_width=0.7,
         color_scheme=plt.cm.tab10.colors,
         ylim=[0, 1],
-        task="ner"
+        task="ner",
+        output_path=None
 ):
 
     metrics_df = convert_dict_to_df(eval_results, focus_metrics)
@@ -196,10 +206,10 @@ def multi_within_metric_barplot(
         ax.set_xticklabels([m.capitalize() for m in sub_metrics])
         ax.set_ylabel('Score')
         ax.set_ylim(ylim[0], ylim[1])
-        if task == "ner":
-            ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
-        elif task == "stance":
-            ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
+        # if task == "ner":
+        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
+        # elif task == "stance":
+        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
         ax.yaxis.grid(True, linestyle='--', alpha=0.7)
         ax.xaxis.grid(False)
 
@@ -212,6 +222,10 @@ def multi_within_metric_barplot(
         handles, labels = axes[0].get_legend_handles_labels()
         fig.legend(handles, labels, title="Model", loc='upper center', ncol=len(models))
     plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def multi_within_metric_dotplot(
@@ -223,7 +237,8 @@ def multi_within_metric_dotplot(
         color_scheme=plt.cm.tab10.colors,
         marker="o",
         ylim=[0, 1],
-        task="ner"
+        task="ner",
+        output_path=None
 ):
     
     metrics_df = convert_dict_to_df(eval_results, focus_metrics)
@@ -256,10 +271,10 @@ def multi_within_metric_dotplot(
         ax.set_xticklabels([m.capitalize() for m in sub_metrics])
         ax.set_ylabel('Score')
         ax.set_ylim(ylim[0], ylim[1])
-        if task == "ner":
-            ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
-        elif task == "stance":
-            ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
+        # if task == "ner":
+        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
+        # elif task == "stance":
+        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
         ax.yaxis.grid(True, linestyle='--', alpha=0.7)
         ax.xaxis.grid(False)
 
@@ -272,6 +287,10 @@ def multi_within_metric_dotplot(
         handles, labels = axes[0].get_legend_handles_labels()
         fig.legend(handles, labels, title="Model", loc='upper center', ncol=len(models))
     plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def across_metric_barplot(
@@ -283,7 +302,8 @@ def across_metric_barplot(
         group_width=0.7,
         color_scheme=plt.cm.tab10.colors,
         ylim=[0, 1],
-        task="ner"
+        task="ner",
+        output_path=None
 ):
 
     metrics_df = convert_dict_to_df(eval_results=eval_results, focus_metrics=focus_metrics)
@@ -311,15 +331,19 @@ def across_metric_barplot(
     ax.set_xticklabels([main_metrics_remap[m] for m in main_metrics])
     ax.set_ylabel(f'{comparison_metric.capitalize()} Score')
     ax.set_ylim(ylim[0], ylim[1])
-    if task == "ner":
-        ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
-    elif task == "stance":
-        ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
+    # if task == "ner":
+    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
+    # elif task == "stance":
+    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
     ax.yaxis.grid(True, linestyle='--', alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
     plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def across_metric_dotplot(
@@ -332,7 +356,8 @@ def across_metric_dotplot(
         color_scheme=plt.cm.Set2.colors,
         marker="o",
         ylim=[0, 1],
-        task="ner"
+        task="ner",
+        output_path=None
 ):
 
     metrics_df = convert_dict_to_df(eval_results=eval_results, focus_metrics=focus_metrics)
@@ -355,19 +380,23 @@ def across_metric_dotplot(
         yerr_upper = subset['upper'] - subset['mean']
         yerr = np.array([yerr_lower, yerr_upper])
         ax.errorbar(x+i*width, means, yerr=yerr, fmt=marker, markersize=6, capsize=5, color=color_scheme[i%len(color_scheme)], label=model_names_remap[model], linestyle="none")
-    ax.set_xticks(x + width*(len(models)-1)/2)
+    ax.set_xticks(x+width*(len(models)-1)/2)
     ax.set_xticklabels([main_metrics_remap[m] for m in main_metrics])
     ax.set_ylabel(f'{comparison_metric.capitalize()} Score')
     ax.set_ylim(ylim[0], ylim[1])
-    if task == "ner":
-        ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
-    elif task == "stance":
-        ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Classes')
+    # if task == "ner":
+    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
+    # elif task == "stance":
+    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Classes')
     ax.yaxis.grid(True, linestyle='--', alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
     plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def few_shot_dev(
@@ -378,7 +407,8 @@ def few_shot_dev(
         model_names_remap,
         color_scheme=plt.cm.tab10.colors,
         marker="o",
-        ylim=[0, 1]
+        ylim=[0, 1],
+        output_path=None
 ):
     
     few_shot_keys = sorted(
@@ -413,11 +443,15 @@ def few_shot_dev(
     ax.set_xlabel("Number of Few-Shot Examples")
     ax.set_ylabel(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score")
     ax.set_ylim(ylim[0], ylim[1])
-    ax.set_title(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
+    # ax.set_title(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
     ax.yaxis.grid(True, linestyle='--', alpha=0.7)
     ax.xaxis.grid(False)
     ax.legend()
     plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def multi_few_shot_dev(
@@ -428,7 +462,8 @@ def multi_few_shot_dev(
         model_names_remap,
         color_scheme=plt.cm.tab10.colors,
         marker="o",
-        ylim=[0, 1]
+        ylim=[0, 1],
+        output_path=None
 ):
     few_shot_keys = sorted(
         next(iter(eval_results.values())).keys(),
@@ -470,7 +505,7 @@ def multi_few_shot_dev(
         ax.set_xlabel("Number of Few-Shot Examples")
         ax.set_ylabel(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score")
         ax.set_ylim(ylim[0], ylim[1])
-        ax.set_title(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
+        # ax.set_title(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
         ax.yaxis.grid(True, linestyle='--', alpha=0.7)
         ax.xaxis.grid(False)
        
@@ -483,6 +518,10 @@ def multi_few_shot_dev(
         handles, labels = axes[0].get_legend_handles_labels()
         fig.legend(handles, labels, title="Model", loc='upper center', ncol=len(models))
     plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 ########################### Clustering Evaluation and Interpretation ###########################
@@ -495,7 +534,8 @@ def plot_embeddings_grid(
     reducer_name,
     classes_per_plot=10,
     ncols=2,
-    color_scheme=plt.cm.tab10.colors
+    color_scheme=plt.cm.tab10.colors,
+    output_path=None
 ):
 
     emb_2d = reducer.fit_transform(embeddings)
@@ -552,11 +592,69 @@ def plot_embeddings_grid(
     for ax in axes[nplots:]:
         ax.axis("off")
 
-    fig.suptitle(
-        f"{reducer_name} 2D-Representation of Social Group Embeddings",
-        y=1.02
-    )
+    # fig.suptitle(
+    #     f"{reducer_name} 2D-Representation of Social Group Embeddings",
+    #     y=1.02
+    # )
     plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
+    plt.show()
+
+def plot_embeddings_two_groups(
+        embeddings1,
+        embeddings2,
+        label1,
+        label2,
+        reducer,
+        reducer_name,
+        color_scheme=plt.cm.tab10.colors,
+        output_path=None
+):
+
+    # stack to a numpy array
+    X = np.vstack([
+        embeddings1,
+        embeddings2
+    ])
+
+    labels = np.array(
+        [label1] * len(embeddings1)
+        + [label2] * len(embeddings2)
+    )
+
+    # reduce dimension
+    emb_2d = reducer.fit_transform(X)
+
+    # plot all embeddings colored by cluster group
+    plt.figure(figsize=(12, 8))
+
+    for i, group in enumerate([label1, label2]):
+        idx = labels == group
+        plt.scatter(
+            emb_2d[idx, 0],
+            emb_2d[idx, 1],
+            label=group,
+            color=color_scheme[i%len(color_scheme)],
+            alpha=0.7,
+            s=40
+        )
+
+    if reducer_name == "PCA":
+        plt.xlabel("PC 1")
+        plt.ylabel("PC 2")
+    else:
+        plt.xlabel(f"{reducer_name} 1")
+        plt.ylabel(f"{reducer_name} 2")
+    plt.legend()
+    # plt.title(f"{reducer_name} Reduced Embeddings")
+    plt.tight_layout()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
 def plot_clustering_dev(
@@ -565,8 +663,12 @@ def plot_clustering_dev(
         metric_name: str,
         min_max: str,
         preknown_best_k: int = None,
-        color_scheme = plt.cm.tab10.colors
-) -> None:
+        color_scheme = plt.cm.tab10.colors,
+        output_path=None
+):
+    """
+    
+    """
     metrics_array = np.array(metrics_list)
 
     if min_max == "max":
@@ -581,105 +683,65 @@ def plot_clustering_dev(
     plt.figure(figsize=(12, 8))
     plt.plot(ks, metrics_list, color=color_scheme[0])
     plt.xlabel("Number of clusters (k)")
-    plt.ylabel(f"{metric_name} score")
-    plt.title(f"{metric_name} score across k")
+    plt.ylabel(f"{metric_name.capitalize()} score")
+    # plt.title(f"{metric_name.capitalize()} score across k")
     plt.grid(True)
-    plt.axvline(best_k, color=color_scheme[1], label=f"Best k based on {metric_name}")
+    plt.axvline(best_k, color=color_scheme[1], label=f"Best k based on {metric_name} score")
     if preknown_best_k:
         plt.axvline(preknown_best_k, color=color_scheme[2], label="Original number of categories")
-        plt.legend()
-    # plt.annotate(
-    #     f"k={best_k}, score={best_score:.4f}",
-    #     xy=(best_k, best_score),
-    #     xytext=(best_k + 1, best_score),
-    # )
+    plt.legend()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
     plt.show()
 
     return best_k, best_score
 
 def static_mentions_boxplot(
-    cluster_df,
-    cluster_id,
+    df,
+    cluster_ids,
     cluster_col="cluster",
-    top_n=5,
-    point_jitter=0.03,
-    vertical_spacing=0.03,
-    color_scheme=plt.cm.tab10.colors
+    distance_col="distance_to_centroid",
+    jitter=0.05,
+    color_scheme=plt.cm.tab10.colors,
+    output_path=None
 ):
-    """
-    Boxplot with mentions displayed in fixed vertical bands relative to the figure:
-    - closest (green) at bottom
-    - median (orange) in middle
-    - farthest (red) at top
-    Data points are jittered horizontally and plotted at their real distances.
-    """
-    cluster_data = cluster_df[cluster_df[cluster_col] == cluster_id]
-    distances = cluster_data["distance_to_centroid"].values
-    mentions = cluster_data["mention"].values
+    distances_per_cluster = [df[df[cluster_col] == cid][distance_col].values for cid in cluster_ids]
 
-    # Sort indices
-    sorted_idx = np.argsort(distances)
-    closest_idx = sorted_idx[:top_n]
-    median_idx = sorted_idx[len(sorted_idx)//2 - top_n//2 : len(sorted_idx)//2 + top_n//2 + 1]
-    farthest_idx = sorted_idx[-top_n:]
+    _, ax = plt.subplots(figsize=(12, 8))
 
-    categories = {
-        'closest': (closest_idx, 'green'),
-        'median': (median_idx, 'orange'),
-        'farthest': (farthest_idx, 'red')
-    }
+    ax.boxplot(distances_per_cluster, showfliers=False)
 
-    fig, ax = plt.subplots(figsize=(8,6))
-    x_base = 1  # base for boxplot and data points
+    for i, distances in enumerate(distances_per_cluster, start=1):
+        x = np.random.uniform(i - jitter, i + jitter, size=len(distances))
+        ax.scatter(x, distances, alpha=0.6, color=color_scheme[i-1 % len(color_scheme)])
 
-    ax.boxplot(distances, vert=True, showfliers=False)
-
-    jittered_x = x_base + np.random.uniform(-point_jitter, point_jitter, size=len(distances))
-    ax.scatter(jittered_x, distances, color=color_scheme[0], alpha=0.6)
-
-    y_min, y_max = distances.min(), distances.max()
-    band_positions = {
-        'closest': 0.25,   # bottom
-        'median': 0.45,    # middle above boxplot
-        'farthest': 0.85   # top
-    }
-
-    for cat_name, (idxs, color) in categories.items():
-        y_start = band_positions[cat_name]
-        for i, idx in enumerate(idxs):
-            y_pos = y_start - i*vertical_spacing
-            ax.text(1.1, y_pos, mentions[idx], fontsize=8, color=color,
-                    verticalalignment='top', horizontalalignment='left')
-
-    ax.set_xlim(0.9, 1.2)
-    ax.set_ylim(0, 1)
+    ax.set_xticks(range(1, len(cluster_ids) + 1))
+    ax.set_xticklabels([f"Cluster {cluster_id}" for cluster_id in cluster_ids])
     ax.set_ylabel("Cosine distance to centroid")
-    ax.set_title(f"Cluster {cluster_id} centroid distances")
-    plt.show()
+    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.xaxis.grid(False)
 
-    closest = mentions[closest_idx]
-    median = mentions[median_idx]
-    farthest = mentions[farthest_idx]
-    return closest, median, farthest
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
+    plt.show()
 
 def interactive_mentions_boxplot(
     cluster_df,
     clusters,
     cluster_col='cluster',
     distance_col='distance_to_centroid',
-    mention_col='mention',
-    color_scheme=plt.cm.tab10.colors
+    mention_col='mention'
 ) -> None:
-    """
-    
-    """
 
     cluster_df = cluster_df[cluster_df[cluster_col].isin(clusters)]
     cluster_ids = sorted(cluster_df[cluster_col].unique())
     
     fig = go.Figure(layout=dict(width=800, height=600))
     
-    for cid, color in zip(cluster_ids, color_scheme):
+    for i, cid in enumerate(cluster_ids):
         cluster_data = cluster_df[cluster_df[cluster_col] == cid]
         y_values = cluster_data[distance_col].values
         hover_texts = cluster_data[mention_col].values
@@ -690,11 +752,10 @@ def interactive_mentions_boxplot(
             boxpoints='all',
             jitter=0.3,
             whiskerwidth=0.2,
-            fillcolor=color,
-            marker_size=3,
-            line_width=1,
+            marker=dict(size=3),
+            line=dict(width=1),
             text=hover_texts,
-            hoverinfo='text+y'
+            hovertemplate='%{text}<br>%{y:.3f}<extra></extra>'
         ))
     
     fig.update_layout(
