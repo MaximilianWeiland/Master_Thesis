@@ -1,12 +1,15 @@
 # Detecting Social Group Appeals Using LLMs
-In this project, I develop an automated LLM-based classification pipeline for detecting social group appeals in parliamentary speeches. Social group appeals are defined as explicit references to social groups in which political actors position themselves in a supportive or critical manner.
-The pipeline consists of two main tasks. The detection of social group mentions using sequence labeling, and the classification of positional tone towards each group via stance classification. For both tasks, I evaluate encoder-only BERT models and generative GPT-based models, tuning hyperparameters and comparing performance using 5-fold cross-validation.
+In this project, I develop an automated LLM-based classification pipeline for detecting social group appeals in parliamentary speeches. Social group appeals are defined as explicit references to social groups in which political actors position themselves in a supportive or critical manner. \
+The pipeline consists of two main tasks. The detection of social group mentions using sequence labeling, and the classification of positional tone towards each group via stance classification. For both tasks, I evaluate encoder-only BERT models and generative GPT-based models, tuning hyperparameters and comparing performance using 5-fold cross-validation. \
 The best-performing models are applied to a corpus of British parliamentary speeches from 2010 to 2019 at the sentence level. To further analyze detected group mentions, I implement an inductive clustering approach. This involves training a BERT model with contrastive learning to obtain semantically meaningful representations, which are then used to cluster group mentions into qualitative categories.
 
-## Classification Results
+## Classification and Clustering Results
 ![Model Performance on Group Mention Detection](07_reports_presentations/figures/model_performances_group_detection.png)
 ![Model Performance on Stance Classification](07_reports_presentations/figures/model_performance_stance.png)
-
+<p float="left">
+  <img src="07_reports_presentations/figures/silscore_across_k.png.png" width="45%" />
+  <img src="07_reports_presentations/figures/pca_embeddings_young_elderly.pdf" width="45%" />
+</p>
 
 ## Reproducibility
 
