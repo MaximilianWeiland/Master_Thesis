@@ -53,7 +53,7 @@ parliamentary_questions_df = parlspeech_df_subset[parlspeech_df_subset["agenda"]
 ################################## Text Cleaning and Sentence Splitting ##################################
 
 punkt_param = PunktParameters()
-abbreviations = ['hon', 'mr', 'mrs', 'dr', 'ms', 'sir', 'prof']  # lowercase
+abbreviations = ['hon', 'mr', 'mrs', 'dr', 'ms', 'sir', 'prof']
 punkt_param.abbrev_types = set(abbreviations)
 tokenizer = PunktSentenceTokenizer(punkt_param)
 

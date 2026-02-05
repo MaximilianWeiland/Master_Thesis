@@ -1,4 +1,3 @@
-# load libraries
 import json
 import pandas as pd
 import random
