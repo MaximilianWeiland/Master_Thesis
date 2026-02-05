@@ -6,10 +6,7 @@ The best-performing models are applied to a corpus of British parliamentary spee
 ## Classification and Clustering Results
 ![Model Performance on Group Mention Detection](07_reports_presentations/figures/model_performances_group_detection.png)
 ![Model Performance on Stance Classification](07_reports_presentations/figures/model_performance_stance.png)
-Development of Silhouette Score | PCA Embeddings for Clusters of Young and Elderly People
-:------------:|:-------------:
-![](07_reports_presentations/figures/silscore_across_k.png) | ![](07_reports_presentations/figures/pca_embeddings_young_elderly.png)
-
+![Development of Silhouette Score Across K](07_reports_presentations/figures/silscore_across_k.png)
 
 ## Reproducibility
 
