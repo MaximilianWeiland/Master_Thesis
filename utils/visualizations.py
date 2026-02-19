@@ -35,7 +35,7 @@ def plot_losses_f1(model_names, optimal_configurations):
         ax_f1.set_xlabel("Epoch")
         ax_f1.set_ylabel("F1 Score")
         ax_f1.legend()
-        ax_f1.grid(True)
+        ax_f1.grid(True, alpha=0.7)
 
     plt.tight_layout()
     plt.show()
@@ -67,6 +67,7 @@ def within_metric_barplot(
         color_scheme=plt.cm.tab10.colors,
         ylim=[0, 1],
         task="ner",
+        printtitle=True,
         output_path=None
     ):
 
@@ -92,11 +93,12 @@ def within_metric_barplot(
     ax.set_xticklabels([m.capitalize() for m in sub_metrics])
     ax.set_ylabel('Score')
     ax.set_ylim(ylim[0], ylim[1])
-    # if task == "ner":
-    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
-    # elif task == "stance":
-    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
-    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    if printtitle:
+        if task == "ner":
+            ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
+        elif task == "stance":
+            ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
+    ax.yaxis.grid(True, alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
@@ -116,6 +118,7 @@ def within_metric_dotplot(
         marker="o",
         ylim=[0, 1],
         task="ner",
+        printtitle=True,
         output_path=None
 ):
 
@@ -140,11 +143,12 @@ def within_metric_dotplot(
     ax.set_xticklabels([m.capitalize() for m in sub_metrics])
     ax.set_ylabel('Score')
     ax.set_ylim(ylim[0], ylim[1])
-    # if task == "ner":
-    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
-    # elif task == "stance":
-    #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
-    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    if printtitle:
+        if task == "ner":
+            ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Metric')
+        elif task == "stance":
+            ax.set_title(f'Model Performance on {metric_title_remap[focus_metrics[0]]} Class')
+    ax.yaxis.grid(True, alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
@@ -164,6 +168,7 @@ def multi_within_metric_barplot(
         color_scheme=plt.cm.tab10.colors,
         ylim=[0, 1],
         task="ner",
+        printtitle=True,
         output_path=None
 ):
 
@@ -206,11 +211,12 @@ def multi_within_metric_barplot(
         ax.set_xticklabels([m.capitalize() for m in sub_metrics])
         ax.set_ylabel('Score')
         ax.set_ylim(ylim[0], ylim[1])
-        # if task == "ner":
-        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
-        # elif task == "stance":
-        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
-        ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+        if printtitle:
+            if task == "ner":
+                ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
+            elif task == "stance":
+                ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
+        ax.yaxis.grid(True, alpha=0.7)
         ax.xaxis.grid(False)
 
     # remove empty subplots if any
@@ -238,6 +244,7 @@ def multi_within_metric_dotplot(
         marker="o",
         ylim=[0, 1],
         task="ner",
+        printtitle=True,
         output_path=None
 ):
     
@@ -271,11 +278,12 @@ def multi_within_metric_dotplot(
         ax.set_xticklabels([m.capitalize() for m in sub_metrics])
         ax.set_ylabel('Score')
         ax.set_ylim(ylim[0], ylim[1])
-        # if task == "ner":
-        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
-        # elif task == "stance":
-        #     ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
-        ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+        if printtitle:
+            if task == "ner":
+                ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Metric')
+            elif task == "stance":
+                ax.set_title(f'Model Performance on {metric_title_remap[focus_metric]} Class')
+        ax.yaxis.grid(True, alpha=0.7)
         ax.xaxis.grid(False)
 
     # remove empty subplots if any
@@ -303,6 +311,7 @@ def across_metric_barplot(
         color_scheme=plt.cm.tab10.colors,
         ylim=[0, 1],
         task="ner",
+        printtitle=True,
         output_path=None
 ):
 
@@ -331,11 +340,12 @@ def across_metric_barplot(
     ax.set_xticklabels([main_metrics_remap[m] for m in main_metrics])
     ax.set_ylabel(f'{comparison_metric.capitalize()} Score')
     ax.set_ylim(ylim[0], ylim[1])
-    # if task == "ner":
-    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
-    # elif task == "stance":
-    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
-    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    if printtitle:
+        if task == "ner":
+            ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
+        elif task == "stance":
+            ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
+    ax.yaxis.grid(True, alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
@@ -357,6 +367,7 @@ def across_metric_dotplot(
         marker="o",
         ylim=[0, 1],
         task="ner",
+        printtitle=True,
         output_path=None
 ):
 
@@ -384,11 +395,12 @@ def across_metric_dotplot(
     ax.set_xticklabels([main_metrics_remap[m] for m in main_metrics])
     ax.set_ylabel(f'{comparison_metric.capitalize()} Score')
     ax.set_ylim(ylim[0], ylim[1])
-    # if task == "ner":
-    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
-    # elif task == "stance":
-    #     ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Classes')
-    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    if printtitle:
+        if task == "ner":
+            ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Metrics')
+        elif task == "stance":
+            ax.set_title(f'Model Performance on {comparison_metric.capitalize()} score Across Classes')
+    ax.yaxis.grid(True, alpha=0.7)
     ax.xaxis.grid(False)
     if len(models) >= 2:
         ax.legend(title="Model")
@@ -408,6 +420,7 @@ def few_shot_dev(
         color_scheme=plt.cm.tab10.colors,
         marker="o",
         ylim=[0, 1],
+        printtitle=True,
         output_path=None
 ):
     
@@ -443,8 +456,9 @@ def few_shot_dev(
     ax.set_xlabel("Number of Few-Shot Examples")
     ax.set_ylabel(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score")
     ax.set_ylim(ylim[0], ylim[1])
-    # ax.set_title(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
-    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    if printtitle:
+        ax.set_title(f"{main_metrics_remap[focus_metrics[0]]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
+    ax.yaxis.grid(True, alpha=0.7)
     ax.xaxis.grid(False)
     ax.legend()
     plt.tight_layout()
@@ -463,6 +477,7 @@ def multi_few_shot_dev(
         color_scheme=plt.cm.tab10.colors,
         marker="o",
         ylim=[0, 1],
+        printtitle=True,
         output_path=None
 ):
     few_shot_keys = sorted(
@@ -505,8 +520,9 @@ def multi_few_shot_dev(
         ax.set_xlabel("Number of Few-Shot Examples")
         ax.set_ylabel(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score")
         ax.set_ylim(ylim[0], ylim[1])
-        # ax.set_title(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
-        ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+        if printtitle:
+            ax.set_title(f"{main_metrics_remap[focus_metric]} {comparison_metric.capitalize()} Score vs. Number of Few-Shot Examples")
+        ax.yaxis.grid(True, alpha=0.7)
         ax.xaxis.grid(False)
        
     # remove empty subplots if any
@@ -588,6 +604,7 @@ def plot_embeddings_grid(
         ax.set_xlabel(f"{reducer_name}-1")
         ax.set_ylabel(f"{reducer_name}-2")
         ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
+        ax.grid(True, alpha=0.7)
 
     for ax in axes[nplots:]:
         ax.axis("off")
@@ -648,6 +665,7 @@ def plot_embeddings_two_groups(
     else:
         plt.xlabel(f"{reducer_name} 1")
         plt.ylabel(f"{reducer_name} 2")
+    plt.grid(True, alpha=0.7)
     plt.legend()
     # plt.title(f"{reducer_name} Reduced Embeddings")
     plt.tight_layout()
@@ -657,7 +675,7 @@ def plot_embeddings_two_groups(
 
     plt.show()
 
-def plot_clustering_dev(
+def clustering_dev_single_metric(
         ks: List[int],
         metrics_list: List[float],
         metric_name: str,
@@ -685,12 +703,21 @@ def plot_clustering_dev(
     plt.xlabel("Number of clusters (k)")
     plt.ylabel(f"{metric_name.capitalize()} score")
     # plt.title(f"{metric_name.capitalize()} score across k")
-    plt.grid(True)
-    plt.axvline(best_k, color=color_scheme[1], label=f"Best k based on {metric_name} score")
-    if preknown_best_k:
-        plt.axvline(preknown_best_k, color=color_scheme[2], label="Original number of categories")
-    plt.legend()
+    plt.grid(True, alpha=0.7)
+    plt.ylim(0, 1)
 
+    if preknown_best_k:
+        if preknown_best_k == best_k:
+            plt.axvline(preknown_best_k, linestyle="--", color=color_scheme[1], label=f"Optimal k ({metric_name} score and original categories)")
+            plt.legend()
+        else:
+            plt.axvline(best_k, linestyle="--", color=color_scheme[1], label=f"Optimal k ({metric_name} score)")
+            plt.axvline(preknown_best_k, linestyle="--", color=color_scheme[2], label="Original number of categories")
+            plt.legend()
+    else:
+        plt.axvline(best_k, linestyle="--", color=color_scheme[1], label=f"Optimal k ({metric_name} score)")
+        plt.legend()
+    
     if output_path:
         plt.savefig(output_path, dpi=300, bbox_inches="tight")
 
@@ -698,29 +725,88 @@ def plot_clustering_dev(
 
     return best_k, best_score
 
+def clustering_dev_combined_metrics(
+        ks: List[int],
+        silscore_list: List[float],
+        nmiscore_list: List[float],
+        preknown_best_k: int = None,
+        color_scheme = plt.cm.tab10.colors,
+        output_path=None
+):
+    """
+    
+    """
+    silscore_array = np.array(silscore_list)
+    nmi_array = np.array(nmiscore_list)
+
+    best_idx_silscore = silscore_array.argmax()
+    best_idx_nmi = nmi_array.argmax()
+    
+    best_k_silscore = ks[best_idx_silscore]
+    best_score_silscore = silscore_list[best_idx_silscore]
+    best_k_nmi = ks[best_idx_nmi]
+    best_score_nmi = nmiscore_list[best_idx_nmi]
+
+    # plot development of silhouette scores
+    plt.figure(figsize=(12, 8))
+    plt.plot(ks, silscore_list, color=color_scheme[0], label="Silhouette scores")
+    plt.plot(ks, nmiscore_list, color=color_scheme[1], label="NMI scores")
+    plt.xlabel("Number of clusters (k)")
+    plt.ylabel(f"Score")
+    # plt.title(f"{metric_name.capitalize()} score across k")
+    plt.grid(True, alpha=0.7)
+    plt.ylim(0, 1)
+
+    if preknown_best_k:
+        if preknown_best_k == best_k_silscore == best_k_nmi:
+            plt.axvline(preknown_best_k, linestyle="--", color=color_scheme[2], label=f"Optimal k (metrics and original categories)")
+            plt.legend()
+        else:
+            plt.axvline(best_k_silscore, linestyle="--", color=color_scheme[2], label=f"Optimal k (Silhouette score)")
+            plt.axvline(best_k_nmi, linestyle="--", color=color_scheme[3], label=f"Optimal k (NMI score)")
+            plt.axvline(preknown_best_k, linestyle="--", color=color_scheme[4], label="Original number of categories")
+            plt.legend()
+    else:
+        plt.axvline(best_k_silscore, linestyle="--", color=color_scheme[2], label=f"Optimal k (Silhouette score)")
+        plt.axvline(best_k_nmi, linestyle="--", color=color_scheme[3], label=f"Optimal k (NMI score)")
+        plt.legend()
+
+    if output_path:
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+
+    plt.show()
+
+    return best_k_silscore, best_score_silscore, best_k_nmi, best_score_nmi
+
 def static_mentions_boxplot(
     df,
     cluster_ids,
     cluster_col="cluster",
-    distance_col="distance_to_centroid",
+    distance_type="Euclidean",
     jitter=0.05,
     color_scheme=plt.cm.tab10.colors,
     output_path=None
 ):
+    
+    if distance_type == "Euclidean":
+        distance_col = "euclidean_distance_to_centroid"
+    elif distance_type == "Cosine":
+        distance_col = "cosine_distance_to_centroid"
+
     distances_per_cluster = [df[df[cluster_col] == cid][distance_col].values for cid in cluster_ids]
 
     _, ax = plt.subplots(figsize=(12, 8))
 
-    ax.boxplot(distances_per_cluster, showfliers=False)
+    ax.boxplot(distances_per_cluster, showfliers=False, widths=.4)
 
     for i, distances in enumerate(distances_per_cluster, start=1):
         x = np.random.uniform(i - jitter, i + jitter, size=len(distances))
-        ax.scatter(x, distances, alpha=0.6, color=color_scheme[i-1 % len(color_scheme)])
+        ax.scatter(x, distances, s=10, alpha=0.6, color=color_scheme[i-1 % len(color_scheme)])
 
     ax.set_xticks(range(1, len(cluster_ids) + 1))
     ax.set_xticklabels([f"Cluster {cluster_id}" for cluster_id in cluster_ids])
-    ax.set_ylabel("Cosine distance to centroid")
-    ax.yaxis.grid(True, linestyle='--', alpha=0.7)
+    ax.set_ylabel(f"{distance_type} distance to centroid")
+    ax.yaxis.grid(True, alpha=0.7)
     ax.xaxis.grid(False)
 
     if output_path:
@@ -732,9 +818,14 @@ def interactive_mentions_boxplot(
     cluster_df,
     clusters,
     cluster_col='cluster',
-    distance_col='distance_to_centroid',
+    distance_type='Euclidean',
     mention_col='mention'
 ) -> None:
+    
+    if distance_type == "Euclidean":
+        distance_col = "euclidean_distance_to_centroid"
+    elif distance_type == "Cosine":
+        distance_col = "cosine_distance_to_centroid"
 
     cluster_df = cluster_df[cluster_df[cluster_col].isin(clusters)]
     cluster_ids = sorted(cluster_df[cluster_col].unique())
@@ -760,7 +851,7 @@ def interactive_mentions_boxplot(
     
     fig.update_layout(
         title=dict(
-            text="Clustered Social Group Mentions with Cosine Distance to Centroid",
+            text=f"Clustered Social Group Mentions with {distance_type} Distance to Centroid",
             x=0.5
         ),
         yaxis=dict(
@@ -771,7 +862,7 @@ def interactive_mentions_boxplot(
             gridwidth=1,
             zerolinecolor='rgb(255, 255, 255)',
             zerolinewidth=2,
-            title="Cosine distance to centroid"
+            title=f"{distance_type} distance to centroid"
         ),
         paper_bgcolor='rgb(243, 243, 243)',
         plot_bgcolor='rgb(243, 243, 243)',

@@ -8,6 +8,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import random
 from tqdm import tqdm
+from sklearn.feature_extraction.text import TfidfVectorizer
+from collections import defaultdict
 from typing import List, Tuple, Dict, Any, Sequence
 
 class DatasetMaskHN(Dataset):
@@ -407,3 +409,26 @@ def find_opt_k_alt(ks, silhouette_scores, nmi_scores, tolerance):
     best_k = max(candidate_ks, key=lambda k: sil_dict[k])
     resp_silscore = sil_dict[best_k]
     return best_k, resp_silscore
+
+def top_tfidf_words(
+        group_mentions,
+        cluster_labels,
+        k,
+        top_n
+):
+    
+    tfidf_dict = defaultdict(list)
+    for (mention, label) in zip(group_mentions, cluster_labels):
+        tfidf_dict[label].append(mention)
+
+    documents = [" ".join(tfidf_dict[i]) for i in range(k)]
+
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(documents)
+    feature_names = vectorizer.get_feature_names_out()
+
+    for i in range(k):
+        row = tfidf_matrix[i].toarray().flatten()
+        top_indices = np.argsort(row)[-top_n:][::-1]
+        top_terms = [feature_names[j] for j in top_indices]
+        print(f"Cluster {i}: {top_terms}")
