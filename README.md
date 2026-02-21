@@ -4,9 +4,9 @@ The pipeline consists of two main tasks. The detection of social group mentions 
 The best-performing models are applied to a corpus of British parliamentary speeches from 2010 to 2019 at the sentence level. To further analyze detected group mentions, I implement an inductive clustering approach. This involves training a BERT model with contrastive learning to obtain semantically meaningful representations, which are then used to cluster group mentions into qualitative categories.
 
 ## Classification and Clustering Results
-![Model Performance on Group Mention Detection](07_reports_presentations/figures/model_performances_group_detection.png)
-![Model Performance on Stance Classification](07_reports_presentations/figures/model_performance_stance.png)
-![Development of Silhouette Score Across K](07_reports_presentations/figures/silscore_across_k.png)
+![Model Performance on Group Mention Detection](07_reports_presentations/figures/group_mention_classification/best_models_f1_all_metrics.png)
+![Model Performance on Stance Classification](07_reports_presentations/figures/stance_classification/best_models_f1_all_classes.png)
+![Development of Silhouette Score Across K](07_reports_presentations/figures/clustering/silscore_dictionary_only.png)
 
 ## Reproducibility
 
