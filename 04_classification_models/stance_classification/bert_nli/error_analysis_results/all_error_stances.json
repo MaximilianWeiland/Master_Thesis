@@ -1,0 +1,2654 @@
+{
+    "neg-pos": [
+        {
+            "sentence": "We expect local authorities to work with Her Majesty's Revenue and Customs to ensure the right outcome for such individuals, but it is only fair that the budgets provided to personal budget holders reflect their legal obligations to pay the national minimum wage to workers on sleep-in duty both now and when it comes to any arrears owing.",
+            "mention": "personal budget holders",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I would have thought that he would welcome a change in policy that focuses health and safety inspections not on low-risk, good employer sites, which have taken up so much resource in the past, but on employers who are not playing by the book and who endanger their employees and the public.",
+            "mention": "employers",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The film spoke to a number of men, who were completely open about the fact that their honour is the most important thing; more important than the life and happiness of their child.",
+            "mention": "child",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "This Government offer tax cuts to millionaires and porridge and food banks to low-paid workers.",
+            "mention": "millionaires",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What other practical steps is he taking to meet those targets and to ensure that our prisons not only keep prisoners in, but keep drugs out?",
+            "mention": "prisoners",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "However, is there any reason why firefighters should have a public pension that is more generous than those for the armed forces and for police officers?",
+            "mention": "firefighters",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "On equality, does my right hon. Friend agree that there is a real danger that the Stormont House agreement institutions might act against the interests of servicemen and former members of the security services, and give an unfair advantage to former paramilitaries?",
+            "mention": "former paramilitaries",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "He is a special Minister because he says what he thinks, does not read from a script and is not one of those robotic Ministers who will accept everything that the civil servants say.",
+            "mention": "the civil servants",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Of course it will be expensive for the groups of farmers involved, but that is up to them.",
+            "mention": "farmers",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "That is why no UK aid money goes to support terrorism or the families.",
+            "mention": "the families",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What steps his Department is taking to reduce the number of young people not in education, employment or training.",
+            "mention": "young people not in education, employment or training",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Although we should try to cut down on immigration and although students who finish their studies should go back to their countries of origin, is it not important to recognise that educating foreign students in this country is greatly beneficial to British business?",
+            "mention": "students who finish their studies",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Should that money be spent on supporting people in Bulgaria and Romania, or should it be spent in this country, supporting our vulnerable and disabled people?",
+            "mention": "people in Bulgaria and Romania",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Is my hon. Friend as concerned as I am that when a prisoner escapes from an open prison the public are invariably warned by the police not to approach him because he is considered dangerous?",
+            "mention": "a prisoner",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In the light of the Secretary of State's earlier comments about responsibility to the taxpayer, will he contrast the poorest homeowners who will lose help with mortgage interest with these heavily subsidised, well-off people up and down the country?",
+            "mention": "these heavily subsidised, well-off people up and down the country",
+            "gold_stance": "neg",
+            "pred_stance": "pos"
+        }
+    ],
+    "pos-neutral": [
+        {
+            "sentence": "For example, according to that measure, during the previous recession-Labour's recession, the deepest in our post-war history-child poverty fell by 300,000.",
+            "mention": "child",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Successful businesses know that they cannot afford to miss out on the talents and experiences of half our population, and the Government are working closely with business on that, especially through the Women's Business Council, which was established by this Government in 2012.",
+            "mention": "Women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What recent assessment he has made of the effect of fiscal policy on family incomes.",
+            "mention": "family",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "It has an excellent record of building strong links with both national and local employers such as Timpson, Sainsbury's and Specsavers.",
+            "mention": "national and local employers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Alongside elderly parents, my constituent Charlotte Fensome cares for her brother Steven, who was profoundly affected.",
+            "mention": "elderly parents",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "All parents of sons throughout the country, including me, will be conscious of and concerned about the issues that the hon. Gentleman and, indeed, the Prime Minister have mentioned.",
+            "mention": "All parents of sons throughout the country",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What steps he has taken to address youth unemployment in Scotland.",
+            "mention": "youth",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "It also matters what happens in childcare and early years settings, and we now have many more young disadvantaged children-71% of eligible two-year-olds-benefiting from the 15 hours at age two.",
+            "mention": "eligible two-year-olds",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Revoking article 50 would break the trust the British people place in politicians, in voting and in democracy.",
+            "mention": "the British people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "She chose to spend \u00a3100 million on having these elections and this transition, which could have been spent on 3,000 police officers this year.",
+            "mention": "police officers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Employers have a critical role in making that happen.",
+            "mention": "Employers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Students from Coleg Gwent had great success recently at the World Skills UK competition, including a gold in forensic science, which is a great advert for taking up STEM subjects.",
+            "mention": "Students from Coleg Gwent",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "When it comes to looking at changing the GCSE's structure, what young people need, and what is fair to them, is a sound GCSE system that allows employers to know that the people who they hire are able to do the job, and that therefore does not put undue pressure on people who would not be able to do the job.",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "My constituency covers rural Teesdale, so I know that farmers are being required to communicate online with the Department for Environment, Food and Rural Affairs even when they have no broadband.",
+            "mention": "farmers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Those are the statistics, but every one of those people is someone with a job, with a livelihood and with a chance to provide for their family.",
+            "mention": "family",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Unsurprisingly, insecurity rose in the recession, but the fall in unemployment from 7.9% when we came into office in May 2010 to 6.6% in April 2014 and the creation of 700,000 permanent employee jobs since 2012 will almost certainly have reduced it.",
+            "mention": "employee",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "As the Institute for Fiscal Studies said this morning, the average family incomes of workers in Wales have declined under this Government.",
+            "mention": "family",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Some 15,000 people in my hon. Friend's constituency have been auto-enrolled thanks to the 2,010 employers supporting the system.",
+            "mention": "employers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The British people voted to leave the European Union and we will be leaving.",
+            "mention": "British people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will the Minister look into what is going on, which is an abuse of the discretion system, and ensure that parents can get their youngsters into the school of their choice?",
+            "mention": "youngsters",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What assessment his Department has made of the effect of recent changes to benefits on the number of children living in poverty.",
+            "mention": "children living in poverty",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The Children's Society tells me that there are 3,300 children in families that are in energy debt in my constituency, yet only last week, Ofgem estimated that household bills could be cut by \u00a3114 because of the cost of energy.",
+            "mention": "children in families",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We should leave no stone unturned in making sure that we recruit enough paediatricians to support the service.",
+            "mention": "paediatricians",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Refugee children in Europe also face a tough winter.",
+            "mention": "Refugee children in Europe",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "When he plans to announce the recipients of universal credit whose children will be eligible for free school meals.",
+            "mention": "the recipients of universal credit whose children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "If we are going to achieve a modal shift to encourage more employees of the House, as well as Members of Parliament, to cycle to this place, it is absolutely vital that we have adequate parking facilities.",
+            "mention": "employees of the House",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Let me just say to the right hon. Gentleman that our national health service is now treating more patients than ever before.",
+            "mention": "patients",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "There are huge opportunities for AI to improve patient outcomes and to make life easier for staff.",
+            "mention": "patient",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The number of young people behind bars is indeed falling, but the latest figures show that the number of white children in custody has fallen at twice the rate of that for those from ethnic minorities.",
+            "mention": "white children in custody",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That is why, under the Children and Families Bill and the work we are doing with the Family Justice Board, we are trying to drive every element of unnecessary delay out of the court process and are bringing in a 52-week maximum limit on the time a care case should take to ensure that, where there is an opportunity for a child's adoption placement to be made permanent, that happens sooner rather than later and they can get on with their life and form those all-important attachments with their new family.",
+            "mention": "Families",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "While less than 20% of the BBC's music radio programmes were presented by women in 2012, will the Secretary of State please continue her discussions with the BBC to correct that imbalance?",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In the light of the DWP's proposed end to reassessment for people with long-term illnesses, will she consider extending this to people who rely on children to care for them until such time as those children have finished further education?",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I agree that we need to work together, which is why the National Group on Sexual Violence against Children and Vulnerable People has been set up, to work across agencies, areas and local authorities to bear down on these reprehensible crimes.",
+            "mention": "Vulnerable People",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Shockingly, in 2017 in this country, 2,120 children were identified as potential victims of child slavery.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Secondly, we are recruiting people at a record rate and have a record number of officers in training.",
+            "mention": "officers in training",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "If he will take steps to implement the recommendations of parliamentary Committees in the last Parliament and the UN Committee on the Rights of the Child to end the recruitment of under-18s into the armed forces.",
+            "mention": "under-18s",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will he guarantee that that money will not come from university budgets or through a reduction in student numbers?",
+            "mention": "student",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have a gender gap not just in the workplace, but among entrepreneurs; one in 10 men in work are entrepreneurs, whereas only one in 20 women are.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I have just returned from Mexico, where I saw at first hand the human rights abuses of Los Mineros, the miners who have been on strike for four years.",
+            "mention": "the miners who have been on strike for four years",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We cannot say to inward investors, \u201cWe want your money, but we don't want your workers or your expertise to help us to grow the company.\u201d",
+            "mention": "inward investors",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "First, I pay tribute to the work that the police do in dealing with people who are in mental health crisis.",
+            "mention": "people who are in mental health crisis",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We also think that it would be good to bring in new ideas from those who work in the voluntary and private sectors to manage the reoffending rates of medium and low-risk offenders.",
+            "mention": "those who work in the voluntary and private sectors",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Many jobs today require a university degree, yet compared with the position on funding employees' vocational training, there is no equivalent tax shield for employer contributions to higher education.",
+            "mention": "employees",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What recent assessment he has made of outcomes for children in need.",
+            "mention": "children in need",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Does he still intend to implement his plans for voucher schemes, which were described by the director of UNESCO's global monitoring report on education as\u201cusing vulnerable people to advance an ideologically loaded, market-based vision for education, which would exclude millions of kids from school\u201d?",
+            "mention": "vulnerable people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will the Minister outline what steps the Government are taking to enable more family visits to happen in our prisons?",
+            "mention": "family",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "A recent report by the Children's Society indicates that there will be a sharp increase in the number of disabled children living in poverty when universal credit is introduced, as a result of the \u00a31,400 a year reduction.",
+            "mention": "disabled children living in poverty",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Although women make up only a third of the fully ordained clergy in place at the moment, we are moving, like other professions, towards 50:50.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In the run-up to International Women's Day, what work is the Department doing on gender inequality in the developing world?",
+            "mention": "Women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Of course, domestic violence affects not just women but men, too; but what contact has my hon. Friend had with companies such as the John Lewis Partnership, whose chief executive takes a particularly proactive approach to care in her company?",
+            "mention": "men",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The purpose of the changes is to improve patient safety, and particularly to deal with the issue that we have higher mortality rates for people who are admitted to hospital at weekends than for those admitted during the week.",
+            "mention": "people who are admitted to hospital at weekends",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We know that in Scotland, because tuition is free, resource per student is lower, and therefore disadvantaged students in Scotland have to wait for English students ahead of them in clearing because they pay more money.",
+            "mention": "disadvantaged students in Scotland",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I commend the hon. Gentleman for his involvement with young people.",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "An employer may also claim the cost of retraining the reservist following their return to work.",
+            "mention": "An employer",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will my hon. Friend update the House on the number of women starting to benefit from this and its estimated value during a mother's retirement?",
+            "mention": "mother",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I was proud to join Housing for Women last week to celebrate the first anniversary of its operating the women's refuge in Merton.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That in itself is welcome and shows the commitment of the international community to this matter.",
+            "mention": "the international community",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Toolmakers in my constituency such as J. Adams Ltd have made high-quality military knives for the defence sector for six generations.",
+            "mention": "Toolmakers in my constituency",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Those changes are part of the \u201cHealthy Futures\u201d and \u201cMaking it Better\u201d programmes, both of which have been subject to full consultation with local people.",
+            "mention": "local people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "One of the best ways of ensuring discipline in the classroom is well-trained, motivated teachers.",
+            "mention": "teachers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That is why, under the Children and Families Bill and the work we are doing with the Family Justice Board, we are trying to drive every element of unnecessary delay out of the court process and are bringing in a 52-week maximum limit on the time a care case should take to ensure that, where there is an opportunity for a child's adoption placement to be made permanent, that happens sooner rather than later and they can get on with their life and form those all-important attachments with their new family.",
+            "mention": "Children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Having access to the next generation of skilled workers is vital for business confidence and growth.",
+            "mention": "skilled workers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In the future, we will look back at the inequality of parental leave between fathers and mothers, and wonder how on earth we thought it was okay for it to be like that.",
+            "mention": "fathers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "As I have said, I think that everyone regrets the loss of the 2nd Battalion The Royal Regiment of Wales, but Welsh men and women do join the armed forces.",
+            "mention": "Welsh men and women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In order to garner employer support, we have worked with businesses to create the corporate covenant, which is a way for businesses to demonstrate their support for the armed forces community, including reservists.",
+            "mention": "employer",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I have since spoken to a number of nurses and some of the 4,000 nursing students at my local university, all of whom say that they would not have been able to study nursing without vital bursary support from the Scottish Government.",
+            "mention": "nurses",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have established the national Nursing and Care Quality Forum to work with patients, carers and professionals to spread best practice.",
+            "mention": "patients",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The Secretary of State is, presumably, simply never wrong, but what about the timetabling mess on the trains, the east coast bail out, multiple transport and justice contracts to Carillion, the book ban on prisoners, court fees that push the innocent to plead guilty, and the catastrophic privatisation of probation and prisons?",
+            "mention": "prisoners",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Any requirement for United Kingdom citizens to post bonds for visiting relatives from countries such as India risks being seen as yet another bureaucratic obstacle to cross-border family visits.",
+            "mention": "United Kingdom citizens",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What assessment she has made of the effect of the introduction of employment tribunal fees on access to justice for women.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have now chosen to freeze APD on short-haul flights for eight years and to take children out of it altogether.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The educational achievement of young people in deprived areas has risen highest for those in receipt of the education maintenance allowance.",
+            "mention": "young people in deprived areas",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I have got into trouble before for saying I probably would have been out there with those kids several years ago-I recognise the admirable passion and urgency with which they have raised this matter, although we need their skills to solve this problem.",
+            "mention": "those kids",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "My time was spent with young people from all over the country who were passionate, political and eager to have their voices heard.",
+            "mention": "young people from all over the country",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Youth unemployment is far too high.",
+            "mention": "Youth",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "As I said at the outset of Prime Minister's questions today, the figures for the fall in the number of workless households-homes where no one has been working-including homes with children, are not just statistically important; it is a socially and morally important fact that children will grow up in homes where someone is working.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will he discuss with the Secretary of State the way in which we can involve women more in the future of Afghanistan?",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "So can the Minister clarify this: should all these workers only expect the jobcentre phone number, as the Prime Minister said yesterday, or can he guarantee that these works, and all similar infrastructure undertakings, will continue to completion, with the current workforce, apprentices, supply chain and project plan?",
+            "mention": "apprentices",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In primary schools, disadvantaged pupils in MATs make significantly more progress in writing and maths than the average for disadvantaged students, and the gap in progress between disadvantaged and non-disadvantaged primary school pupils is smaller in MATs than the national average.",
+            "mention": "disadvantaged pupils in MATs",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Does the Prime Minister share my assessment that the shadow Chancellor's plans for borrowing yet more money while heaping tax on British businesses and making it more expensive for employers to hire young people are no more and no less than a long-term economic scam?",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What we are finding is that 90% of the country is covered by GP fundholding practices that want to see these reforms succeed.",
+            "mention": "GP",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In addition to wanting the coroner's recommendations implemented in full, they and other families are keen to see greater accountability of the security services to Parliament.",
+            "mention": "families",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That has severe knock-on effects for their children.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The number of nurses has fallen for the first time in a decade, which is why we need fair pay now.",
+            "mention": "nurses",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "It was a freedom of information request by the all-party group that showed that only 14 acute trusts in England were even close to meeting the goals for risk-assessing patients submitted to hospital for the dangers of thrombosis and blood clots.",
+            "mention": "patients",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Patients with PKU-phenylketonuria-are awaiting progress on the approval of a drug called Kuvan.",
+            "mention": "Patients with PKU-phenylketonuria",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The disastrous decision in the first half of the last Parliament to cut nurse training places has driven the rise in the agency staff bill.",
+            "mention": "nurse",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The Women and Equalities Committee's report on the gender pay gap showed strong and compelling evidence that increasing the availability of well-paid flexible work would make a significant difference in reducing the pay gap.",
+            "mention": "Women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will he learn from the success of this initiative as a model for the online engagement of students with the futures they could realise through science, technology, engineering and maths?",
+            "mention": "students",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The first Hampshire and Isle of Wight community rehabilitation company women's centre opened in Havant in 2012, and part of its work involves helping to get women offenders into employment.",
+            "mention": "women offenders",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "How will DFID's work with women and girls drive economic development in poorer countries?",
+            "mention": "girls",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The measures in the plan include doubling the capacity of the diabetes prevention programme and the further 1,000 children a year we hope to treat for severe complications relating to their obesity.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "How will DFID's work with women and girls drive economic development in poorer countries?",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I am sure that my hon. Friend, with his military background of which the House is well aware, is as proud as any Member of the House of the service record of the Gurkhas for this country.",
+            "mention": "the Gurkhas",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I think there is a widely understood definition of voluntary and community sector groups, and the big society bank will be organised in such a way that it can identify those and make sure that the funds that it is providing to social investors and social lenders go only to those groups.",
+            "mention": "social investors",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "According to the same interviews, nearly one in three women and almost one in five men said that they had experienced such abuse since the age of 16.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We are now UNICEF's largest bilateral donor, which shows that we work directly with children.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Earlier, I talked about engagement with the trans community in the north-east, and there are examples from other regions of how, if we work closely with the communities, we can increase conviction rates.",
+            "mention": "the communities",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I am not sure that I discussed that matter with the work force at Barrow, although I did have some interesting conversations that reassured me greatly about their commitment to the programme.",
+            "mention": "the work force at Barrow",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What about those households where there is an adult receiving DLA and where there are parents who act as the carers?",
+            "mention": "parents who act as the carers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I agree with the single mothers in my constituency who say to me, \u201cListen, those activities that our children take part in when school finishes at 3.30 pm are not a luxury but a necessity because we go out to work and work finishes at about 5.30 pm, and then we have to get home and pick them up.\u201d That money is being cut against the backdrop of the proposal in the Bill massively to reduce child care allowances.",
+            "mention": "child",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The Government have committed to resettling 20,000 Syrian refugees in the lifetime of this Parliament.",
+            "mention": "Syrian refugees",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Having heard the excellent news this week on the increase in apprenticeship places, which are up 50% to 442,000, does my hon. Friend agree that the national citizen service can also play a key role in helping our young people into work?",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Let me give the hon. Gentleman a figure: 200,000 workers in Scotland will gain from the new national living wage, which is 9% of the workforce.",
+            "mention": "workers in Scotland",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have already invested \u00a3125 million in coastal communities across the United Kingdom through the coastal communities fund, \u00a392 million of which was invested in England.",
+            "mention": "coastal communities",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That is a very appropriate question, because Government spending on quangos doubled under Labour, and by 2015 this Government will save the taxpayer a total of more than \u00a32.6 billion, which is more than \u00a3150 per working household.",
+            "mention": "per working household",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will the Prime Minister look closely not just at the 40 authorities, but specifically at the low level of per pupil funding that the East Riding of Yorkshire receives?",
+            "mention": "per pupil",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I encourage the whole House to recognise that today is International Women's Day.",
+            "mention": "Women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Women's aid groups, including my own in Angus, have raised the serious concern that changes in housing benefit may force the closure of many refuges.",
+            "mention": "Women's aid groups",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will the Secretary of State, on behalf of this House, thank doctors and nurses in the NHS for the amazing news that death rates from breast cancer are falling at a faster rate here than in the six largest countries in Europe and that, since 2010, death rates have fallen by 17.7%?",
+            "mention": "doctors and nurses in the NHS",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Rape cases in some papers are routinely placed next to pictures of half-naked women.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That of course applies forcefully to people with disabilities.",
+            "mention": "people with disabilities",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have already invested \u00a3125 million in coastal communities across the United Kingdom through the coastal communities fund, \u00a392 million of which was invested in England.",
+            "mention": "coastal communities",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I am clear that people detained under section 136 of the Mental Health Act 1983 should be taken to police stations only in truly exceptional circumstances.",
+            "mention": "people detained under section 136 of the Mental Health Act 1983",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Today is international women's day, so let me pass on the good wishes of the women of Darlington to the Secretary of State.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "It is believed that 85% of victims do not confirm it to anybody, for a variety of very understandable reasons.",
+            "mention": "victims",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I thank my hon. Friend for enabling me to pay tribute to our armed forces who have served on Operation Gritrock, one of the most challenging operations in recent times, during which our medical professionals demonstrated tremendous skill and courage.",
+            "mention": "medical professionals",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have the right way of measuring the number of students who come in, and I do not think it inhibits our appeal to international students, because the fact is that they do want to study here in the UK.",
+            "mention": "students who come in",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In the light of the additional funding announced by the Secretary of State yesterday, will he tell me how much additional funding will be provided for palliative care, which I highlighted in my Terminal Illness (Provision of Palliative Care and Support for Carers) Bill?",
+            "mention": "Carers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That is more than 400 jobs every week for young people, while he has become the Tories' man in Scotland.",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "By 2030, more than 3 million women stand to gain an average of \u00a3550 a year through the introduction of the new state pension.",
+            "mention": "women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Of course, our fire and emergency services, the Environment Agency and police officers have done a great deal of work to provide a great deal of support and comfort to local residents.",
+            "mention": "police officers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have proposed a UK-EU co-operative accord on culture and education for after we leave, allowing British and EU students to continue to visit one another's countries, and study in one another's colleges and universities.",
+            "mention": "British and EU students",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We have raised standards for early-years teachers so that they have to pass the same maths and English tests as primary and secondary school teachers, and this year we have seen a 25% increase in the number of students applying for those courses, so they are proving very popular.",
+            "mention": "students",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will he meet business leaders from the sector to pass on his assurances?",
+            "mention": "business leaders from the sector",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The resulting \u201cborder effect\u201d would disrupt trade and free movement of workers, reducing real incomes by, it is estimated, around \u00a32,000 per Scottish household per year.",
+            "mention": "workers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "More students from disadvantaged backgrounds are going to university than ever before, and the gap between the richest and the poorest has never been smaller.",
+            "mention": "the poorest",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "There are 500,000 victims of sexual offences but only 5,600 convictions.",
+            "mention": "victims of sexual offences",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "No one wants to go back to the bad old days of junior doctors working all the hours God gives, but the working time directive has had a negative impact on patient safety.",
+            "mention": "junior doctors",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "What steps he is taking to enable young people to participate in the national citizen service in the summer of 2011.",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "As I have said, we support the Education and Employers Taskforce, whose Inspiring the Future programme enables volunteers to talk to young people in schools about possible future careers.",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I have been aware of this issue for some time, from a previous brief, and I can tell my hon. Friend that the commission is currently going through a tailored review that will look at the structures it has in place to represent and hear the views of disabled people and enable commissioners to focus on their needs and rights.",
+            "mention": "commissioners",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Two weeks ago, I raised the question of cuts in school budgets-teachers and parents telling MPs what the reality of it was about.",
+            "mention": "teachers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "If he will take steps to increase the availability of the BCG vaccine for children.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Events in Kashmir are of the most profound and immediate importance to thousands of my constituents, because British Kashmiris often have family and friends on not one but both sides of the line of control, and they are in frequent Face Time, email and Skype contact, just like anybody else, even to the second and third generations of migrant.",
+            "mention": "migrant",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "When it comes to looking at changing the GCSE's structure, what young people need, and what is fair to them, is a sound GCSE system that allows employers to know that the people who they hire are able to do the job, and that therefore does not put undue pressure on people who would not be able to do the job.",
+            "mention": "employers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The two encouraging statistics are the number of young people coming into the criminal justice system in the first place and the number of those who are incarcerated, but he is right: the one that is depressing is the rate of reoffending, which is over 70%.",
+            "mention": "young people",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "There are now 6,000 fewer prison officers on the frontline than in 2010, and they are dealing with more prisoners.",
+            "mention": "prison officers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "May I suggest to the Secretary of State that he might want to visit a shipyard, as I am sure plenty of workers there would like to give him a different account of that strategy?",
+            "mention": "workers",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The fact is that at least one in four of the lowest paid graduates will pay less in total than they do now.",
+            "mention": "the lowest paid graduates",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "No one in the House wants to see the claimant count rise-most especially, no one wants young people to have to add themselves to the rolls of the unemployed.",
+            "mention": "claimant",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Events in Kashmir are of the most profound and immediate importance to thousands of my constituents, because British Kashmiris often have family and friends on not one but both sides of the line of control, and they are in frequent Face Time, email and Skype contact, just like anybody else, even to the second and third generations of migrant.",
+            "mention": "family",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "We would not want to see pupils being transferred mid-course to English baccalaureate subjects simply for the league table position.",
+            "mention": "pupils",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Women are routinely paid less than men-15% less on average nationally; 23% less in London.",
+            "mention": "Women",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Those from Syria and elsewhere who are granted refugee status can apply for immediate family members to join them here.",
+            "mention": "immediate family members",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "It is right that the Solicitors Regulation Authority and disciplinary tribunals take a tough line on that.",
+            "mention": "Solicitors",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "I could not agree more with my right hon. Friend about the need to address the lack of education for children affected by this crisis, and the package that I mentioned announcing at the UN covers three new programmes specifically for education for Syrian refugees and host communities in Jordan and Lebanon.",
+            "mention": "Syrian refugees",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That significant problem puts both prisoners and staff at risk, but a major issue that must be tackled is the retention of staff.",
+            "mention": "prisoners",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The Church of England's primary focus is on tackling indebtedness in three ways: teaching children about financial literacy through the Just Finance Foundation, working to increase access to responsible credit, and supporting organisations such as Christians Against Poverty, which provides advice and debt counselling.",
+            "mention": "children",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Scottish training firm TIGERS-Training Initiatives Generating Effective Results Scotland-is working hard with the Scottish Government, Skills Development Scotland and the Construction Industry Training Board to place 126 apprentices who used to be placed in partnership with Carillion.",
+            "mention": "apprentices",
+            "gold_stance": "pos",
+            "pred_stance": "neutral"
+        }
+    ],
+    "neutral-pos": [
+        {
+            "sentence": "Restorative justice should play a part in activities ranging from informal disposals administered by front-line police officers to enabling serious offenders to face up to the consequences of their actions.",
+            "mention": "front-line police officers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will she consider meeting me and a small delegation of Cumbrian nuclear workers to understand how important Moorside is to Copeland, and will she bear in mind the solutions that the Centre of Nuclear Excellence can provide to its challenges?",
+            "mention": "Cumbrian nuclear workers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I know that Amanda Spielman will do that on behalf of teachers across the country.",
+            "mention": "teachers across the country",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We need neighbours to feel that they can walk the British streets safely no matter what their background or sexual orientation.",
+            "mention": "neighbours",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I first send my deepest condolences to Claire Throssell, the hon. Lady's constituent, and pay tribute to the fantastic work that she does as an ambassador for Women's Aid.",
+            "mention": "Women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The Secretary of State has kindly just received from me Bradford-on-Avon Oxfam's Mothers Matter card for mother's day.",
+            "mention": "Mothers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will the Minister tell us whether the Government's strategies on sexual health and HIV propose to target messages on specific, at-risk communities, and particularly but not exclusively on younger gay men, for whom some of the safe sex messages may have been lost in time, and the African community?",
+            "mention": "at-risk communities",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The victims groups this week called on her to stand down and resign.",
+            "mention": "victims groups",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We have already announced \u00a340 million in funding for domestic abuse services between 2016 and 2020, as well as a \u00a32 million grant to Women's Aid and Safe Lives to support early intervention.",
+            "mention": "Women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I am not sure what specific tests would need to be devised, but we would need to ensure that, whenever possible, the hours spent in productive employment by prisoners reintroduced to the work habit were similar to those to which they would have to adapt if they obtained a job when they left prison, and that they would be able to produce goods, for instance, generating earnings that would help them to make a contribution to compensation for victims.",
+            "mention": "prisoners",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Survey after survey shows that patient satisfaction with access to their GP is getting worse and worse.",
+            "mention": "patient",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is right that police and crime commissioners will, in due course, be able to commission victims' services, thus reflecting what is necessary in the local area.",
+            "mention": "victims",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We encourage all schools to involve former students in advising young people about career opportunities and the course choices that can lead to them.",
+            "mention": "former students",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Notwithstanding the fact that, as we have heard, the Government intend to provide transitional protection, will the Secretary of State explain why, for new claimants, their plans to abolish the disability element of child tax credit and replace it with a disability addition will mean a cut of 50% for families with disabled children?",
+            "mention": "child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Where in his election manifesto did he put his plan to abolish maintenance grants for all students?",
+            "mention": "all students",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "On 25 February, at CEDAW, the Women's Aid Federation Northern Ireland raised a series of concerns, including on the lack of a gender equality strategy and a violence against women strategy, on a gendered approach to post-conflict transition not being applied and on the disproportionate impact of UK Government policies such as the two-child policy and the rape clause.",
+            "mention": "Women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In the future, we will look back at the inequality of parental leave between fathers and mothers, and wonder how on earth we thought it was okay for it to be like that.",
+            "mention": "mothers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Many of my constituents along the Severn estuary are grateful for the work of my hon. Friend the Under-Secretary of State for Environment, Food and Rural Affairs, the hon. Member for Newbury (Richard Benyon) -who is responsible for water and fisheries-in ensuring that the Environment Agency consults properly during operations that involve dealing with flood defences.",
+            "mention": "constituents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In September, I will have two roundtable meetings to discuss the current mental health provision, both for men and for women.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Before the election, one of the policies that resonated most with my constituents was the Conservative plan to eliminate the couple penalty-the absurdity whereby people can be better off splitting up as a family than staying together.",
+            "mention": "a family",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Those who seek to make the case for such a law would need to satisfy themselves that men would not bring a case against the proposers, because it would unquestionably create a new inequality between men and women.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In the growth review, we set out our support for innovative forms of space travel, such as Virgin Galactic, that involve British entrepreneurs and British inventors.",
+            "mention": "British inventors",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Is not the best way of deterring children from smoking the setting of a good example by responsible parents who know how much money their children are spending without supervision, and what they are spending it on?",
+            "mention": "parents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "A number of times today, the Secretary of State and his Ministers have defended the policy of simplifying tariffs for energy customers, but they have not once addressed the fact that low energy users, who are often people on low incomes, are worse off because of the recommendation from Ofgem to reintroduce standing charges.",
+            "mention": "energy customers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The approach he has taken has been welcomed, as has been pointed out, not only by the lagoon company, local authorities and politicians, but by the business community in south Wales and across the northern powerhouse.",
+            "mention": "the business community in south Wales",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The hon. Lady will also know that we intend to resettle 20,000 Syrian refugees, as well as up to 3,000 vulnerable children and their carers, by 2020.",
+            "mention": "vulnerable children and their carers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "This is about women and equalities.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I understand the real concern about this: most of the House would have preferred not to change at all the existing ban on prisoners voting, but doing nothing-the previous Government's position-and allowing solicitors to go running around prisons signing up prisoners to get compensation for having their civil liberties denied is piling up quite a bill.",
+            "mention": "prisoners",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "People on low incomes who do not qualify for an exemption may be eligible for either full or partial help with prescription charges through the NHS low-income scheme.",
+            "mention": "People on low incomes",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The last Prime Minister, the right hon. Member for Maidenhead (Mrs May), created a hostile environment for migrants that made them feel alienated and unwelcome in this country, examples being the descendants of Windrush, and now EU migrants.",
+            "mention": "migrants",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is impossible to look at the situation of a child without looking at their family situation.",
+            "mention": "family",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Although I congratulate the Government on addressing the way in which people with mental health conditions were treated under the previous Government, I would like a reassurance that, where necessary, carers will be able to accompany those with particular conditions to their work capability assessment.",
+            "mention": "carers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In 2008, the poorest 20% of households were spending 16.8% of household income on food.",
+            "mention": "the poorest 20% of households",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "They have been left very confused about the choices available for their children in September 2011.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We know that the adult social care system is under pressure, which is why we are setting out a more sustainable future in the Green Paper which will be published later this year.",
+            "mention": "adult",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Bishops were not arguing for the abolition of the cap; they were arguing for child benefit to be exempted because they believed that the cap was not flexible enough to be fair to those with large families or those in areas with high housing rental costs.",
+            "mention": "Bishops",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "This week is national Carers Week, and I want to take this opportunity to pay tribute to the thousands of usually unpaid carers whose commitment to family and friends too often goes unrecognised.",
+            "mention": "family",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Small businesses and traders are the lifeblood of our economy, with 14 million people employed in them.",
+            "mention": "people employed in them",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will my right hon. Friend look to issue guidance to magistrates that a tag, when part of a sentence, should never be removed to allow criminals to go on holiday?",
+            "mention": "magistrates",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Frankly, that is not doing enough to assist with the serious problem of youth unemployment.",
+            "mention": "youth",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Child poverty, for example, has fallen by more than 300,000 under this Government.",
+            "mention": "Child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The changes made to the NHS constitution make very clear the rights and responsibilities of NHS staff and their employers in respect of whistleblowing.",
+            "mention": "NHS staff and their employers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Let me give the hon. Gentleman a figure: 200,000 workers in Scotland will gain from the new national living wage, which is 9% of the workforce.",
+            "mention": "the workforce",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I recently crossed the border into my neighbouring constituency of Gosport-that of the Under-Secretary of State for Women and Equalities and Family Justice, my hon. Friend the Member for Gosport (Caroline Dinenage)-to visit the defence technology company QinetiQ, of which she is an enthusiastic supporter, to support its powerboat challenge, in which it engaged directly with local schools to encourage their pupils to study STEM subjects.",
+            "mention": "pupils",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Its work focuses on tackling the root causes that have led to those young people's loss of liberty with education, substance misuse therapies and early intervention.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Children in Shrewsbury receive, on average, \u00a34,350 per annum for their education.",
+            "mention": "Children in Shrewsbury",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "At present, the National Grid pays out \u00a31 billion a year in balancing charges, which is passed on to electricity users.",
+            "mention": "electricity users",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I completely reject those figures about prospective increases in child poverty in Scotland.",
+            "mention": "child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I thank the Secretary of State for her response on dairy farmers, but may I impress on her the damage that fluctuating and falling prices are doing to the industry and farmers in my constituency?",
+            "mention": "dairy farmers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "However, we have also, separately, offered extra support to the French authorities in relation to the identification in the camps of those who have been trafficked.",
+            "mention": "those who have been trafficked",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Today is international women's day, so let me pass on the good wishes of the women of Darlington to the Secretary of State.",
+            "mention": "women of Darlington",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Irrespective of the number of pugs he has in his possession, the key thing is whether he is a responsible owner of those dogs, whether he has them under proper control and whether they represent a danger to himself and his neighbours.",
+            "mention": "neighbours",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What lay behind the issue in relation to the problems that some members of the Windrush generation have faced was the fact that when they came into the UK, they were not given documentary evidence of their immigration status, and, as their countries gained independence, they were not given that documentary evidence of their status- It is no good shouting \u201cRubbish\u201d.",
+            "mention": "some members of the Windrush generation",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We cannot say to inward investors, \u201cWe want your money, but we don't want your workers or your expertise to help us to grow the company.\u201d",
+            "mention": "workers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The National Society for the Prevention of Cruelty to Children found that a third of girls aged 13 to 17 in relationships had experienced physical or sexual violence, with 12% of them reporting rape.",
+            "mention": "girls aged 13 to 17 in relationships",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I realise that our fellow citizens in Ulster have unfortunately had just as much experience of rioting as some of our British cities have.",
+            "mention": "fellow citizens in Ulster",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The first Hampshire and Isle of Wight community rehabilitation company women's centre opened in Havant in 2012, and part of its work involves helping to get women offenders into employment.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "May I ask how many doctors the Driver and Vehicle Licensing Agency employs, because they seem to think that they know better than my HGV drivers' doctors when it comes to removing their licences?",
+            "mention": "Driver",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Let us imagine that a single mum with three kids who is earning \u00a342,000 a year is offered a promotion that would take her pay to \u00a343,000.",
+            "mention": "a single mum with three kids",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It also affects the children who witness it.",
+            "mention": "the children who witness it",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Burying a child must be an incredibly painful experience for any family, and I think we all pay respect to, and have enormous sympathy with, the hon. Lady.",
+            "mention": "a child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The original system was devised for a world in which women often would not work at all and so needed lifelong support, rather than the extra support that they will be offered after such a tragic event.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "How can it be fair that that school gets that sort of funding, yet schools in Hackney-with a range of pupil premium funding on top-get \u00a36,800 per pupil?",
+            "mention": "pupil",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does the help in funding for rural schools not represent the opposite of addressing the need that I raised in a recent debate-disappointingly, the Minister did not even mention it when summing up the debate-for areas that have a high influx of additional pupils during the school year?",
+            "mention": "pupils",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Young men and women traditionally joined Her Majesty's armed forces, in large part, because of the physical challenge and the desire for combat experience.",
+            "mention": "Young men and women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Further to the answer that the Minister of State gave to my hon. Friend the Member for Worsley and Eccles South (Barbara Keeley), why do the Government not make it a criminal offence for those who recruit staff on the cheap not to bother checking employees' employment records, qualifications or criminal records?",
+            "mention": "employees",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I will look into the specific points that my hon. Friend has raised, but I remind him that we are in this position, with 2.8 million children living in poverty, because the previous Government left us with a very difficult legacy, and some of these issues will take some time to address.",
+            "mention": "children living in poverty",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The supermarkets have made it very clear that extra costs would fall to Scottish consumers if Scotland were independent.",
+            "mention": "Scottish consumers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "My hon. Friend raises an issue which is of concern not only to his constituents but others' across the House.",
+            "mention": "constituents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "She can be proud of the work the UK is doing, but the bulk of it is, of course, in the region itself, which is overwhelmingly where people and refugees want to stay-close to home.",
+            "mention": "refugees",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What steps he is taking to enable young people to participate in the national citizen service in the summer of 2011.",
+            "mention": "citizen",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "As well as helping those people directly, will he link much more closely with the Department for Education so that we can pre-empt those problems through good careers guidance, helping the pre-NEETs and ensuring that young people are job-ready at the age of 16, 17 and 18?",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "If he comes to a place such as Huddersfield and other towns in West Yorkshire, which my right hon. Friend the Member for Normanton, Pontefract and Castleford (Yvette Cooper) has just mentioned, he will find that it is about not only diverting young people from violence, gangs and crime, but tackling extremist views early on.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "According to a whistleblower, as many as 80 patients were harmed or died following significant ambulance delays over a three-week period this winter.",
+            "mention": "patients",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What steps he is taking to divert young people away from violent crime.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Last month, the head of the British Chambers of Commerce said that he would give key politicians-presumably the Secretary of State is one of them-three out of 10 for delivery.",
+            "mention": "key politicians",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Three measures stand out: the decision to take gardens out of the definition of brownfield sites; the abolition of the density targets that prevented family homes with gardens from being built; and the measures in the Localism Bill, which will be debated this afternoon, that give communities the right to have neighbourhood plans that protect valuable green spaces.",
+            "mention": "family",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We need to get the best out of teachers.",
+            "mention": "teachers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I think that the reforms will reduce the gender pay gap, because the division of caring responsibilities between parents is one of the underlying issues.",
+            "mention": "parents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Women are coming from all over the United Kingdom to the #Ask HerToStand day event, with MPs from every party extending invitations to their constituents.",
+            "mention": "constituents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "As I said at the outset of Prime Minister's questions today, the figures for the fall in the number of workless households-homes where no one has been working-including homes with children, are not just statistically important; it is a socially and morally important fact that children will grow up in homes where someone is working.",
+            "mention": "workless households",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Getting children into libraries is critically important not only for the health of those libraries, but for the development of our collective futures.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What is his estimate of the percentage of tenants for whom there is no smaller home to go to?",
+            "mention": "tenants",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will the Minister advise the House what impact a Brit exit, if there is one this year or next, would have on our armed services personnel currently in operations with the European Union overseas?",
+            "mention": "armed services personnel",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does he understand that, however much he saves, it will be nowhere near enough to compensate for the 25% cut he is planning in the Home Office budget, which will remove 35,000 police officers and 4,000 PCSOs from the beat?",
+            "mention": "police officers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Humberside police have the highest number of reported child rapes.",
+            "mention": "child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Last month, the Energy and Climate Change Committee reported its concern that increased policy uncertainty was leading to increased risk premiums for investors, which will result in consumers paying more in the long run.",
+            "mention": "investors",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The bit I found reassuring is that we let a contract where there was absolutely no upfront commitment from the taxpayer at all, and we paid nothing until the service was delivered.",
+            "mention": "the taxpayer",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Following the apprenticeships review in 2012, employers are designing new apprenticeships that are more responsive to the needs of business.",
+            "mention": "employers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will the Minister please look again at the issue of the 1,000 police officers and staff who are being taken from the frontline, which will further impact on neighbourhood policing?",
+            "mention": "police officers and staff who are being taken from the frontline",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Now the Prime Minister tells us that the country cannot afford the current police budgets, and that we must cut the number of police officers by 16,000.",
+            "mention": "police officers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I know he understands that veterans can have more complex needs than other offenders, but those needs are not always recognised, meaning that some do not get the support they require.",
+            "mention": "offenders",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will the Minister say a little more about how ESA and PIP assessments for those with mental illnesses work?",
+            "mention": "those with mental illnesses",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Alongside the British charity workers I found there, I am frankly ashamed that we will not offer a home to a single one of those refugee families.",
+            "mention": "British charity workers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does she agree with me and most of Birmingham that the relatives of the victims of the 1974 Birmingham pub bombings should be treated equally and in parity with the relatives of the victims of the Hillsborough disaster, and should be provided with access to legal representation so that they can participate effectively in the inquests into the murder of their loved ones?",
+            "mention": "the relatives of the victims of the Hillsborough disaster",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "That is all the more true for women today, particularly in small businesses.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I pay tribute to him, as he has of course played a great part in the campaign and has, in part, brought about this change by the Government, which will be welcomed throughout Wales, by businesses and families alike.",
+            "mention": "families",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I look forward to working with him on the scheme because it is important that we get that message out, even to children at a young age, and I am sure that we can all have a happy new year with that scheme.",
+            "mention": "children at a young age",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I do not think that making statutory provision for adding a guardian is necessary, because every looked-after child is already allocated a social worker and an independent reviewing officer, and is provided with access to an advocate.",
+            "mention": "every looked-after child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is a delight to see your children here watching today, because I know that, while you have a responsibility to Parliament, you also take your responsibilities as a parent incredibly seriously.",
+            "mention": "a parent",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We need to go beyond providing traditional lifesaving support to meet such broader needs-not just jobs, as he says, but getting children into schools.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "On the issue of impartiality, I say this:\u201cRupert Murdoch\u201d-has\u201cbeen a force for good in improving the quality of broadcasting for British consumers\u201d.",
+            "mention": "British consumers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Recent figures from the Royal College of Psychiatrists show that children and adolescent mental health services are still underfunded in many parts of the country-particularly worrying for me is the fact that Bristol seems to be the 13th lowest in the country.",
+            "mention": "adolescent",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is a welcoming place, as attested to by the fact that this year, for the sixth year in a row, we have 170,000 international students coming into our system, which is a record number.",
+            "mention": "international students",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "They have put employers in charge of developing apprenticeship standards so that apprentices learn skills that employers value, and they are introducing an apprenticeship levy to ensure that there is funding for the 3 million apprenticeships that will benefit his constituents.",
+            "mention": "apprentices",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The CABs in Goole and Scunthorpe provide excellent advice to my constituents on debt-related issues.",
+            "mention": "constituents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Recent figures from the Royal College of Psychiatrists show that children and adolescent mental health services are still underfunded in many parts of the country-particularly worrying for me is the fact that Bristol seems to be the 13th lowest in the country.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "When the Home Secretary next meets the Police Federation, will she highlight the success in Northamptonshire, where crime is falling and the new police and crime commissioner, Adam Simmonds, and the chief constable, Adrian Lee, are not moaning about their lot or about budgetary restraints but getting on with providing an effective three-point policing plan that involves a crackdown on criminals, prevention rather than cure and maintaining police numbers and visibility at 1,220 full-time equivalent officers?",
+            "mention": "full-time equivalent officers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What is the Secretary of State doing to equip teachers to teach the subject so that students are well equipped?",
+            "mention": "teachers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We have a record number of people in work.",
+            "mention": "people in work",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Recent revelations from the Public Law Project indicate that country guidance in Eritrea was altered to suggest diminished risks of human rights abuses when there was no evidence to support that, solely in order to lower the number of refugees allowed entry.",
+            "mention": "refugees",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Cutting VAT on uniforms for older children would save some \u00a3200 million, but this cannot be done under current EU law.",
+            "mention": "older children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The CBI has said that the Energy Bill\u201csends a strong signal to investors\u201d.",
+            "mention": "investors",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What work are my right hon. Friend the Secretary of State and her Department doing to clarify the system and to ensure that students are assessed accurately?",
+            "mention": "students",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "This is why the academisation of schools is so important, because it gives schools the ability to make these choices for our children.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In my years in the House, I have long heard the Labour party asking what the Conservative party does for women.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Let us take an example of where parents volunteer and of a crucial part of local communities: Sure Start.",
+            "mention": "local communities",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Notwithstanding the Government's necessary direction of travel on immigration policy as set out in the Queen's Speech, may I ask my hon. Friend to endorse the work of Aberystwyth university, which plans to treble the number of its overseas students by 2017?",
+            "mention": "overseas students",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The purpose of the changes is to improve patient safety, and particularly to deal with the issue that we have higher mortality rates for people who are admitted to hospital at weekends than for those admitted during the week.",
+            "mention": "those admitted during the week",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The juvenile awareness staff programme, known as JASP, is the only training programme that is specifically designed for staff working in young offenders institutions holding those aged under 18.",
+            "mention": "those aged under 18",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Following the death of 167 workers in the Piper Alpha disaster in the North sea, this country developed a world-leading safety case regime for offshore oil and gas, which is now threatened by regulations from the European Union.",
+            "mention": "workers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The outcome of our proposals will therefore be a very much improved offender management picture right across the country.",
+            "mention": "offender",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is critical to educate young people about the risks of sending intimate photographs.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Like many arts activities, live theatre in rural communities faces a bleak future.",
+            "mention": "rural communities",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "For those who end up going to a hearing, fee remission applies in many cases, and if the women win their case, costs are often awarded against their former employers.",
+            "mention": "the women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Many employers who took advantage of the future jobs fund tell me that they are shunning the Youth Contract or that they are sceptical about the Work programme.",
+            "mention": "employers who took advantage of the future jobs fund",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Many 16 to 18-year-olds choose to study at a college rather than in a school sixth form, and they are therefore not eligible for free school meals.",
+            "mention": "16 to 18-year-olds",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What action will the Minister take now, working with supermarkets, retailers and farmers, to ensure a future for the British dairy industry?",
+            "mention": "farmers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "However, we are finding across the country that having the public sector focus on the highest risk prisoners and the private sector and other, non-profit actors focusing on delivering for the lowest risk offenders is delivering innovation, from Cumbria right the way down to London.",
+            "mention": "the highest risk prisoners",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is all about ensuring that the package is not attractive, especially to young people, who are at risk of taking up smoking.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I should tell the hon. Lady that it is premature to make any commitment about the review, because we now need to have proper engagement with local people, patients and those who are responsible to focus on how we can make absolutely certain that the outcomes that we achieve for children requiring cardiac surgery are as good as we can possibly make them.",
+            "mention": "local people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I have visited the 60 houseboat owners at Chelsea Reach many times, and all of them are under threat as they do not have the same legal protections as, for example, static caravan tenants.",
+            "mention": "static caravan tenants",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I do not accept the accuracy of the figures the hon. Lady mentions, but I accept that the figures on young black men and employment are bad, and that they need to improve.",
+            "mention": "young black men",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "With reoffending rates as high as 59% for those sentenced to a year's imprisonment or less, and with the clear link between not reoffending and securing employment, what steps can the Minister take to encourage more employers in Dorset and elsewhere to take on ex-offenders as apprentices?",
+            "mention": "apprentices",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I am grateful to the Minister for that answer, but there is real anxiety among current pensioners that with the introduction of the single-tier pension they will become second-class citizens.",
+            "mention": "citizens",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What steps his Department is taking to strengthen relationships between local employers, schools and further education colleges.",
+            "mention": "local employers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "People tackling cybercrime perhaps need very different skills from those the police have relied on hitherto, before the growth of digital crime.",
+            "mention": "People tackling cybercrime",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We will work with disabled people and the organisations that represent them on the design and delivery of the personal independence payment.",
+            "mention": "disabled people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will he take this opportunity to confirm that that is not the case, that whatever money is necessary to protect my constituency from future flooding will be spent-and if he is struggling to find the money, perhaps he could use funds from the overseas aid budget, because I am sure he believes that victims of flooding in Shipley should not be discriminated against when it comes to victims of flooding in other parts of the world?",
+            "mention": "victims of flooding in other parts of the world",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What figure has the Prime Minister set herself for home ownership among young people?",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Jobs Growth Wales has also enabled more than 270 young entrepreneurs to start new businesses.",
+            "mention": "young entrepreneurs",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In countries such as Greece that did not take grown-up, difficult decisions, teachers' pay has been cut by 30% and thousands of schools have closed.",
+            "mention": "teachers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "This is a great opportunity to unite the whole House in saying that engineering is a great profession and we need more young people to go into it.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Many jobs today require a university degree, yet compared with the position on funding employees' vocational training, there is no equivalent tax shield for employer contributions to higher education.",
+            "mention": "employer",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "GPs around the country are facing unprecedented pressures as they work to deliver the highest possible standards of care, despite underinvestment and increasing patient demand.",
+            "mention": "patient",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Violent crime is down and alcohol consumption overall is down, particularly among young people, but of course it is very important to look at this issue, particularly in relation to domestic abuse.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will the Minister welcome the new apprentice teaching sports assistants coach programme put on by Gillingham football club in my constituency, which is working with primary schools to get more sports coaches into primary schools?",
+            "mention": "sports coaches",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I should tell the hon. Lady that it is premature to make any commitment about the review, because we now need to have proper engagement with local people, patients and those who are responsible to focus on how we can make absolutely certain that the outcomes that we achieve for children requiring cardiac surgery are as good as we can possibly make them.",
+            "mention": "patients",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Improving the quality of current teachers is vital to increasing the attainment of all children.",
+            "mention": "teachers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does my hon. Friend agree that such programmes are an invaluable tool in getting young people back to work?",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does my hon. Friend agree that, because we raised the income tax threshold from \u00a36,500 a year in 2010 to \u00a311,500 a year, basic rate taxpayers typically pay \u00a31,000 a year less in income tax?",
+            "mention": "taxpayers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It has elevated the qualities of care and compassion to the top of its criteria for recruiting health care assistants.",
+            "mention": "health care assistants",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "My hon. Friend is right to draw attention to the excellent work that is being done with female offenders by various organisations in the voluntary sector.",
+            "mention": "female offenders",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The current thrust of Government thinking is that more hospices and end-of-life care services will be delivered by organisations such as Sue Ryder Care, which runs the excellent Wheatfields hospice in my constituency.",
+            "mention": "hospices",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "However, we are finding across the country that having the public sector focus on the highest risk prisoners and the private sector and other, non-profit actors focusing on delivering for the lowest risk offenders is delivering innovation, from Cumbria right the way down to London.",
+            "mention": "the lowest risk offenders",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Of course, domestic violence affects not just women but men, too; but what contact has my hon. Friend had with companies such as the John Lewis Partnership, whose chief executive takes a particularly proactive approach to care in her company?",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The Schools Minister, the hon. Member for Bognor Regis and Littlehampton (Mr Gibb), is fond of saying that there is adequate money in the early intervention grant to fund the network of children's centres.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "If he will take steps to implement the recommendations of parliamentary Committees in the last Parliament and the UN Committee on the Rights of the Child to end the recruitment of under-18s into the armed forces.",
+            "mention": "Child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does she agree that menopause policies should become statutory for employers in the same way that maternity policies are statutory?",
+            "mention": "employers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "No one in the House wants to see the claimant count rise-most especially, no one wants young people to have to add themselves to the rolls of the unemployed.",
+            "mention": "the unemployed",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The Government's approach is to have discussions with the official Opposition and to engage fully with stakeholders from Age UK, Carers UK and many other organisations, not just about funding reform-which is an important part of our reform of social care-but about questions of quality and law reform.",
+            "mention": "stakeholders from Age UK",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Teachers have travelled from all over the country today to lobby Parliament about severe real-terms cuts in their pay.",
+            "mention": "Teachers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We need to keep on with that, while of course making sure that the benefit system works for people who need it, but he does not do his constituents any favours by talking down the performance of the economy.",
+            "mention": "constituents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What recent assessment he has made of the effect of his fiscal policies on the level of child poverty.",
+            "mention": "child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The fact that GPs, who are making all the financial decisions, will get more funding if there are fewer A and E visits, does not mean that people will stop going.",
+            "mention": "GPs",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We are looking to consortia because they are clinically led and responsive to patients in designing far better clinical services, and they will have considerable support in doing so.",
+            "mention": "patients",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Will the Secretary of State give the House an assurance that enough British-trained RAF pilots are operating in Libya, especially at the moment?",
+            "mention": "British-trained RAF pilots",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I beseech him to ensure that in the new policy businesses and locally elected authorities can get together to avail themselves far more directly of all that taxpayer money.",
+            "mention": "taxpayer",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What recent discussions she has had with the Secretary of State for Work and Pensions on the effect of the roll-out of universal credit on women.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Witness care units are important and new Crown Prosecution Service guidance on child sexual exploitation is due in the new year.",
+            "mention": "Witness",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The film spoke to a number of men, who were completely open about the fact that their honour is the most important thing; more important than the life and happiness of their child.",
+            "mention": "men",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We need to carry out conversations with local councils, because many of them, particularly in the south of England, are already under pressure owing to the number of child refugees who have already come.",
+            "mention": "child refugees",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We should concentrate on the children and their families most in need, and they are the ones in the refugee camps in the region.",
+            "mention": "refugee",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "There have been no representations received from Northamptonshire local authority in relation to provision for children with special educational needs in the authority's area.",
+            "mention": "children with special educational needs",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Significant cuts to the armed forces carry real risk; increased reliance on the reservists carries real risk; and greater emphasis on the private sector for logistical support, again, carries real risk.",
+            "mention": "the reservists",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Extraordinarily, although there is a consultation, parents have been told that it is a foregone conclusion.",
+            "mention": "parents",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We have continued to deliver on issues that affect the motorist, following the findings last year that defeat devices were fitted to Volkswagen vehicles.",
+            "mention": "the motorist",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "How can we ensure that prisoners do not become institutionalised as a result of seeing prisons as \u201csafe havens\u201d, rather than rebuilding their lives once they have been released?",
+            "mention": "prisoners",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Nurses can see-through best practice, if they talk to patients about their experience every hour-that they can deliver better care.",
+            "mention": "patients",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Unlike most professions, those in the armed forces do not get to choose where they are stationed, but those in Scotland are undoubtedly delighted to serve there.",
+            "mention": "those in the armed forces",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Under his proposed \u201cshares for rights\u201d scheme, employers in his constituency will be allowed to make the acceptance of job offers conditional on people agreeing to give up their basic rights at work for shares.",
+            "mention": "employers in his constituency",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "In fact, if we were stuck with the levels of poor tax collection under the Labour party, we would lose revenues equivalent to employing every policeman and policewoman in England and Wales.",
+            "mention": "every policeman and policewoman in England and Wales",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "These included the Government's assessment of the impact on children.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Employment has fallen more sharply among men during the recession, so frankly it will be expected to rise more quickly as the economy recovers.",
+            "mention": "men",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We are committed to ensuring all employers pay their workers correctly.",
+            "mention": "all employers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Women's participation in the labour force has never been higher.",
+            "mention": "Women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "What steps he is taking to address the shortage of drivers in the road haulage industry.",
+            "mention": "drivers in the road haulage industry",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It was this coalition that deregulated to enable new independent suppliers to come into the market-11 new suppliers coming in since 2010, and there has been a big increase in the number of customers for the smaller suppliers, who are taking on the big six.",
+            "mention": "customers for the smaller suppliers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "That is statistically demonstrated by the fact that women in managerial or professional roles admit to drinking almost double the amount drunk by women on lower incomes.",
+            "mention": "women in managerial or professional roles",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I have every intention of giving it additional commercial freedoms so that it is able to charge a proper rate from those who can afford to pay it.",
+            "mention": "those who can afford to pay it",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Moving to output-based measures will enable us to use the capacity of all those people who want to help us in the incredibly important work of rehabilitating offenders much more effectively than we have done to date.",
+            "mention": "all those people who want to help us in the incredibly important work of rehabilitating offenders",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Most employers of apprentices pay dramatically more than the minimum wage-and quite right, too, because they value young people and their efforts-but this Government will always bear down on those who fail in their responsibilities.",
+            "mention": "employers of apprentices",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "He told me that the three months of training left him ill-equipped to deal with the violence and intimidation, and to deal with prisoners with mental health problems.",
+            "mention": "prisoners with mental health problems",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "May I encourage him to think more about what can be done, given that the Kindertransport helped 10,000 children from Europe?",
+            "mention": "children from Europe",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Prior to the Human Rights Act 1998 and its incorporation of the European convention on human rights into UK law, victims would have had to go to the European Court of Human Rights in Strasbourg to enforce their rights.",
+            "mention": "victims",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "On small businesses, many people find crowdfunding and crowdsourcing a real way to start businesses and get the finance to do it; women, in particular, are coming through that route.",
+            "mention": "women",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "For example, 97% of people from the Francis Crick Institute say that our science and our bioscience are in danger because of Brexit.",
+            "mention": "people from the Francis Crick Institute",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Clearly the actions of certain lawyers bring the profession into disrepute, but thousands of people across the country achieve justice through pro bono work.",
+            "mention": "people across the country",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "GPs and their clinical colleagues will therefore be incentivised continuously to improve quality.",
+            "mention": "clinical colleagues",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does the Secretary of State agree that the opportunity to learn to play music is hugely important in building children's confidence and their enjoyment of school, and will she visit Nottingham Music Service to hear more about the wonderful work it is doing in our city schools, where more than 8,000 students are learning to play a musical instrument?",
+            "mention": "students",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Some 15,000 people in my hon. Friend's constituency have been auto-enrolled thanks to the 2,010 employers supporting the system.",
+            "mention": "people in my hon. Friend's constituency",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The Fraser of Allander Institute reports today that many firms are still ill prepared for a no-deal Brexit, that the worst-case scenario is the equivalent of making 100,000 people in Scotland unemployed, and that we face a recession double the size of that which Scotland experienced in the crash.",
+            "mention": "people in Scotland",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We all have constituents and relatives, elderly people, who are the victims of telephone scams.",
+            "mention": "relatives",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "If they did that, there would be higher interest rates, more businesses going bust and harder times for home owners.",
+            "mention": "home owners",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Families who suffer bereavement or veterans who suffer injury in Afghanistan know that when they return local authorities currently have the power completely to exempt war disablement pension and war widow's pensions when means-testing for council tax benefit.",
+            "mention": "widow",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Alternatively, they can legislate through their own Parliament, but they will need some legislation in order to be able to pay their farmers in 2020.",
+            "mention": "farmers",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I think there is a widely understood definition of voluntary and community sector groups, and the big society bank will be organised in such a way that it can identify those and make sure that the funds that it is providing to social investors and social lenders go only to those groups.",
+            "mention": "voluntary and community sector groups",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "That is a major reason why many children fall out of the education system and end up in prison.",
+            "mention": "children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We have 600,000 more disabled people in work than was the case in 2010, but there is more to do, which is why the Government have an ambition to increase the number from 3.5 million to 4.5 million over the course of 10 years.",
+            "mention": "disabled people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We work closely with charity groups such as Gingerbread to ensure that the hours that lone parents have to work and the commitments they have to live up to fit around their lives and the children they look after.",
+            "mention": "the children they look after",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "There is a fairness element: before we introduced the cap, about \u00a39 million a year was being spent on fewer than 300 families.",
+            "mention": "families",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "It is for NHS commissioners and providers to work together with local authorities, patients and the public to shape their local NHS in such a way as to improve the quality, safety and sustainability of healthcare services.",
+            "mention": "patients",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The families federations, with which we work very closely, have made the case that it is not even clear to those actually embarking on the journey that, although it is okay for them to come across, they will bump into a financial burden should they wish to bring in their family, and we need to move forward on that.",
+            "mention": "family",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We recently announced that all NHS acute hospitals must provide information on patients who have undergone female genital mutilation, but that is just one element of a wider-ranging programme of work that is under way in order, most importantly, to improve the way in which we care for girls and women who have undergone FGM and to follow up on, respond to and prevent FGM.",
+            "mention": "patients who have undergone female genital mutilation",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "They have a strong sense that the deck is stacked against them, their families and their ability to exercise their legal rights.",
+            "mention": "families",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Clause 11 is entitled, \u201cWelfare of the child: parental involvement\u201d.",
+            "mention": "the child",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Does the Secretary of State agree, in the spirit of democracy, that the devolved Governments are best placed to determine the future of the people living and working in our nations?",
+            "mention": "people living and working in our nations",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We all have constituents and relatives, elderly people, who are the victims of telephone scams.",
+            "mention": "elderly people",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "Successful key worker and personal officer schemes will depend on having experienced staff, because they are best able to develop relationships with prisoners and deal with violence, the risk of suicide and other issues.",
+            "mention": "prisoners",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "I offer my congratulations to the head teacher, Helena Mills, and all her staff on the tremendous achievement that that school has delivered over the past few years in raising the standard of GCSE achievement of its pupils.",
+            "mention": "pupils",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "We want providers of rehabilitation services to tackle the root causes of offending, and to ensure that they have the right package of support to help offenders to turn their lives around.",
+            "mention": "providers of rehabilitation services",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        },
+        {
+            "sentence": "The Institute for Fiscal Studies estimates that the changes that the Government are bringing in will cost a one-earner family with children around \u00a3534 from April this year.",
+            "mention": "a one-earner family with children",
+            "gold_stance": "neutral",
+            "pred_stance": "pos"
+        }
+    ],
+    "pos-neg": [
+        {
+            "sentence": "We are concerned about the ethnic violence and issues of religion, and we remain concerned-I shall raise these points forcefully when I am there-about the issue of the remaining political prisoners.",
+            "mention": "political prisoners",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "The most disturbing part of last weekend was the insinuation of equivalence between those who got up in the morning to go and murder women, children and civilians, and those who donned a uniform to go and protect the Crown.",
+            "mention": "those who donned a uniform to go and protect the Crown",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Community representatives are concerned about individuals who have worked in the grey economy as cleaners or handymen, or for unscrupulous employers, being able to supply the right paperwork.",
+            "mention": "individuals who have worked in the grey economy",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "It seems an incredible waste of money, a bureaucracy, a waste of civil servants' time and an embarrassment to residents.",
+            "mention": "civil servants",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "The money-up to \u00a350 million-will come from offenders and go to victims, which is a move away from the taxpayer being responsible.",
+            "mention": "the taxpayer",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Does my right hon. and learned Friend agree that it is ridiculous that unaccountable managers in the National Offender Management Service can undo all the good work done by probation officers by putting an ex-offender back in prison purely for having been a conscientious employee who was kept on late at work?",
+            "mention": "ex-offender",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Parents will be shocked to know that, under the Sexual Offences Act 2003, youth leaders and sports coaches are not included within the definition of a \u201ctrusted position\u201d, which means that they can legally have sex with 16 and 17-year-olds for whom they are responsible and whom they supervise.",
+            "mention": "16 and 17-year-olds",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "I would have thought that he would welcome a change in policy that focuses health and safety inspections not on low-risk, good employer sites, which have taken up so much resource in the past, but on employers who are not playing by the book and who endanger their employees and the public.",
+            "mention": "employer",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Does he also agree that it is time that we had a national institute to look at the prevention of crimes of that nature against children and to help perpetrators-a \u201cwhat works\u201d foundation of the sort that he kindly supported on early intervention and policing?",
+            "mention": "perpetrators",
+            "gold_stance": "pos",
+            "pred_stance": "neg"
+        }
+    ],
+    "neg-neutral": [
+        {
+            "sentence": "There are 6,100 tariff-expired offenders serving indeterminate sentences, at a cost, I estimate, of \u00a3200 million annually.",
+            "mention": "tariff-expired offenders serving indeterminate sentences",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Specific support has already been provided for Norfolk and Norwich University hospital, and support will be provided consistently throughout the winter to enable us to deal with the additional challenges that are, I am afraid, being thrown in the way of hospitals throughout the country by the junior doctors and their industrial action.",
+            "mention": "junior doctors",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Each one of those families is taking up the hard-earned taxes of many working people earning far less, who could not dream of living in such houses.",
+            "mention": "those families",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Recently, the Parole Board, against the advice of probation and forensic psychologists, released one of those men before his minimum sentence had been served.",
+            "mention": "those men",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "While Labour was in power, the number of foreign prisoners more than doubled, at great expense to the taxpayer.",
+            "mention": "foreign prisoners",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "He did not refer, for instance, to the ITV documentary that was broadcast recently that showed offenders abusing community payback and problems with supervision.",
+            "mention": "offenders",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will my right hon. Friend update the House on the latest figures for the numbers of deaths and serious injuries due to accidents caused by drivers using mobile phones while driving?",
+            "mention": "drivers",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "President al-Bashir has said that southern Sudanese living in the north will be classed as foreigners and will lose rights accordingly.",
+            "mention": "foreigners",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "That is an example of a Government measure introduced by employers.",
+            "mention": "employers",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "As chair of the all-party group on myalgic encephalomyelitis, I receive many representations about GPs in this country still not necessarily recognising the condition.",
+            "mention": "GPs in this country",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Last week, the Minister revealed in a written answer to me that 4,175 offenders in England and Wales had been recalled to prison in the first three months of 2012 and that the rate is actually rising under this coalition, to more than 16,000 a year.",
+            "mention": "offenders in England and Wales",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Vulnerable girls like that do not usually get heard by politicians.",
+            "mention": "politicians",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Does he agree that we need constantly to seek better ways of connecting businesses with schools and ensuring that proper careers advice is provided by people with experience of business, rather than merely from teachers?",
+            "mention": "teachers",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Experienced staff are leaving, and experienced prisoners are now running prisons.",
+            "mention": "prisoners",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In addition, there is a \u00a3200 million cancer drugs fund, so that people get the drugs they need and, for the first time in a long time, the number of doctors is growing very quickly and the number of bureaucrats is actually falling.",
+            "mention": "bureaucrats",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "In 2016, just 23% of its pupils reached the expected standard in reading, writing and maths, compared to a national average of 53%.",
+            "mention": "pupils",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "The number of young people behind bars is indeed falling, but the latest figures show that the number of white children in custody has fallen at twice the rate of that for those from ethnic minorities.",
+            "mention": "those from ethnic minorities",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Parents will be shocked to know that, under the Sexual Offences Act 2003, youth leaders and sports coaches are not included within the definition of a \u201ctrusted position\u201d, which means that they can legally have sex with 16 and 17-year-olds for whom they are responsible and whom they supervise.",
+            "mention": "youth leaders",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "It is one of the reasons why I was very clear yesterday when I did a television interview and set out the security arrangements that we have in place in relation to refugees, so that people can set aside concerns and understand that there are proper security arrangements.",
+            "mention": "refugees",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Little stigma attaches to home drinking, and it is perhaps only later in life that women realise that there was any drawback to what they have been doing.",
+            "mention": "women",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Parents will be shocked to know that, under the Sexual Offences Act 2003, youth leaders and sports coaches are not included within the definition of a \u201ctrusted position\u201d, which means that they can legally have sex with 16 and 17-year-olds for whom they are responsible and whom they supervise.",
+            "mention": "sports coaches",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "They know that when the bankers' bonuses were threatened, he immediately shot across to Brussels with an army of lawyers to defend them and that he will jump into a helicopter for a Tory fundraiser.",
+            "mention": "lawyers",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "If the possibility for prosecution rests on asking young girls who are already in a patriarchal family structure to inform on their parents, it seems to me that our levels of prosecution are going to remain low to zero.",
+            "mention": "parents",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Will the Home Secretary assure the House that she is in discussion with her Greek counterparts about dealing with that, as it would prevent more children from having to come to Calais in the first place?",
+            "mention": "children",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Is my right hon. Friend aware that nearly 40 Government Members have signed an amendment in my name requiring that all offenders convicted of using a knife in a threatening or endangering fashion will receive a custodial sentence, not only those over 18?",
+            "mention": "those over 18",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "On a Friday evening, what young people want is to be out from the rain and away from parents, with high-speed internet access and the chance to hang out with friends-to be a teenager-and that is very welcome.",
+            "mention": "parents",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Last week, the Home Secretary confirmed to the House that under her new arrangements, someone who is barred from working with children could still get a job as a voluntary teaching assistant without the school or the parents knowing that they were barred.",
+            "mention": "someone who is barred from working with children",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "A doctor or nurse who fails in their duty can be struck off, so there is clear accountability, but there appears to be no clear accountability or traceability for the decisions of hospital managers.",
+            "mention": "hospital managers",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        },
+        {
+            "sentence": "Given the huge savings for the nation made by the Cabinet Office across government without legislation and the huge financial risks provoked by constant structural reorganisation, as in the NHS, would it not be better if politicians learned to manage more and meddle less-even if Governments find the latter easier and more interesting?",
+            "mention": "politicians",
+            "gold_stance": "neg",
+            "pred_stance": "neutral"
+        }
+    ],
+    "neutral-neg": [
+        {
+            "sentence": "A doctor or nurse who fails in their duty can be struck off, so there is clear accountability, but there appears to be no clear accountability or traceability for the decisions of hospital managers.",
+            "mention": "A doctor or nurse who fails in their duty",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Thousands of foreign criminals have been released from prison, and the Public Accounts Committee reported just two months ago that the number being deported is now 500 lower than it was in 2008-09 under the previous Government.",
+            "mention": "foreign criminals",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Will they be treated as criminals, or as the victims of, in many cases, modern slavery?",
+            "mention": "criminals",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "More students from disadvantaged backgrounds are going to university than ever before, and the gap between the richest and the poorest has never been smaller.",
+            "mention": "the richest",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "The number of young people behind bars is indeed falling, but the latest figures show that the number of white children in custody has fallen at twice the rate of that for those from ethnic minorities.",
+            "mention": "young people",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "There is concern that local police are having to report minor fights between siblings as crimes-a waste of police time when some sort of caution or discretion would be much more helpful.",
+            "mention": "siblings",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "In terms of the number of families who will be affected, higher-rate tax is paid by 15% of taxpayers, and the decision that we have taken is to say that child benefit should not be received by families where there is a higher-rate taxpayer.",
+            "mention": "families who will be affected",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Does not the passage of the Russian frigate Admiral Gorshkov through the English channel over Christmas prove that the Russians are intent on constantly observing our capability on the high seas, and is it not vital for us to maintain that capability at as high a level as possible?",
+            "mention": "the Russians",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Would not the effectiveness of all custodial sentences be increased if we reduced the number of prisoners who were released on a Friday night when no public services are available for them, often leaving them to fall into the hands of the local drug dealer and go straight back into a life of crime?",
+            "mention": "prisoners",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "As he knows, the funding formula is decided independently-at arm's length from politicians-but we have ensured that everyone gets a real-terms rise.",
+            "mention": "politicians",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Revoking article 50 would break the trust the British people place in politicians, in voting and in democracy.",
+            "mention": "politicians",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "They are doing a brilliant job and I want them to continue doing that job, but we have to ask ourselves whether it is ethical for us to continue to recruit doctors from much poorer countries that really need their skills.",
+            "mention": "doctors from much poorer countries",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "Last month, I visited a prison in Nottingham that serves as a primary prison for many offenders in Derby.",
+            "mention": "offenders in Derby",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "On Monday her friend the right hon. Member for Broxtowe (Anna Soubry) expressed concern about the automotive and aerospace industries, while the British Bankers Association said that its members'\u201chands are quivering over the relocate button.\u201dEvery day the Prime Minister dithers over this chaotic Brexit, employers delay investment and rumours circulate about relocation.",
+            "mention": "employers",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        },
+        {
+            "sentence": "We certainly want to make sure that the phenomenon of revenge evictions is stamped out and that there is an equality of power between tenants and landlords in both the social and the private rented sector.",
+            "mention": "landlords",
+            "gold_stance": "neutral",
+            "pred_stance": "neg"
+        }
+    ]
+}
