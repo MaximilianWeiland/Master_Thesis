@@ -103,7 +103,9 @@ reg_election_strategy_logit <- glm(
   family = binomial(link = "logit"),
   data = speech_counts
 )
-reg_election_strategy_logit_cse <- coeftest(reg_election_strategy_logit, vcov = vcovCL(reg_election_strategy_logit, cluster = cluster_var))
+reg_election_strategy_logit_cse <- coeftest(reg_election_strategy_logit,
+                                            vcov = vcovCL(reg_election_strategy_logit,
+                                                          cluster = cluster_var))
 reg_election_strategy_logit_cse
 
 # test if negative appeals are more likely by opposition parties
@@ -155,7 +157,7 @@ youth_nb_ints_cse
 
 # compute predicted counts for interactions via parametric bootstrap
 pred_youth_count <- pb_predicted_counts(
-  b_iterations = 1000,
+  b_iterations = 10,
   regression = youth_nb_ints,
   dv = "youth",
   cluster_var = cluster_var,
@@ -211,6 +213,8 @@ elderly_nb_ints <- glm.nb(
 )
 elderly_nb_ints_cse <- coeftest(elderly_nb_ints, vcov = vcovCL(elderly_nb_ints, cluster = cluster_var))
 elderly_nb_ints_cse
+
+elderly_nb_ints$aic
 
 # compute predicted counts for interactions via parametric bootstrap
 pred_elderly_count <- pb_predicted_counts(

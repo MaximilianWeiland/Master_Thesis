@@ -145,14 +145,18 @@ mp_bes_merged <- mp_counts |>
 
 ########################### Effect of Youth Appeals ############################
 
+# reduce to Labour legislators
+labour_only <- mp_bes_merged |> 
+  filter(party == "Lab")
+
 # specify the cluster variable
-cluster_var <- factor(mp_bes_merged$ons_id)
+cluster_var <- factor(labour_only$ons_id)
 
 # logistic regression with clustered standard errors
 youth_logreg <- glm(
-  labour_choice ~ share_youth_appeals * age_group * party + under_30 + gender_respondent + factor(election_year),
+  labour_choice ~ share_youth_appeals * age_group + under_30 + gender_respondent + factor(election_year),
   family = binomial(link = "logit"),
-  data = mp_bes_merged,
+  data = labour_only,
   #weights = weight
 )
 youth_logreg_cse <- coeftest(youth_logreg, vcov = vcovCL(youth_logreg, cluster = cluster_var))
@@ -160,7 +164,7 @@ youth_logreg_cse
 
 # application of parametric bootstrap
 youth_vals <- c(1:100)
-parties <- c("Con", "Lab")
+parties <- c("Lab")
 age_groups <- c("old", "young")
 pred_probs_youth <- pb_predicted_probs(
   b_iterations = 1000,
@@ -184,7 +188,6 @@ ggplot(pred_probs_youth,
   geom_ribbon(aes(ymin = lower, ymax = upper),
               alpha = 0.2,
               color = NA) +
-  facet_wrap(~party) +
   labs(
     x = "Youth Appeal Share",
     y = "Predicted Probability (Vote = Lab)",
@@ -215,53 +218,39 @@ lab_diff_youth <- with(
   subset(me_df_cse_youth, party == "Lab"),
   AME[age_group == "young"] - AME[age_group == "old"]
 )
-con_diff_youth <- with(
-  subset(me_df_cse_youth, party == "Con"),
-  AME[age_group == "young"] - AME[age_group == "old"]
-)
 
 # calculate standard error of the difference and compute z- and p-values
 lab_se_diff_youth <- sqrt(
   subset(me_df_cse_youth, party == "Lab")$SE[1]^2 +
     subset(me_df_cse_youth, party == "Lab")$SE[2]^2
 )
-con_se_diff_youth <- sqrt(
-  subset(me_df_cse_youth, party == "Con")$SE[1]^2 +
-    subset(me_df_cse_youth, party == "Con")$SE[2]^2
-)
+
 lab_z_youth <- lab_diff_youth / lab_se_diff_youth
-con_z_youth <- con_diff_youth / con_se_diff_youth
 lab_p_youth <- 2 * (1 - pnorm(abs(lab_z_youth)))
-con_p_youth <- 2 * (1 - pnorm(abs(con_z_youth)))
 cat(
   "AME of the difference between young and old for Labour:", lab_diff_youth, "\n",
-  "Associated p-value:", lab_p_youth, "\n\n",
-  "AME of the difference between young and old for Conservatives:", con_diff_youth, "\n",
-  "Associated p-value:", con_p_youth, "\n"
+  "Associated p-value:", lab_p_youth, "\n\n"
 )
 
 # compute difference of average marginal effects for each iteration
-ame_diffs_youth <- diff_in_ame(
+labour_diffs_ame_youth <- diff_in_ame(
   b_iterations = 1000,
   regression = youth_logreg,
   iv = "share_youth_appeals",
+  party_val = "Lab",
   cluster_var = cluster_var
 )
 
-# show side by side histograms
-labour_diffs_ame_youth <- ame_diffs_youth$labour_boot
-con_diffs_ame_youth <- ame_diffs_youth$con_boot
+# show histogram
 ame_boot_df_youth <- data.frame(
-  Labour = labour_diffs_ame_youth,
-  Conservative = con_diffs_ame_youth
+  Labour = labour_diffs_ame_youth
 ) |> 
   pivot_longer(cols = everything(), names_to = "party", values_to = "ame_diff")
 
-ggplot(ame_boot_df_youth, aes(x = ame_diff, fill = party)) +
+ggplot(ame_boot_df_youth, aes(x = ame_diff)) +
   geom_histogram(position = "dodge", bins = 30, alpha = 0.7, color = "black") +
-  facet_wrap(~ party) +
   labs(
-    title = "Bootstrapped Differences in AME: Young vs Old",
+    title = "Bootstrapped Differences in AME for Labour: Young vs Old",
     x = "AME Difference",
     y = "Frequency"
   ) +
@@ -279,10 +268,17 @@ write.csv(ame_boot_df_youth, "analysis_results/ame_diffs_youth.csv", row.names =
 
 ########################### Effect of Elderly Appeals ##########################
 
+# reduce to Conservative legislators
+con_only <- mp_bes_merged |> 
+  filter(party == "Con")
+# specify the cluster variable
+cluster_var <- factor(con_only$ons_id)
+
+# logistic regression with clustered standard errors
 elderly_logreg <- glm(
-  conservatives_choice ~ share_elderly_appeals * age_group * party + over_65 + gender_respondent + factor(election_year),
+  conservatives_choice ~ share_elderly_appeals * age_group + over_65 + gender_respondent + factor(election_year),
   family = binomial(link = "logit"),
-  data = mp_bes_merged,
+  data = con_only,
   #weights = weight
 )
 elderly_logreg_cse <- coeftest(elderly_logreg, vcov = vcovCL(elderly_logreg, cluster = cluster_var))
@@ -290,7 +286,7 @@ elderly_logreg_cse
 
 # application of parametric bootstrap
 elderly_vals <- c(1:100)
-parties <- c("Con", "Lab")
+parties <- c("Con")
 age_groups <- c("old", "young")
 pred_probs_elderly <- pb_predicted_probs(
   b_iterations = 1000,
@@ -314,7 +310,6 @@ ggplot(pred_probs_elderly,
   geom_ribbon(aes(ymin = lower, ymax = upper),
               alpha = 0.2,
               color = NA) +
-  facet_wrap(~party) +
   labs(
     x = "Elderly Appeal Share",
     y = "Predicted Probability (Vote = Con)",
@@ -334,64 +329,50 @@ me_elderly_cse <- margins(
   variables = "share_elderly_appeals",
   at = list(
     age_group = c("young", "old"),
-    party = c("Con", "Lab")
+    party = c("Con")
   ),
   vcov = v_cov_elderly
 )
 me_elderly_df_cse <- summary(me_elderly_cse)
 
 # calculate differences between young and old for Labour and Conservatives
-lab_diff_elderly <- with(
-  subset(me_elderly_df_cse, party == "Lab"),
-  AME[age_group == "old"] - AME[age_group == "young"]
-)
 con_diff_elderly <- with(
   subset(me_elderly_df_cse, party == "Con"),
   AME[age_group == "old"] - AME[age_group == "young"]
 )
 
 # calculate standard error of the difference and compute z- and p-values
-lab_se_diff_elderly <- sqrt(
-  subset(me_elderly_df_cse, party == "Lab")$SE[1]^2 +
-    subset(me_elderly_df_cse, party == "Lab")$SE[2]^2
-)
 con_se_diff_elderly <- sqrt(
   subset(me_elderly_df_cse, party == "Con")$SE[1]^2 +
     subset(me_elderly_df_cse, party == "Con")$SE[2]^2
 )
-lab_z_elderly <- lab_diff_elderly / lab_se_diff_elderly
 con_z_elderly <- con_diff_elderly / con_se_diff_elderly
-lab_p_elderly <- 2 * (1 - pnorm(abs(lab_z_elderly)))
 con_p_elderly <- 2 * (1 - pnorm(abs(con_z_elderly)))
 cat(
-  "AME of the difference between old and young for Labour:", lab_diff_elderly, "\n",
-  "Associated p-value:", lab_p_elderly, "\n\n",
   "AME of the difference between old and young for Conservatives:", con_diff_elderly, "\n",
   "Associated p-value:", con_p_elderly, "\n"
 )
 
 # compute difference of average marginal effects for each iteration
-ame_diffs_elderly <- diff_in_ame(
+con_diffs_ame_elderly <- diff_in_ame(
   b_iterations = 1000,
   regression = elderly_logreg,
   iv = "share_elderly_appeals",
+  party_val = "Con",
   cluster_var = cluster_var
 )
 
-# show side by side histograms
-labour_diffs_ame_elderly <- ame_diffs_elderly$labour_boot
-con_diffs_ame_elderly <- ame_diffs_elderly$con_boot
+# show histogram
 ame_boot_df_elderly <- data.frame(
-  Labour = labour_diffs_ame_elderly,
   Conservative = con_diffs_ame_elderly
 ) |> 
   pivot_longer(cols = everything(), names_to = "party", values_to = "ame_diff")
 
-ggplot(ame_boot_df_elderly, aes(x = ame_diff, fill = party)) +
+ggplot(ame_boot_df_elderly, aes(x = ame_diff)) +
   geom_histogram(position = "dodge", bins = 30, alpha = 0.7, color = "black") +
   facet_wrap(~ party) +
   labs(
-    title = "Bootstrapped Differences in AME: Young vs Old",
+    title = "Bootstrapped Differences in AME for Conservatives: Old vs. Young",
     x = "AME Difference",
     y = "Frequency"
   ) +

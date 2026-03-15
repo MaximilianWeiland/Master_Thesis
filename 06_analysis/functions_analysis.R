@@ -170,7 +170,7 @@ pb_predicted_probs <- function(b_iterations, regression, iv, cluster_var, df,
   return(pred_probs_df)
 }
 
-diff_in_ame <- function (b_iterations, regression, iv, cluster_var) {
+diff_in_ame <- function (b_iterations, regression, iv, party_val, cluster_var) {
   
   # sample from multivariate normal likelihood function
   beta_hat <- coef(regression)
@@ -180,9 +180,8 @@ diff_in_ame <- function (b_iterations, regression, iv, cluster_var) {
   )
   
   # create empty vectors to store AME differences
-  lab_diff_boot <- numeric(b_iterations)
-  con_diff_boot <- numeric(b_iterations)
-  
+  diff_boot <- numeric(b_iterations)
+
   # loop over bootstrap iterations
   for (b in 1:b_iterations) {
     
@@ -200,22 +199,21 @@ diff_in_ame <- function (b_iterations, regression, iv, cluster_var) {
       variables = iv,
       at = list(
         age_group = c("young", "old"),
-        party = c("Con", "Lab")
+        party = c(party_val)
       )
     )
     me_df <- summary(me)
     
     # calculate difference between young and old for Labour and Conservatives
-    lab_diff_boot[b] <- with(
-      subset(me_df, party == "Lab"),
-      AME[age_group == "young"] - AME[age_group == "old"]
-    )
-    con_diff_boot[b] <- with(
-      subset(me_df, party == "Con"),
-      AME[age_group == "young"] - AME[age_group == "old"]
+    diff_boot[b] <- with(
+      subset(me_df, party == party_val),
+      if (party_val == "Lab") {
+        AME[age_group == "young"] - AME[age_group == "old"]
+      }
+      else {
+        AME[age_group == "old"] - AME[age_group == "young"]
+      }
     )
   }
-  results_list <- list(labour_boot = lab_diff_boot,
-                       con_boot = con_diff_boot)
-  return(results_list)
+  return(diff_boot)
 }
