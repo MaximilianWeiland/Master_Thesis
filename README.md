@@ -4,9 +4,9 @@ The pipeline consists of two main tasks. The detection of social group mentions 
 The best-performing models are applied to a corpus of British parliamentary speeches from 2010 to 2019 at the sentence level. To further analyze detected group mentions, I implement an inductive clustering approach. This involves training a BERT model with contrastive learning to obtain semantically meaningful representations, which are then used to cluster group mentions into qualitative categories.
 
 ## Classification and Clustering Results
-![Model Performance on Group Mention Detection](07_reports_presentations/figures/group_mention_classification/best_models_f1_all_metrics.png)
-![Model Performance on Stance Classification](07_reports_presentations/figures/stance_classification/best_models_f1_all_classes.png)
-![Development of Silhouette Score Across K](07_reports_presentations/figures/clustering/silscore_dictionary_only.png)
+![Model Performance on Group Mention Detection](06_reports_presentations/figures/group_mention_classification/best_models_f1_all_metrics.png)
+![Model Performance on Stance Classification](06_reports_presentations/figures/stance_classification/best_models_f1_all_classes.png)
+![Development of Silhouette Score Across K](06_reports_presentations/figures/clustering/silscore_dictionary_only.png)
 
 ## Reproducibility
 
@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 
 ### Applying the Models
-Quick demonstrations showing how the final classification models are applied can be found in the [Demo Notebooks](08_demo_notebooks/) folder. Note, that models are too large to be stored in this repo, but can be accessed through my [HuggingFace account](https://huggingface.co/maxwlnd).
+Quick demonstrations showing how the final classification models are applied can be found in the [Demo Notebooks](07_demo_notebooks/) folder. Note, that models are too large to be stored in this repo, but can be accessed through my [HuggingFace account](https://huggingface.co/maxwlnd).
 
 ## Folder Structure
 
@@ -34,10 +34,10 @@ Contains all Python scripts for preprocessing the speech data, creating the data
 
 ### 04_classification_models
 Encompasses the creation of classification models for social group detection and stance classification with a variety of both encoder and generative LLMs.
-* [evaluation_augmentations_oversampling](04_classification_models/evaluation_augmentations_oversampling/) Empirical evaluation of model performance with increasing dataset size as well as evaluation of using augmented data to oversample minority classes.
-* [final_model_application](04_classification_models/final_model_application/) Applying the best performing classification models to the entire dataset.
-* [group_mention_detection](04_classification_models/group_mention_detection/) Development of various BERT, GPT and dictionary models for the automatic detection of social group mentions. Evaluation via 5-fold cross-validation can be found in [cross_val_results](04_classification_models/group_mention_detection/cross_val_results/)
-* [stance_classification](04_classification_models/stance_classification/) Development of various BERT, GPT and dictionary models for stance classification towards mentioned social groups. Evaluation via 5-fold cross-validation can be found in [cross_val_results](04_classification_models/stance_classification/cross_val_results/)
+* [evaluation_augmentations_oversampling](03_classification_models/evaluation_augmentations_oversampling/) Empirical evaluation of model performance with increasing dataset size as well as evaluation of using augmented data to oversample minority classes.
+* [final_model_application](03_classification_models/final_model_application/) Applying the best performing classification models to the entire dataset.
+* [group_mention_detection](03_classification_models/group_mention_detection/) Development of various BERT, GPT and dictionary models for the automatic detection of social group mentions. Evaluation via 5-fold cross-validation can be found in [cross_val_results](03_classification_models/group_mention_detection/cross_val_results/)
+* [stance_classification](03_classification_models/stance_classification/) Development of various BERT, GPT and dictionary models for stance classification towards mentioned social groups. Evaluation via 5-fold cross-validation can be found in [cross_val_results](03_classification_models/stance_classification/cross_val_results/)
 
 ### 04_clustering
 Contains the code to train a BERT model via contrastive learning for refining the embedding space in order to achieve better clustering results. Scripts to find the otpimal value of k for applying k-means clustering. Application of clustering to all detected social group appeals within the speeches dataset.
