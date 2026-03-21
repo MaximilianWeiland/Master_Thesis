@@ -4,10 +4,10 @@
 venv_thesis/
 01_data/raw_speech_data/
 01_data/empirical_analysis/speech_datasets/
-04_classification_models/final_model_application/final_models/hugging_face_models/
-04_classification_models/final_model_application/final_models/*.pt
-05_clustering/model_checkpoint/
-07_reports_presentations/feedback.docx
-09_literature/
+03_classification_models/final_model_application/final_models/hugging_face_models/
+03_classification_models/final_model_application/final_models/*.pt
+04_clustering/model_checkpoint/
+06_reports_presentations/feedback.docx
+08_literature/
 huggingface_models/
 utils/__pycache__

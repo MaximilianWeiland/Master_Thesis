@@ -32,9 +32,6 @@ Contains all data sources used to train the classifiers and needed for the empir
 ### 02_preprocessing
 Contains all Python scripts for preprocessing the speech data, creating the datasets for the empirical analysis and applying the train/validation split. Includes also the notebook in which data augmentations are created.
 
-### 03_eda
-Contains notebooks in which speech data is exploratively analyzed.
-
 ### 04_classification_models
 Encompasses the creation of classification models for social group detection and stance classification with a variety of both encoder and generative LLMs.
 * [evaluation_augmentations_oversampling](04_classification_models/evaluation_augmentations_oversampling/) Empirical evaluation of model performance with increasing dataset size as well as evaluation of using augmented data to oversample minority classes.
@@ -42,16 +39,16 @@ Encompasses the creation of classification models for social group detection and
 * [group_mention_detection](04_classification_models/group_mention_detection/) Development of various BERT, GPT and dictionary models for the automatic detection of social group mentions. Evaluation via 5-fold cross-validation can be found in [cross_val_results](04_classification_models/group_mention_detection/cross_val_results/)
 * [stance_classification](04_classification_models/stance_classification/) Development of various BERT, GPT and dictionary models for stance classification towards mentioned social groups. Evaluation via 5-fold cross-validation can be found in [cross_val_results](04_classification_models/stance_classification/cross_val_results/)
 
-### 05_clustering
+### 04_clustering
 Contains the code to train a BERT model via contrastive learning for refining the embedding space in order to achieve better clustering results. Scripts to find the otpimal value of k for applying k-means clustering. Application of clustering to all detected social group appeals within the speeches dataset.
 
-### 06_analysis
+### 05_analysis
 Contains the empirical analyis of the effects of speaker characteristics and constituency composition on legislators' usage of age appeals. Furthermore, analysis of the effect of age appeals rhetoric on voters' election decisions.
 
-### 07_reports_presentations
+### 06_reports_presentations
 The final report of my Thesis as well as its proposal and colloquium presentation.
 
-### 08_demo_notebooks
+### 07_demo_notebooks
 Quick demonstrations showing how the final classification models are applied.
 
 
