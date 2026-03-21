@@ -1,0 +1,13 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llccc}
+\toprule
+Model & Metric & \makecell{few-shot\\examples = 2} & \makecell{few-shot\\examples = 4} & \makecell{few-shot\\examples = 6} \\
+\midrule
+GPT-4o-mini & \multirow{2}{*}{Seqeval F1-score} & \textbf{0.54} [0.53, 0.55] & 0.53 [0.51, 0.54] & 0.52 [0.50, 0.54] \\
+GPT-5-nano &  & 0.66 [0.64, 0.67] & \textbf{0.67} [0.66, 0.69] & \textbf{0.67} [0.65, 0.69] \\
+\bottomrule
+\end{tabular}
+\caption{Few-shot effects of generative LLMs for social group mention detection}
+\label{tab:seqeval_dev_fs}
+\end{table}

@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\centering
+\begin{tabular}{l l l}
+\toprule
+Error Category & Total Proportion & Frequent Types and Within-Proportion  \\
+\midrule
+Boundary Mismatch & $0.55$ [$0.50$, $0.61$] & \makecell[l]{Shorter than ground truth ($0.60$)\\Longer than ground truth ($0.40$)} \\
+\addlinespace
+\midrule
+False Positive & $0.25$ [$0.15$, $0.34$] & \makecell[l]{Mention of an institution ($0.22$)\\No sociodemographic feature ($0.15$)\\Specific grouping ($0.11$)} \\
+\addlinespace
+\midrule
+False Negative & $0.20$ [$0.11$, $0.28$] & \makecell[l]{Indirect/descriptive mention ($0.28$)\\Mention within composite term ($0.18$)\\Abstract mention ($0.12$)} \\
+\bottomrule
+\end{tabular}
+\caption[Error analysis for social group mention detection model]{Summary of the results of an error analysis for the social group mention detection model. Shows the total proportion of error categories as well as frequent error types based on a sample of $100$ observations within each category. Values in brackets represent $95\%$ confidence intervals calculated based on the estimated standard error.}
+\label{tab:error_analysis_group_mention_detection}
+\end{table}

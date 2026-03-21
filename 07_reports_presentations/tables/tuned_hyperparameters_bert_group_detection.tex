@@ -1,0 +1,15 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Model & Learning Rate & Weight Decay & Batch Size & Epoch \\
+\midrule
+BERT-base-cased & $2e^{-05}$ & $0.30$ & $32$ & $7$ \\
+roberta-base & $2e^{-05}$ & $0.10$ & $16$ & $8$ \\
+distilbert-base-cased & $9e^{-06}$ & $0.01$ & $8$ & $9$ \\
+microsoft/deberta-v3-base & $4e^{-05}$ & $0.01$ & $8$ & $8$ \\
+\bottomrule
+\end{tabular}
+\caption[Tuned hyperparameters for BERT models on social group mention detection]{Overview of the tuned hyperparameters for all BERT models on social group mention detection. The hyperparameters are searched for $20$ trials with the TPE-algorithm implemented within the Optuna package \parencite{akiba_optuna_2019} via application to the validation set.}
+\label{tab:tuned_hyperparams_bert_group_detection}
+\end{table}

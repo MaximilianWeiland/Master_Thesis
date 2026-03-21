@@ -1,0 +1,15 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Model & Learning Rate & Weight Decay & Batch Size & Epoch \\
+\midrule
+BERT-base-cased & $2e^{-05}$ & $0.01$ & $9$ & $9$ \\
+roberta-base & $4e^{-05}$ & $0.00$ & $16$ & $8$ \\
+distilbert-base-cased & $2e^{-05}$ & $0.3$ & $32$ & $8$ \\
+microsoft/deberta-v3-base & $9e^{-06}$ & $0.1$ & $8$ & $6$ \\
+NLI - microsoft/deberta-v3-base & $2e^{-05}$ & $0.3$ & $16$ & $4$ \\
+\bottomrule
+\end{tabular}
+\caption[Tuned hyperparameters for BERT models on stance classification]{Overview of the tuned hyperparameters for all BERT models on stance classification. The hyperparameters are searched for $20$ trials with the TPE-algorithm implemented within the Optuna package \parencite{akiba_optuna_2019} via application to the validation set.}\label{tab:tuned_hyperparams_bert_stance}
+\end{table}

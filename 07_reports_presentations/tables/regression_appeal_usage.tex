@@ -1,0 +1,49 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{Appeals to Young People} & \multicolumn{2}{c}{Appeals to Elderly People} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+& (1) & (2) & (1) & (2) \\
+\midrule
+Intercept & -3.285*** & -3.828*** & -6.160*** & -6.070*** \\
+          & (0.413)   & (0.650)   & (0.371)   & (0.418)   \\
+
+Labour Party & -0.030 & 1.008 & 0.656*** & 0.466 \\
+              & (0.101) & (0.780) & (0.115) & (0.435) \\
+
+Constituency Share & 0.013 & 0.028$^{\dagger}$ & 0.021$^{\dagger}$  & 0.016  \\
+         & (0.010) & (0.017) & (0.013) & (0.019) \\
+
+Vulnerable & 0.077 & 0.049 & -0.163 & -0.172 \\
+                  & (0.102) & (0.101) & (0.144) & (0.142) \\
+
+Days until election & 0.00007 & 0.00007 & 0.00015 & 0.00015 \\
+                    & (0.00009) & (0.00009) & (0.00012) & (0.00012) \\
+                    
+Age & -0.018*** & -0.018*** & 0.010* & 0.010* \\
+    & (0.004)   & (0.004)   & (0.005) & (0.005) \\
+
+Female & 0.080 & 0.072 & -0.360*** & -0.361*** \\
+       & (0.089) & (0.087) & (0.103) & (0.103) \\
+
+Backbencher & 0.246** & 0.245** & 0.522*** & 0.521*** \\
+            & (0.082) & (0.082) & (0.117) & (0.117) \\
+
+Labour $\times$ Constituency Share &  & -0.028 &  & 0.012  \\
+                         &  & (0.021) &  & (0.025)  \\
+
+Theta & 0.128 & 0.129 & 0.047 & 0.057 \\
+    & (0.005) & (0.005) & (0.003) & (0.003) \\
+\midrule
+Observations & 60849 & 60849 & 60849 & 60849 \\
+Log-Likelihood & -17170.15 & -17165.9 & -6383.16 & -6382.999 \\
+AIC & 34358.3 & 34351.8 & 12784.32 & 12786 \\
+\midrule
+\multicolumn{5}{p{0.9\linewidth}}{\footnotesize Note: Constituency share is the share of people $<35$ for appeals to young people and the share of people $>65$ for appeals to elderly people. Reference categories are the Conservative party, non-vulnerable legislators, male legislators and frontbenchers. Cluster robust standard errors at the MP level are presented in parentheses.} \\
+\multicolumn{5}{l}{\footnotesize $^{\dagger}p<0.10$, $^{*}p<0.05$, $^{**}p<0.01$, $^{***}p<0.001$} \\
+\bottomrule
+\end{tabular}
+\caption[Negative binomial regression predicting number of age-based appeals per sentence]{Negative binomial regression results predicting the number of appeals targeted at the youth and elderly people per sentence. Application of cluster robust standard errors on the level of individual MPs.}
+\label{tab:neb_bin_regression}
+\end{table}

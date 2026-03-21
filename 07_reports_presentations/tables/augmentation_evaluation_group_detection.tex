@@ -1,0 +1,12 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Metric & Original Data & Generative Augmentations & Mixed Augmentations \\
+\midrule
+Seqeval F1-Score & 0.81 [0.80, 0.82] & \textbf{0.82} [0.81, 0.83] & 0.81 [0.80, 0.83]     \\
+\bottomrule
+\end{tabular}
+\caption[Comparison of augmentation strategies for social group mention detection]{Performance comparison of RoBERTa-base models fine-tuned on social group mention detection based on datasets synthetically augmented with different augmentation strategies. Reported are the seqeval $F_1$-scores obtained by applying $5$-fold cross-validation. Values in brackets represent $95\%$ confidence intervals calculated based on the estimated standard error.}
+\label{tab:augmentations_group_detection}
+\end{table}

@@ -1,0 +1,14 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+ & Negative & Neutral & Positive & Macro-Avg. \\
+\midrule
+F1-Score & 0.76 [0.72, 0.80] & 0.80 [0.78, 0.81] & 0.89 [0.89, 0.89] & 0.81 [0.80, 0.83] \\
+Precision & 0.85 [0.77, 0.94] & 0.81 [0.79, 0.84] & 0.87 [0.86, 0.88] & 0.85 [0.82, 0.87] \\
+Recall & 0.70 [0.62, 0.77] & 0.78 [0.76, 0.80] & 0.91 [0.89, 0.92] & 0.79 [0.77, 0.82]  \\
+\bottomrule
+\end{tabular}
+\caption[Performance evaluation of best model for stance classification]{Summary of NLI-DeBERTa-base model performance on stance classification. Reported are $F_1$-scores on all stance classes and their macro-average obtained by $5$-fold cross-validation. Values in brackets represent $95\%$ confidence intervals calculated based on the estimated standard error.}
+\label{tab:detailed_results_stance_classification}
+\end{table}

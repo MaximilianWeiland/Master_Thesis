@@ -1,0 +1,47 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+ & Pr(Vote Labour) & Pr(Vote Conservative) \\
+\midrule
+Intercept & 0.533 & -0.278 \\
+          & (0.470) & (0.334) \\
+
+Share age appeals & 0.0240 & -0.052 \\
+                  & (0.019) & (0.060) \\
+
+Middle-aged voter & -0.717*** & 0.775*** \\
+                  & (0.154) & (0.120) \\
+
+Old voter & -1.375*** & 1.499*** \\
+          & (0.154) & (0.135) \\
+
+Constituency share & 0.023* & 0.023 \\
+                   & (0.011) & (0.016) \\
+
+Female voter & 0.182$^{\dagger}$ & -0.194* \\
+             & (0.103) & (0.090) \\
+
+Election year: 2017 & 0.056 & -0.475*** \\
+                    & (0.136)   & (0.110) \\
+
+Election year: 2019 & -0.508*** & 0.066 \\
+                   & (0.130) & (0.122) \\
+
+Share age appeals $\times$ Middle-aged voter & -0.024 & 0.050 \\
+                            & (0.019) & (0.057) \\
+
+Share age appeals $\times$ Old voter & -0.030 & 0.050 \\
+                        & (0.023) & (0.064) \\
+\midrule
+Observations & 4488 & 4488 \\
+Log-Likelihood & -2679.807 & -2677.049 \\
+AIC & 5391.613 & 5386.098 \\
+\midrule
+\multicolumn{3}{p{0.9\linewidth}}{\footnotesize Note: Share age appeals is the share of appeals targeted at young voters for the first (Pr(Vote Labour)) and the share of appeals targeted at elderly voters for the second (Pr(Vote Conservative)) regression. Constituency share is the share of people $<35$ for the first and the share of people $>65$ for the second regression. Reference categories are young voters, male voters and the 2015 election year. Cluster robust standard errors at the constituency level are presented in parentheses.} \\
+\multicolumn{3}{l}{\footnotesize $^{\dagger}p<0.10$, $^{*}p<0.05$, $^{**}p<0.01$, $^{***}p<0.001$} \\
+\bottomrule
+\end{tabular}
+\caption[Logistic regression predicting probability of voting for Labour or Conservative]{Logistic regression results for predicting the effects of age-based appeals on the probability of voting Labour and Conservative. Coefficients are reported in log-odds. Share age appeals denotes the share of youth/elderly appeals applied by the MP elected for the respective voter's constituency in parliament.}
+\label{tab:log_regression}
+\end{table}

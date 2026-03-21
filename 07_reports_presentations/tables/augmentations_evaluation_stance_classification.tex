@@ -1,0 +1,15 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Metric & Original Data & Negative Class & \makecell{Negative and\\Neutral Classes} & \makecell{All Classes\\Proportionally}\\
+\midrule
+Negative F1-Score & 0.75 [0.67, 0.83] & \textbf{0.77} [0.72, 0.81] & 0.71 [0.61, 0.82] & 0.73 [0.65, 0.81] \\
+Neutral F1-Score & \textbf{0.80} [0.78, 0.81] & 0.79 [0.77, 0.81] & 0.79 [0.76, 0.81] & \textbf{0.80} [0.78, 0.82] \\
+Positive F1-Score & \textbf{0.89} [0.88, 0.90] & \textbf{0.89} [0.88, 0.90] & 0.88 [0.87, 0.89] & \textbf{0.89} [0.88, 0.90] \\
+Macro-Avg. F1-Score & 0.81 [0.78, 0.84] & \textbf{0.82} [0.80, 0.84] & 0.79 [0.75, 0.84] & 0.81 [0.78, 0.83] \\
+\bottomrule
+\end{tabular}
+\caption[Comparison of augmentation-based oversampling strategies for stance classification]{Performance comparison of NLI-DeBERTa-base models fine-tuned on stance classification based on datasets whose class imbalance got reduced by adding data augmentations adhering to different oversampling strategies. Reported are the $F_1$-scores for all stance classes and their macro-average obtained by applying $5$-fold cross-validation. Values in brackets represent $95\%$ confidence intervals calculated based on the estimated standard error.}
+\label{tab:augmentations_stance_classification}
+\end{table}

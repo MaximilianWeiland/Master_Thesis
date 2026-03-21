@@ -1,0 +1,14 @@
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Hyperparameter & Value 1 & Value 2 & Value 3 \\
+\midrule
+Learning rate  & $9e^{-06}$ & $2e^{-05}$ & $4e^{-05}$ \\
+Weight decay   & $0.01$ & $0.1$ & $0.3$ \\
+Batch size     & $8$ & $16$ & $32$ \\
+\bottomrule
+\end{tabular}
+\caption[Hyperparameter search space for all BERT models]{Hyperparameter search space for all BERT models in both classification tasks. Optimal hyperameters are searched for $20$ trials with the TPE-algorithm implemented within the Optuna package \parencite{akiba_optuna_2019} via application to the validation set.}
+\label{tab:hyperparams_bert}
+\end{table}
